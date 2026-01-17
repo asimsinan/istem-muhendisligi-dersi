@@ -296,7 +296,7 @@ Ders hem **teorik kavramları** hem de **pratik uygulamaları** içerir. İlk ya
   - OpenAI text-embedding-ada-002
   - Sentence Transformers
   - all-MiniLM-L6-v2
-  - Cohere embeddings
+  - Google embeddinggemma-300m
 - Vektör Veritabanları:
   - Pinecone
   - Weaviate
