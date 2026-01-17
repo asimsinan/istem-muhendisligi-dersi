@@ -65,22 +65,22 @@ Ders hem **teorik kavramları** hem de **pratik uygulamaları** içerir. İlk ya
 **Öğrenme Hedefleri:**
 - Dönüştürücü (Transformer) mimarisinin detaylarını öğrenmek
 - Öz-dikkat (Self-attention) mekanizmasını anlamak
-- Simgeleştirme (Tokenization) işleminin önemini kavramak
-- BDM'lerin "sıradaki simge tahmini" (next token prediction) mantığını anlamak
+- Tokenizasyon (Tokenization) işleminin önemini kavramak
+- BDM'lerin "sıradaki token (belirteç) tahmini" (next token prediction) mantığını anlamak
 
 **Konu Başlıkları:**
 - Transformer mimarisi detaylı inceleme
   - Encoder-Decoder yapısı
   - Çok başlı öz-dikkat (Multi-head self-attention)
   - Konum kodlama (Position encoding)
-- Simgeleştirme yöntemleri (BPE, WordPiece, SentencePiece)
+- Tokenizasyon yöntemleri (BPE, WordPiece, SentencePiece)
 - Ön Eğitim (Pre-training) ve İnce Ayar (Fine-tuning) süreçleri
 - Model boyutları ve parametreler (7B, 13B, 70B modeller)
 - Sıcaklık (Temperature), Top-p, Top-k gibi hiperparametreler
 
 **Ders İçi Aktiviteler:**
 - Jupyter Notebook: Basit bir attention mekanizması implementasyonu
-- Simgeleştirme deneyleri (farklı simgeleştiriciler ile aynı metni simgeleştirme)
+- Tokenizasyon deneyleri (farklı tokenizörler ile aynı metni tokenizasyon)
 - Hiperparametre değişimlerinin çıktıya etkisini gözlemleme
 
 **Ödev:**
