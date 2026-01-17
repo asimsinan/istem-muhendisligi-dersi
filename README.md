@@ -307,11 +307,11 @@ Ders hem **teorik kavramları** hem de **pratik uygulamaları** içerir. İlk ya
   - Sabit boyutlu parçalama
   - Cümle tabanlı parçalama
   - Anlamsal parçalama
-  - Parça örtüşme (Chunk overlap) stratejileri
+  - Parça örtüştürme (Chunk overlap) stratejileri
 
 **Uygulama:**
 1. **RAG Pipeline Kurulumu:**
-2. **Farklı Chunking Stratejileri Deneme:**
+2. **Farklı Parçalama Stratejileri Deneme:**
    - 500, 1000, 2000 token chunk sizes
    - Overlap 0%, 10%, 20%
    - Performans karşılaştırması
@@ -347,7 +347,7 @@ Ders hem **teorik kavramları** hem de **pratik uygulamaları** içerir. İlk ya
   - Naive RAG
   - İleri RAG (sorgu dönüşümü ile)
   - Modüler RAG (bileşen tabanlı)
-  - Etmen tabanlı RAG (araç kullanan etmenler)
+  - Ajan tabanlı RAG (araç kullanan ajanlar)
 - RAG Değerlendirme:
   - Erişim metrikleri (Kesinlik, Duyarlılık, MRR)
   - Üretim metrikleri (Sadakat, Alaka)
@@ -397,8 +397,8 @@ Ders hem **teorik kavramları** hem de **pratik uygulamaları** içerir. İlk ya
   - Veri analizi ajanları
 
 **Uygulama:**
-1. **Basit Araç Çağırma:**
-2. **ReAct Ajanı:**
+1. Basit Araç Çağırma
+2. ReAct Ajanı
 ---
 
 ### **Hafta 11: BDM Güvenliği ve Etik**
@@ -516,7 +516,7 @@ Grupların geliştirdiği projeleri sınıfa sunması ve teknik detayları payla
 
 ### **Hafta 14: Proje Sunumları - 2 ve Ders Özeti**
 
-**📖 Amaç:**
+**Amaç:**
 - Kalan grupların sunumları
 - Dönem boyunca öğrenilenlerin özeti
 - Gelecek trendleri ve kariyer fırsatları
