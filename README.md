@@ -1,6 +1,6 @@
 # İstem Mühendisliği
 ## Bilgisayar Mühendisliği 4. Sınıf Seçmeli Dersi
-
+**Not:** Taslak olarak hazırlanmıştır. Zamanla güncellenmeye devam edilecektir. 
 ## Dersin Amacı
 
 Bu ders, öğrencilere **Büyük Dil Modelleri (BDM, Large Language Models - LLM)** ile etkili çalışma becerisi kazandırmayı hedefler. Öğrenciler:
@@ -646,4 +646,4 @@ Bu dersi başarıyla tamamlayan öğrenciler:
 
 *Bu müfredat, 4. sınıf Bilgisayar Mühendisliği öğrencilerinin modern BDM teknolojilerini hem teorik hem pratik açıdan derinlemesine öğrenmelerini sağlamak üzere tasarlanmıştır. İçerik, sektörün güncel ihtiyaçları ve akademik standartlar göz önünde bulundurularak hazırlanmıştır.*
 
-*Sorularınız için: asimyuksel@sdu.edu.tr*
+*Sorularınız ve önerileriniz için: asimyuksel@sdu.edu.tr*
