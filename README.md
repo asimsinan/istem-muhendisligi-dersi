@@ -1,6 +1,9 @@
 # İstem Mühendisliği
 ## Bilgisayar Mühendisliği 4. Sınıf Seçmeli Dersi
 **Not:** Taslak olarak hazırlanmıştır. Zamanla güncellenmeye devam edilecektir. 
+
+![İstem Mühendisliği: LLM Uzmanlığına Giden Yol Haritası](infografik.png)
+
 ## Dersin Amacı
 
 Bu ders, öğrencilere **Büyük Dil Modelleri (BDM, Large Language Models - LLM)** ile etkili çalışma becerisi kazandırmayı hedefler. Öğrenciler:
