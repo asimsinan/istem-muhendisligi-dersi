@@ -4,7 +4,7 @@
 
 ![İstem Mühendisliği: LLM Uzmanlığına Giden Yol Haritası](infografik.png)
 
-### 📹 Ders Tanıtım Videosu
+### Ders Tanıtım Videosu
 
 <div align="center">
 
