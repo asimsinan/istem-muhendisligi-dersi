@@ -4,14 +4,11 @@
 
 ![İstem Mühendisliği: LLM Uzmanlığına Giden Yol Haritası](infografik.png)
 
-### Ders Tanıtım Videosu
+### 📹 Ders Tanıtım Videosu
+
 <div align="center">
 
-[![İstem Mühendisliği Ders Tanıtım Videosu - İzlemek için tıklayın](https://img.youtube.com/vi/NW00MA3qW-E/maxresdefault.jpg)](video.html)
-
-**💡 Not:** Video sayfasında doğrudan oynatabilirsiniz. GitHub Pages aktifse embed çalışır.
-
-[📺 YouTube'da İzle](https://youtu.be/NW00MA3qW-E) | [🎬 Video Sayfasında İzle](video.html)
+[![İstem Mühendisliği Ders Tanıtım Videosu - İzlemek için tıklayın](https://img.youtube.com/vi/NW00MA3qW-E/maxresdefault.jpg)](https://youtu.be/NW00MA3qW-E)
 
 </div>
 
