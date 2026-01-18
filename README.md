@@ -4,6 +4,19 @@
 
 ![İstem Mühendisliği: LLM Uzmanlığına Giden Yol Haritası](infografik.png)
 
+### Ders Tanıtım Videosu
+<div align="center">
+
+[![İstem Mühendisliği Ders Tanıtım Videosu - İzlemek için tıklayın](https://img.youtube.com/vi/NW00MA3qW-E/maxresdefault.jpg)](video.html)
+
+**💡 Not:** Video sayfasında doğrudan oynatabilirsiniz. GitHub Pages aktifse embed çalışır.
+
+[📺 YouTube'da İzle](https://youtu.be/NW00MA3qW-E) | [🎬 Video Sayfasında İzle](video.html)
+
+</div>
+
+---
+
 ## Dersin Amacı
 
 Bu ders, öğrencilere **Büyük Dil Modelleri (BDM, Large Language Models - LLM)** ile etkili çalışma becerisi kazandırmayı hedefler. Öğrenciler:
