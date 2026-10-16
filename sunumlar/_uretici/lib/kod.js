@@ -22,14 +22,17 @@ function satirParcala(satir) {
   return parcalar;
 }
 
-function kodParcalari(kod, vurguSatirlar = []) {
+// font: varsayılan JetBrains Mono. "<|" gibi dizileri bitişik harfe (ligatür) çeviren durumlarda
+// slayt kaydında `yazitipi: Consolas` verilebilir (ligatürü yok; Office ile gelir).
+// punto: uzun kod için slayt kaydında `punto: 14` (varsayılan tema kod puntosu).
+function kodParcalari(kod, vurguSatirlar = [], font = F.kod, punto = PT.kod) {
   const satirlar = kod.replace(/\s+$/, "").split("\n");
   const sonuc = [];
   satirlar.forEach((s, i) => {
     const parcalar = s.length ? satirParcala(s) : [{ text: " ", options: {} }];
     const vurgulu = vurguSatirlar.includes(i + 1);
     parcalar.forEach((p, j) => {
-      p.options = { ...p.options, fontFace: F.kod, fontSize: PT.kod };
+      p.options = { ...p.options, fontFace: font, fontSize: punto };
       if (vurgulu) p.options.highlight = R.kirmiziKoyu;
       if (j === parcalar.length - 1 && i < satirlar.length - 1) p.options.breakLine = true;
       sonuc.push(p);

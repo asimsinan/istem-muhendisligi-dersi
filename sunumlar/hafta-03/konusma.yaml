@@ -93,10 +93,21 @@ ayiricilar:
 tek-metin:
   soyle: |
     Hafta 2'yi hatırlayın: Model yalnızca sıradaki token'ı tahmin eder. O hâlde system, user, assistant ayrı kanallar olamaz.
-    Gerçekten de değiller. Mesajlar, bu özel token'larla tek bir metne birleştiriliyor. Bu Gemma'nın şablonu; ilginç olan, Gemma'da ayrı bir system rolü bile yok, sistem metni ilk mesajın başına ekleniyor. Son satır “model” diye açık kalıyor ve model metni oradan devam ettiriyor.
+    Gerçekten de değiller. İki slayt önce gördüğümüz istem, lab'da kullanacağımız Gemma 4'e tam olarak bu metin olarak gidiyor: Aynı system ve user mesajları, araya özel işaretler konmuş hâlde. Her mesaj “turn” işaretiyle açılıp kapanıyor; assistant'ın buradaki adı “model”.
+    Metin “model” satırında açık kalıyor ve model buradan devam ediyor. Son iki satır boş bir düşünce bloğu: düşünmenin kapalı olduğunu söylüyor.
     Her model ailesinin kendi şablonu var; API bunu sizin yerinize yapıyor.
   gecis: |
-    Üç rolü tek tek görelim.
+    Aynı istek OpenAI'nin modellerinde nasıl görünüyor?
+
+tek-metin-openai:
+  soyle: |
+    Aynı iki mesajı bu kez OpenAI'nin biçiminde görelim. OpenAI kapalı modellerinin iç biçimini yayımlamıyor ama açık ağırlıklı gpt-oss modelleri için yayımladı ve kendi API'sine benzediğini söylüyor.
+    İçerik aynı: rol, bağlam, biçim, kısıtlar, görev, yorum. İşaretler farklı: her mesaj “start” ile açılıp “end” ile kapanıyor.
+    Asıl ilginç olan şu: Sizin system mesajınız burada “developer” adını alıyor. En üstteki system kısmını OpenAI kendisi dolduruyor: modelin kimliği, bilgi kesim tarihi, bugünün tarihi ve düşünme düzeyi.
+  sor: "Sizce OpenAI neden kendi system bölümünü sizinkinden ayırıyor?"
+  beklenen: ["Kimlik ve güvenlik kuralları geliştiricinin talimatından önce gelsin diye; talimat hiyerarşisi (Hafta 4)."]
+  gecis: |
+    Rollerin özeti.
 
 roller:
   soyle: |

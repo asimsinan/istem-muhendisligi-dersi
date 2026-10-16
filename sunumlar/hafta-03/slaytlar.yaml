@@ -164,23 +164,69 @@ slaytlar:
     tur: kod
     baslik: "Sohbet aslında tek bir metin"
     dil: "text"
+    yazitipi: "Consolas"
+    punto: 14
     kod: |
-      <start_of_turn>user
-      Müşteri yorumlarını puanlayan bir
-      analistsin.
-
-      Bu yorumun duygusunu ve puanını belirle.
-      <yorum>Telefon harika ama ...</yorum>
-      <end_of_turn>
-      <start_of_turn>model
-    vurgu: [8]
+      <bos><|turn>system
+      # Rol
+      Müşteri yorumlarını puanlayan bir analistsin.
+      # Bağlam
+      Yorumlar bir elektronik mağazasından; ironi sık.
+      # Çıktı biçimi
+      JSON: duygu, puan, gerekce
+      # Kısıtlar ve üslup
+      Gerekçe en fazla 15 kelime, Türkçe.<turn|>
+      <|turn>user
+      Bu yorumun duygusunu ve 1–5 puanını belirle.
+      <yorum>
+      Telefon harika ama şarj aleti iki günde bozuldu.
+      </yorum><turn|>
+      <|turn>model
+      <|channel>thought
+      <channel|>
+    vurgu: [15, 16, 17]
     aciklama:
-      - "Mesajlar özel token'larla tek bir metne birleştirilir."
-      - "Model bu metnin devamını token token üretir (Hafta 2'deki şerit)."
-      - "Her model ailesinin kendi şablonu var. Gemma'da ayrı system rolü bile yok: sistem metni ilk mesajın başına eklenir."
-    kaynak: "Gemma 3 sohbet şablonu · Hugging Face, Chat templates"
+      - "10. slayttaki iki mesaj, Gemma 4'e bu tek metin olarak gider."
+      - "Model metni “model” satırından devam ettirir. Boş düşünce bloğu: düşünme kapalı."
+      - "Her model ailesinin kendi işaretleri var; API çeviriyi sizin yerinize yapar."
+    kaynak: "google/gemma-4-31b-it, chat_template.jinja (Hugging Face, erişim 16.10.2026)"
     not: |
-      [18] Hafta 2'ye bağ: Model yalnızca "sıradaki token"ı tahmin eder. Roller ayrı bir kanal değil; şablondaki özel token'lar. Son satır "model" ile açık kalır: model buradan devam eder. Başka aileler başka işaretler kullanır (ör. Qwen'in ChatML'inde ayrı bir system bölümü var). Bu yüzden sistem mesajı "üstün" bir emir değildir; yalnızca eğitimde ona daha çok uyması öğretilmiş bir bölümdür (Hafta 4'te istem enjeksiyonunda önemli olacak).
+      [18] Hafta 2'ye bağ: Model yalnızca "sıradaki token"ı tahmin eder. Roller ayrı bir kanal değil; şablondaki özel token'lar (<|turn>system … <turn|>). Assistant'ın şablondaki adı "model". Metin "<|turn>model" ile açık kalır: model buradan devam eder. Düşünme açıksa sistem turunun başına <|think|> eklenir ve boş düşünce bloğu konmaz; model önce düşüncesini yazar. Gemma'nın eski sürümlerinde (Gemma 3) ayrı bir system turu yoktu, sistem metni ilk kullanıcı mesajına eklenirdi. Sistem mesajı "üstün" bir emir değildir; yalnızca eğitimde ona daha çok uyması öğretilmiş bir bölümdür (Hafta 4'te istem enjeksiyonunda önemli olacak).
+
+  - id: tek-metin-openai
+    tur: kod
+    baslik: "Aynı istek OpenAI'nin biçiminde"
+    dil: "text"
+    yazitipi: "Consolas"
+    punto: 12
+    kod: |
+      <|start|>system<|message|>You are ChatGPT, … OpenAI.
+      Knowledge cutoff: 2024-06
+      Current date: 2026-10-16
+      Reasoning: low
+      # Valid channels: analysis, commentary, final. …<|end|>
+      <|start|>developer<|message|># Instructions
+      # Rol
+      Müşteri yorumlarını puanlayan bir analistsin.
+      # Bağlam
+      Yorumlar bir elektronik mağazasından; ironi sık.
+      # Çıktı biçimi
+      JSON: duygu, puan, gerekce
+      # Kısıtlar ve üslup
+      Gerekçe en fazla 15 kelime, Türkçe.<|end|>
+      <|start|>user<|message|>Bu yorumun duygusunu ve 1–5 puanını belirle.
+      <yorum>
+      Telefon harika ama şarj aleti iki günde bozuldu.
+      </yorum><|end|>
+      <|start|>assistant
+    vurgu: [1, 6]
+    aciklama:
+      - "Sizin system mesajınız burada developer rolüne geçer."
+      - "system turunu OpenAI doldurur: kimlik, tarih, düşünme düzeyi."
+      - "İçerik Gemma'dakiyle aynı; yalnızca işaretler farklı."
+    kaynak: "OpenAI gpt-oss chat_template.jinja ve harmony biçimi (16.10.2026) · “…” kısaltma"
+    not: |
+      [19] Kaynak: OpenAI'nin açık ağırlıklı gpt-oss modelleri (openai/gpt-oss-120b, Hugging Face) ve “harmony” biçimi belgesi. 10. slayttaki iki mesaj şablondan geçirildi; developer ve user kısımları birebir, OpenAI'nin eklediği system başlığı kısaltıldı (tam hâli: “You are ChatGPT, a large language model trained by OpenAI.” ve “Channel must be included for every message.”). Gerçekte <|end|> ile <|start|> arasında satır başı yok. OpenAI'ye göre bu biçim kendi Responses API'sini taklit eder; ama GPT-5 gibi kapalı modellerin tam iç biçimi yayımlanmıyor, bu yüzden “OpenAI'nin açık modellerinde” deyin. Asıl ders: Aynı “system” kelimesi iki şablonda farklı yerlere gider. Gemma'da kendi turunu alır; gpt-oss'ta developer olur, system ise sağlayıcının kimlik ve ayar bölümüdür. Bu, sonraki slayttaki “developer” notunun da açıklaması. Model “assistant” satırından devam eder; önce analysis kanalında düşünür, cevabı final kanalına yazar.
 
   - id: roller
     tur: tablo

@@ -261,9 +261,10 @@ TURLER.tablo = async (pres, k) => {
 TURLER.kod = async (pres, k) => {
   const s = pres.addSlide({ masterName: DUZEN.ICERIK });
   baslik(s, k.baslik);
-  const { parcalar, satirSayisi } = kodParcalari(k.kod, k.vurgu || []);
+  const kodPunto = k.punto || PT.kod;
+  const { parcalar, satirSayisi } = kodParcalari(k.kod, k.vurgu || [], k.yazitipi, kodPunto);
   const kw = 7.6, ky = OLCU.icY + 0.1;
-  const satirIn = pt2in(PT.kod) * 1.25;
+  const satirIn = pt2in(kodPunto) * 1.25;
   const kh = Math.min(5.1, satirSayisi * satirIn + 0.85);
   kart(s, OLCU.M, ky, kw, kh, { dolgu: R.kodZemin, kenar: R.kodZemin });
   s.addText((k.dil || "python").toLocaleUpperCase("tr-TR"), tb({ x: OLCU.M + 0.35, y: ky + 0.18, w: 2, h: 0.25, fontSize: 11, bold: true, color: R.kodYorum, charSpacing: 2 }));
