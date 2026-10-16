@@ -1,0 +1,889 @@
+# HAFTA 3 — İstem yazma, OpenRouter API ve düzenli çıktı
+# Durum: TASLAK (15.10.2026). Akış: YOL-HARITASI.md §5 "Hafta 3 planı" (12.10.2026 hoca kararları).
+# Videolar M3.1–M3.4 ve sayfalar V3.1–V3.3 henüz yok: video slaytları yer tutucu, sayfa adresleri planlanan adresler.
+# OpenRouter bilgileri 12.10.2026'da belgelerden doğrulandı; ders haftası yeniden kontrol edilir (konusma.yaml → _ders.hazirlik).
+# Notlardaki [dk] işaretleri dersin başından itibaren yaklaşık zamanı gösterir.
+# Lab görev metinleri ve 8 yorum, Colab not defteri (hafta-03/lab.ipynb) ile AYNI olmalıdır.
+
+deste:
+  ad: hafta-03
+  hafta: 3
+  katman: 0
+  baslik: "Hafta 3 · İstem yazma, OpenRouter API ve düzenli çıktı"
+  yazar: "Asım Sinan Yüksel"
+
+slaytlar:
+
+  # ───────────────────────── AÇILIŞ (10 dk) ─────────────────────────
+
+  - id: kapak
+    tur: kapak
+    bolum: Açılış
+    ust: "Hafta 3"
+    baslik: "İstem yazma, OpenRouter API ve düzenli çıktı"
+    alt: "Sohbetten koda, paragraftan JSON'a"
+    yazar: "Asım Sinan Yüksel · Bahar 2027"
+    not: |
+      [0] Bilgisayarlar açık olsun. Lab Google Colab'da; Google hesabıyla giriş ve OpenRouter hesabı (geçen haftanın ödevi) gerekli.
+
+  - id: gecen-hafta
+    tur: ifade
+    etiket: "Geçen haftadan"
+    metin: "Çıkış kartlarında en çok işaretlenen adım"
+    alt: "Metin → Token → Vektör → Dikkat → Seçim. İki dakikada birlikte netleştirelim."
+    not: |
+      [1] Kartlarda en sık işaretlenen şerit adımını 2 dakikada tekrar edin. Genellikle "Dikkat" çıkar. Ardından köprü: "Seçim adımındaki sıcaklığı AI Studio'da kaydırdık; bugün aynı ayarı koddan vereceğiz."
+
+  - id: bugunun-sorusu
+    tur: ifade
+    etiket: "Bugünün sorusu"
+    metin: "100 müşteri yorumunu modele puanlatacaksınız. Her seferinde yalnızca bir puan dönmesini nasıl garanti edersiniz?"
+    alt: "Başka hiçbir şey: açıklama yok, “Elbette!” yok, üç paragraf yok."
+    not: |
+      [3] Cevap almayın; soruyu asılı bırakın. Ders bu soruyu adım adım çözecek: istem → örnekler → JSON şeması.
+
+  - id: canli-deneme
+    tur: ifade
+    etiket: "Canlı deneme"
+    metin: "“Bu yorumu 1 ile 5 arasında puanla: Telefon harika ama şarj aleti iki günde bozuldu.”"
+    alt: "Sohbet uygulamasına yazıyoruz. Cevap kaç satır geldi? Bir programa bu cevabı nasıl okuturdunuz?"
+    not: |
+      [4] Projeksiyonda ChatGPT, Gemini ya da Claude'a aynen yazın. Cevap büyük olasılıkla birkaç paragraf, artı/eksi listesi ve "3/5 diyebilirim" gibi bir cümle olur. Sorun: Bir Python programı bu metinden puanı güvenle çekemez. Dersin sonunda aynı yorumdan {"duygu": "karışık", "puan": 3, ...} gibi tek bir JSON alacağız.
+
+  - id: neredeyiz
+    tur: video
+    baslik: "Neredeyiz?"
+    dosya: ../../animasyonlar/render/h01-m1.3k-dort-katman-kisa.mp4
+    kapak: ../../animasyonlar/render/h01-m1.3k-dort-katman-kisa-kapak.png
+    ipucu: "Hâlâ İstem katmanındayız; bu hafta istemi koddan gönderiyor ve cevabı biçime sokuyoruz."
+    not: |
+      [5] Kısa geçin. İstem katmanının son iki haftası: H3 temel iskelet ve API, H4 inceltme ve ilk güvenlik uyarısı.
+
+  - id: hedefler
+    tur: liste
+    numarali: true
+    baslik: "Bu hafta neler öğreneceğiz?"
+    maddeler:
+      - "System, user ve assistant rollerini ve API'nin hafızasız çalıştığını açıklamak"
+      - "Zero-shot, few-shot ve adım adım düşünmeyi aynı görevde karşılaştırmak"
+      - "JSON şemasıyla çıktı istemek ve Python'da doğrulamak"
+      - "Tek OpenRouter anahtarıyla iki modeli çağırmak; token ve maliyeti okumak"
+    not: |
+      [6] Dört hedef, dört bölüm.
+
+  - id: bugunun-plani
+    tur: tablo
+    baslik: "Bugünün planı"
+    basliklar: ["Bölüm", "Süre", "Ne yapacağız?"]
+    genislikler: [3.6, 1.4, 7.1]
+    satirlar:
+      - ["1 · İstem ve roller", "25 dk", "İstemin altı parçası, ayırıcılar, mesajlar, API isteği"]
+      - ["2 · Örnekle öğretmek", "15 dk", "Zero-shot, few-shot, adım adım düşünme"]
+      - ["3 · Düzenli çıktı", "25 dk", "JSON şeması, kısıtlı çözümleme, Pydantic"]
+      - ["4 · OpenRouter ve maliyet", "20 dk", "Limitler, fiyat, yedek model, önbellek, anahtar güvenliği"]
+      - ["Mola + Lab", "70 dk", "Colab'da yorum puanlayıcı"]
+      - ["Kapanış", "10 dk", "Sonuçlar, özet, ödev"]
+    not: |
+      [7] Lab'ın tamamı Colab'da; kimsenin bilgisayarına Python kurmasına gerek yok.
+
+  # ───────────────────────── BÖLÜM 1 · İSTEM ANATOMİSİ, MESAJLAR VE ROLLER (25 dk) ─────────────────────────
+
+  - id: bolum-1
+    tur: bolum
+    bolum: "1 · İstem ve roller"
+    no: "Bölüm 1"
+    baslik: "İstem, mesajlar ve roller"
+    alt: "İyi bir istem hangi parçalardan oluşur ve modele nasıl gider?"
+
+  - id: istem-parcalari
+    tur: tablo
+    baslik: "İstemin altı parçası"
+    basliklar: ["Parça", "Yorum puanlayıcıda", "Nereye?"]
+    genislikler: [2.7, 7.3, 2.1]
+    satirlar:
+      - ["Rol", "Müşteri yorumlarını puanlayan bir analistsin.", "system"]
+      - ["Görev", "Bu yorumun duygusunu ve 1–5 puanını belirle.", "user"]
+      - ["Bağlam", "Yorumlar bir elektronik mağazasından; ironi sık görülür.", "system"]
+      - ["Örnekler", "Puanlanmış 2–3 yorum (Bölüm 2)", "system"]
+      - ["Çıktı biçimi", "JSON: duygu, puan, gerekce", "system"]
+      - ["Kısıtlar ve üslup", "Gerekçe en fazla 15 kelime, Türkçe.", "system"]
+    alt: "Bir kontrol listesi, sihirli formül değil. İstemin iyi olup olmadığını test söyler."
+    kaynak: "OpenAI, Anthropic ve Google istem rehberlerinin ortak çekirdeği · Schulhoff vd., The Prompt Report (2024)"
+    not: |
+      [11] Büyük sağlayıcıların rehberleri farklı adlar kullanır ama aynı parçaları sayar: OpenAI "Identity, Instructions, Examples, Context"; Google "Persona, Task, Context, Format"; The Prompt Report (arXiv 2406.06608) "Directive, Examples, Output formatting, Style, Role, Additional information". Kısaltma ezberletmeyin (CO-STAR vb. yok). Kural: sabit olan sisteme, her istekte değişen kullanıcı mesajına. Her parça her istemde gerekmez; kısa bir soruda yalnızca Görev yeter.
+
+  - id: istem-ayiricili
+    tur: kod
+    baslik: "Aynı istem, bölümleri ayrılmış"
+    dil: "markdown"
+    kod: |
+      ── system ──
+      # Rol
+      Müşteri yorumlarını puanlayan bir analistsin.
+      # Bağlam
+      Yorumlar bir elektronik mağazasından; ironi sık.
+      # Çıktı biçimi
+      JSON: duygu, puan, gerekce
+      # Kısıtlar ve üslup
+      Gerekçe en fazla 15 kelime, Türkçe.
+      ── user ──
+      Bu yorumun duygusunu ve 1–5 puanını belirle.
+      <yorum>
+      Telefon harika ama şarj aleti iki günde bozuldu.
+      </yorum>
+    vurgu: [12, 14]
+    aciklama:
+      - "# başlıkları bölümleri ayırır: Markdown."
+      - "<yorum> etiketi değişken girdiyi talimattan ayırır: XML."
+      - "Sistem mesajı her istekte aynı; yalnızca kullanıcı mesajı değişir."
+    not: |
+      [14] Lab'daki prompts/v1.txt tam olarak bu düzende. Model Markdown'ı ya da XML'i bir program gibi ayrıştırmaz; ikisini de "burada bir bölüm başlıyor, burada bitiyor" işareti olarak okur. OpenAI'nin örnek geliştirici mesajı da Markdown başlıkları + XML etiketli içerik kullanır.
+
+  - id: ayiricilar
+    tur: iki-kolon
+    baslik: "Ayırıcılar: Markdown mı, XML mi?"
+    sol:
+      baslik: "Markdown başlıkları"
+      maddeler:
+        - "# Rol, # Görev, listeler"
+        - "İstemin bölümlerini ayırır"
+        - "İnsan için de okunaklı; istem dosyasında düzen"
+        - "Kısa, tek parçalı istemde gereksiz"
+    sag:
+      baslik: "XML etiketleri"
+      maddeler:
+        - "<yorum>…</yorum>, <ornek>, <belge>"
+        - "İçeriğin nerede başlayıp bittiği kesin olmalıysa"
+        - "Değişken girdiyi talimattan ayırmak için"
+        - "Etiket adları serbest; tutarlı olsun yeter"
+    kaynak: "OpenAI, Prompt engineering guide · Anthropic, Use XML tags (erişim 12.10.2026)"
+    not: |
+      [16] İkisi birlikte en yaygın düzen: bölümler Markdown başlığıyla, değişken içerik XML etiketiyle. Hafta 4'te ayrıntı: iç içe etiketler, öznitelikler (<belge kaynak="...">), uzun belgeyi başa koymak ve girdiyi ayırmanın ilk güvenlik adımı olması. Eski bir alışkanlık: cevabı <cevap> etiketine yazdırıp ayıklamak; bugün bunun yerine Bölüm 3'teki yapılandırılmış çıktıyı kullanacağız.
+
+  - id: tek-metin
+    tur: kod
+    baslik: "Sohbet aslında tek bir metin"
+    dil: "text"
+    kod: |
+      <start_of_turn>user
+      Müşteri yorumlarını puanlayan bir
+      analistsin.
+
+      Bu yorumun duygusunu ve puanını belirle.
+      <yorum>Telefon harika ama ...</yorum>
+      <end_of_turn>
+      <start_of_turn>model
+    vurgu: [8]
+    aciklama:
+      - "Mesajlar özel token'larla tek bir metne birleştirilir."
+      - "Model bu metnin devamını token token üretir (Hafta 2'deki şerit)."
+      - "Her model ailesinin kendi şablonu var. Gemma'da ayrı system rolü bile yok: sistem metni ilk mesajın başına eklenir."
+    kaynak: "Gemma 3 sohbet şablonu · Hugging Face, Chat templates"
+    not: |
+      [18] Hafta 2'ye bağ: Model yalnızca "sıradaki token"ı tahmin eder. Roller ayrı bir kanal değil; şablondaki özel token'lar. Son satır "model" ile açık kalır: model buradan devam eder. Başka aileler başka işaretler kullanır (ör. Qwen'in ChatML'inde ayrı bir system bölümü var). Bu yüzden sistem mesajı "üstün" bir emir değildir; yalnızca eğitimde ona daha çok uyması öğretilmiş bir bölümdür (Hafta 4'te istem enjeksiyonunda önemli olacak).
+
+  - id: roller
+    tur: tablo
+    baslik: "Üç rol"
+    basliklar: ["Rol", "Kim yazar?", "Ne için?"]
+    genislikler: [2.4, 3.2, 6.5]
+    satirlar:
+      - ["system", "Geliştirici (siz)", "Rol, bağlam, biçim ve kurallar; her istekte aynı"]
+      - ["user", "Kullanıcı ya da programınız", "Görev ve girdi; her istekte değişir"]
+      - ["assistant", "Model", "Önceki cevaplar; geçmişi geri gönderirken siz de eklersiniz"]
+    alt: "OpenAI'nin yeni API'lerinde system yerine “developer” adı da geçer; görevi aynı."
+    not: |
+      [20] Assistant mesajını sizin yazabilmeniz önemli: few-shot örneklerini user/assistant çiftleri olarak da verebilirsiniz (Bölüm 2). Sohbet uygulamalarındaki "Custom instructions" ya da "Gem talimatları" aslında bir sistem mesajıdır.
+
+  - id: video-yolculuk
+    tur: video
+    baslik: "Bir API isteğinin yolculuğu"
+    dosya: ../../animasyonlar/render/h03-m3.1-yolculuk.mp4
+    kapak: ../../animasyonlar/render/h03-m3.1-yolculuk-kapak.png
+    yer_tutucu: "M3.1 · Python kodu → OpenRouter → sağlayıcı seçimi → model → cevap token token geri akar; ikinci turda tüm geçmiş yeniden gönderilir ve girdi token'ı büyür (45 sn)"
+    ipucu: "Model hiçbir şey hatırlamaz: her istekte geçmişin tamamı yeniden gider."
+    not: |
+      [21] Videodan sonra sorun: "İkinci turda girdi token'ı neden büyüdü?"
+
+  - id: hafizasiz
+    tur: kavram
+    baslik: "API hafızasızdır (stateless)"
+    tanim: "Model önceki istekleri hatırlamaz. Sohbetin devam ettiğini sanmasının tek nedeni, her istekte geçmişin tamamını sizin yeniden göndermeniz."
+    ornek: "3. turda gönderilen: system + user₁ + assistant₁ + user₂ + assistant₂ + user₃"
+    benzetme: "Her sabah hafızası silinen bir asistan: Ona her gün dünkü yazışmaların tamamını yeniden okutursunuz."
+    not: |
+      [23] Sohbet uygulamaları bunu sizin yerinize yapar; API'de iş sizde. Sonuç: uzun sohbet her turda daha pahalı ve bağlam penceresi (Hafta 2) dolar. Hafta 6'da geçmişi kırpma ve özetleme.
+
+  - id: hafizasiz-tablo
+    tur: tablo
+    baslik: "Her turda girdi büyür"
+    basliklar: ["Tur", "Gönderilen mesajlar", "Girdi token (örnek)"]
+    genislikler: [1.6, 7.0, 3.5]
+    satirlar:
+      - ["1", "system + user₁", "≈ 150"]
+      - ["2", "system + user₁ + assistant₁ + user₂", "≈ 330"]
+      - ["3", "… + assistant₂ + user₃", "≈ 520"]
+      - ["10", "… tüm geçmiş", "≈ 2.000"]
+    alt: "Toplu işte (100 yorum) her yorumu ayrı ve geçmişsiz bir istek olarak gönderin: hem ucuz hem bağımsız."
+    not: |
+      [24] Sayılar örnek; mesaj uzunluğuna göre değişir. Lab'da her yorum ayrı istek: system + user, geçmiş yok. Bir yorumun puanı ötekini etkilemez.
+
+  - id: istek-kodu
+    tur: kod
+    baslik: "Python'dan ilk istek"
+    dil: "python"
+    kod: |
+      from openai import OpenAI
+      from google.colab import userdata
+
+      client = OpenAI(
+          base_url="https://openrouter.ai/api/v1",
+          api_key=userdata.get("OPENROUTER_API_KEY"))
+
+      cevap = client.chat.completions.create(
+          model="google/gemma-4-31b-it:free",
+          messages=[
+              {"role": "system", "content": sistem},
+              {"role": "user", "content": kullanici}],
+          temperature=0, max_tokens=200)
+      print(cevap.choices[0].message.content)
+    vurgu: [5, 9, 13]
+    aciklama:
+      - "OpenAI kütüphanesi, adres OpenRouter: aynı kod yüzlerce modelle çalışır."
+      - "Anahtar kodda yazmaz; Colab Secrets'tan okunur."
+      - "Model adı tek satır; değiştirmek modeli değiştirir."
+      - "Sıcaklık ve en fazla token: Hafta 2'deki ayarlar artık kodda."
+    kaynak: "OpenRouter, Quickstart (erişim 12.10.2026)"
+    not: |
+      [26] Lab'ın ilk hücresi bu. sistem ve kullanici değişkenleri prompts/v1.txt'den ve yorum listesinden gelir. max_tokens cevabı keser; kesilirse finish_reason "length" olur. Lab'da max_tokens 2000: iki model de düşünebilen (reasoning) model ve düşünme token'ları da bu sınıra dahil; düşük tutulsa cevap boş kalabilir.
+
+  - id: cevap-anatomisi
+    tur: kod
+    baslik: "Cevabın anatomisi"
+    dil: "json"
+    kod: |
+      {
+        "id": "gen-...",
+        "model": "google/gemma-4-31b-it:free",
+        "choices": [{
+          "message": {
+            "role": "assistant",
+            "content": "Karışık. Puan: 3. Ürün iyi..."},
+          "finish_reason": "stop"}],
+        "usage": {
+          "prompt_tokens": 142,
+          "completion_tokens": 31,
+          "total_tokens": 173}
+      }
+    vurgu: [7, 10, 11]
+    aciklama:
+      - "content: modelin metni; hâlâ serbest metin."
+      - "finish_reason: stop = kendisi bitirdi, length = sınıra takıldı."
+      - "usage: girdi ve çıktı token'ı; ücret bunlardan hesaplanır."
+    not: |
+      [28] Değerler örnek. content'in hâlâ serbest metin olduğuna dikkat çekin: "Karışık. Puan: 3." Bunu ayıklamak kırılgan; Bölüm 3'ün konusu. usage'ı lab'da her istekte toplayacağız.
+
+  - id: atolye
+    tur: interaktif
+    baslik: "Dene: İstem Atölyesi"
+    url: "https://istem-muhendisligi-dersi.vercel.app/h03/atolye"
+    kisa_url: "istem-muhendisligi-dersi.vercel.app/h03/atolye"
+    adimlar:
+      - "Altı parçayı tek tek açıp kapatın: messages JSON'u nasıl değişiyor?"
+      - "Biçim düğmesi: Düz, Markdown, XML. Token sayısı ne kadar değişti?"
+      - "“Asistan cevabı ekle” ile ikinci turu kurun: girdi token'ı kaç oldu?"
+    sure: "6 dakika"
+    kaynak: "Ders sitesi · model çağırmaz, anahtar istemez"
+    not: |
+      [30] Bilgisayarlardan açtırın. Beklenen: Markdown ve XML birkaç düzine token ekler; ikinci tur girdiyi iki katın üstüne çıkarır. Sayfanın verdiği Python kodu lab'daki koda çok benzer.
+
+  - id: kontrol-roller
+    tur: kontrol
+    cevap_slayti: true
+    soru: "Bir sohbet botu, kullanıcının üç mesaj önce söylediği adı hatırlıyor. Bu nasıl oluyor?"
+    secenekler:
+      - "Model her kullanıcı için ayrı bir hafıza tutar"
+      - "Geliştirici geçmiş mesajları her istekte yeniden gönderir"
+      - "Sistem mesajı modelin içine kalıcı olarak yazılır"
+      - "Sıcaklık 0 olduğu için"
+    dogru: 1
+    aciklama: "API hafızasızdır. “Hatırlama”, geçmişin her istekte yeniden gönderilmesidir; bu yüzden uzun sohbet her turda daha pahalı."
+    not: |
+      [33] 30 saniye, el kaldırma.
+
+  # ───────────────────────── BÖLÜM 2 · ÖRNEKLE ÖĞRETMEK (15 dk) ─────────────────────────
+
+  - id: bolum-2
+    tur: bolum
+    bolum: "2 · Örnekle öğretmek"
+    no: "Bölüm 2"
+    baslik: "Örnekle öğretmek"
+    alt: "Anlatmak yerine göstermek"
+
+  - id: zero-few
+    tur: kavram
+    baslik: "Zero-shot ve few-shot"
+    tanim: "Zero-shot: yalnızca talimat. Few-shot: talimata birkaç çözülmüş örnek eklemek. Örnekler, istemin “Örnekler” parçasıdır."
+    ornek: "Zero-shot: “Duygusunu ve puanını belirle.” · Few-shot: aynı talimat + 3 puanlanmış yorum"
+    benzetme: "Yeni bir stajyere kural listesi vermek ile birkaç doldurulmuş form göstermek: İkincisinde biçimi kimse sormaz."
+    kaynak: "Brown vd., “Language Models are Few-Shot Learners” (2020)"
+    not: |
+      [36] GPT-3 makalesi few-shot'ı adıyla tanıttı. Bugün büyük modeller zero-shot'ta da iyi; few-shot'ın asıl kazancı biçim ve sınır durumlar (ironi, karışık duygu) üzerinde.
+
+  - id: video-fewshot
+    tur: video
+    baslik: "Örnekler kalıbı kilitler"
+    dosya: ../../animasyonlar/render/h03-m3.2-fewshot.mp4
+    kapak: ../../animasyonlar/render/h03-m3.2-fewshot-kapak.png
+    yer_tutucu: "M3.2 · Aynı yorum beş kez: zero-shot'ta cevaplar farklı biçimlerde; örnekler eklendikçe hepsi tek kalıba oturur (30 sn)"
+    ipucu: "Örnekler hem cevabın içeriğini hem biçimini gösterir."
+
+  - id: ornekler-kod
+    tur: kod
+    baslik: "Few-shot: üç örnek"
+    dil: "markdown"
+    kod: |
+      # Örnekler
+      <ornek>
+      Yorum: Paketleme özenliydi, blender çok güçlü.
+      Çıktı: {"duygu": "olumlu", "puan": 5}
+      </ornek>
+      <ornek>
+      Yorum: Kamera iyi ama hoparlör cızırtılı.
+      Çıktı: {"duygu": "karışık", "puan": 3}
+      </ornek>
+      <ornek>
+      Yorum: Süper, kılavuz bile eksik çıktı.
+      Çıktı: {"duygu": "olumsuz", "puan": 1}
+      </ornek>
+    vurgu: [11]
+    aciklama:
+      - "Her duygudan bir örnek: model tek etikete kaymaz."
+      - "Üçüncü örnek ironi: talimatla anlatması zor olanı gösterir."
+      - "Örnekler lab'daki 8 yorumdan farklı olmalı."
+    not: |
+      [39] Bu blok sistem mesajına, # Bağlam'dan sonra eklenir: prompts/v2.txt (lab'daki dosyada örnek çıktılarda kısa bir gerekçe de var; slaytta sadeleştirildi). Örnekleri user/assistant çiftleri olarak da verebilirsiniz; ikisi de çalışır. Test yorumlarını örnek olarak koymak kopya çekmek olur: doğruluk yanıltıcı yükselir.
+
+  - id: ornek-tuzaklari
+    tur: liste
+    baslik: "Örnek seçerken tuzaklar"
+    maddeler:
+      - "Hep aynı etiket: Üç olumlu örnek, modeli “olumlu”ya iter."
+      - "Sıra etkisi: Son örnek daha çok etkiler; sırayı karıştırın."
+      - "Fazla benzer örnekler: Hep kısa yorum gösterirseniz uzun yorumda şaşırır."
+      - "Test verisinden örnek: Ölçtüğünüz doğruluk sahte çıkar."
+    kaynak: "Zhao vd., “Calibrate Before Use” (2021)"
+    not: |
+      [41] Zhao vd. 2021, etiket dengesizliği ve son örneğe yakınlık (recency) etkisini gösterdi. 2–5 çeşitli örnek çoğu iş için yeter.
+
+  - id: adim-adim
+    tur: kavram
+    baslik: "Adım adım düşünme (chain-of-thought)"
+    tanim: "Modelden cevaptan önce ara adımlarını yazmasını istemek. Çok adımlı işlerde doğruluğu artırır."
+    ornek: "“Önce olumlu ve olumsuz yönleri ayrı ayrı yaz, sonra puanı ver.”"
+    benzetme: "Matematik sınavında “işlemi göster”: Ara adımlar hem hatayı azaltır hem kontrolü kolaylaştırır."
+    kaynak: "Wei vd., “Chain-of-Thought Prompting” (2022)"
+    not: |
+      [43] Bedeli: daha çok çıktı token'ı, yani daha çok ücret ve bekleme. Basit sınıflandırmada çoğu zaman gerekmez. JSON şemasında gerekçe alanını puandan ÖNCE koymak hafif bir adım adım düşünme etkisi verir (Bölüm 3).
+
+  - id: akil-yuruten
+    tur: ifade
+    etiket: "2026 notu"
+    metin: "Akıl yürüten modeller zaten içeride düşünüyor. “Adım adım düşün” yazmak yerine düşünme miktarını ayarlarsınız."
+    alt: "OpenRouter'da reasoning.effort: low, medium, high. Düşünme token'ları görünmese de çıktı token'ı olarak ücretlendirilir."
+    kaynak: "OpenRouter, Reasoning Tokens · OpenAI, Reasoning models (erişim 12.10.2026)"
+    not: |
+      [45] Kodda: extra_body={"reasoning": {"effort": "low"}}. Akıl yürüten modellerde sıcaklık çoğu zaman kapalı (Hafta 2'deki güncel not). Basit puanlamada düşünmeyi düşük tutmak hem hızlı hem ucuz.
+
+  - id: kontrol-fewshot
+    tur: kontrol
+    cevap_slayti: true
+    soru: "Few-shot örneklerinizin dördü de “olumlu”. En olası sonuç hangisi?"
+    secenekler:
+      - "Model daha dikkatli olur"
+      - "Model belirsiz yorumları da “olumlu” etiketlemeye kayar"
+      - "Hiçbir etkisi olmaz"
+      - "Model JSON vermeyi bırakır"
+    dogru: 1
+    aciklama: "Örnekler etiket dağılımını da öğretir. Her etiketten örnek koyun ve sırayı karıştırın."
+    not: |
+      [48] Hızlı geçin.
+
+  # ───────────────────────── BÖLÜM 3 · DÜZENLİ ÇIKTI (25 dk) ─────────────────────────
+
+  - id: bolum-3
+    tur: bolum
+    bolum: "3 · Düzenli çıktı"
+    no: "Bölüm 3"
+    baslik: "Düzenli çıktı"
+    alt: "Programın okuyabileceği cevap"
+
+  - id: json-ver
+    tur: ifade
+    etiket: "Sık yapılan hata"
+    metin: "“JSON ver” demek, JSON almak demek değil."
+    alt: "Gelebilecekler: ```json çitleri, başa “Elbette, işte JSON:”, eksik alan, “puan”: “dört”, yarıda kesilmiş nesne."
+    not: |
+      [51] 100 yorumda 2–3 bozuk cevap bile programı durdurur. Soru: Bunu istemle mi çözeriz, yoksa API'yle mi? Cevap: ikisi birden, ama garanti API'den gelir.
+
+  - id: json-modlari
+    tur: tablo
+    baslik: "Üç yol: ne garanti eder?"
+    basliklar: ["Yol", "Garanti eder", "Garanti etmez"]
+    genislikler: [3.6, 4.2, 4.3]
+    satirlar:
+      - ["İstemde rica", "Hiçbir şey", "Geçerli JSON, alanlar, değerler"]
+      - ["json_object", "Geçerli JSON", "Hangi alanlar, hangi değerler"]
+      - ["json_schema + strict", "Şemadaki alanlar ve değerler", "Cevabın doğru olması"]
+    alt: "Şema biçimi garanti eder, doğruluğu değil: “olumlu” geçerli bir değerdir ama yanlış olabilir."
+    kaynak: "OpenRouter, Structured Outputs (erişim 12.10.2026)"
+    not: |
+      [53] Son satır kritik: Şema, modelin ironiyi anlamasını sağlamaz. Doğruluğu lab'da etiketli 8 yorumla ölçeceğiz. json_object bazı sağlayıcılarda yalnızca "geçerli JSON" sağlar; strict şema daha güçlü.
+
+  - id: video-kisitli
+    tur: video
+    baslik: "Kısıtlı çözümleme"
+    dosya: ../../animasyonlar/render/h03-m3.4-kisitli.mp4
+    kapak: ../../animasyonlar/render/h03-m3.4-kisitli-kapak.png
+    yer_tutucu: "M3.4 · Hafta 2'deki aday çubukları: şema “duygu” alanında yalnızca olumlu / olumsuz / karışık'a izin verince öteki adaylar söner (35 sn)"
+    ipucu: "Şemaya uymayan token'ların olasılığı sıfırlanır; seçim kalanlar arasından yapılır."
+
+  - id: kisitli-cozumleme
+    tur: kavram
+    baslik: "Nasıl çalışır? Kısıtlı çözümleme"
+    tanim: "Her adımda, şemaya göre o noktada gelebilecek token'lar dışındakilerin olasılığı sıfırlanır. Model yalnızca geçerli adaylar arasından seçer."
+    ornek: "{\"duygu\": \" yazıldıktan sonra yalnızca olumlu, olumsuz ya da karışık'ın ilk parçası seçilebilir."
+    benzetme: "Hafta 2'deki top-k: Aday listesini olasılık değil, şema keser."
+    kaynak: "Willard ve Louf, “Efficient Guided Generation” (2023)"
+    not: |
+      [57] H2'nin seçim adımına doğrudan bağ. Bu yüzden strict şema "rica" değil "garanti": Model geçersiz token'ı seçemez. Bedeli: Her sağlayıcı bunu desteklemez; bazı şema özellikleri (ör. karmaşık desenler) sınırlı olabilir.
+
+  - id: pydantic-sema
+    tur: kod
+    baslik: "Şemayı Pydantic ile yazmak"
+    dil: "python"
+    kod: |
+      from typing import Literal
+      from pydantic import BaseModel, ConfigDict
+
+      class Puanlama(BaseModel):
+          model_config = ConfigDict(extra="forbid")
+          gerekce: str
+          duygu: Literal["olumlu", "olumsuz", "karışık"]
+          puan: Literal[1, 2, 3, 4, 5]
+
+      sema = Puanlama.model_json_schema()
+    vurgu: [7, 8]
+    aciklama:
+      - "Bir Python sınıfı = bir JSON şeması."
+      - "Literal: yalnızca bu değerler; başka kelime gelemez."
+      - "extra=\"forbid\": şemada olmayan alan yok."
+      - "gerekce önce: model önce gerekçeyi yazar, sonra puanı verir."
+    kaynak: "Pydantic belgeleri · OpenRouter, Structured Outputs"
+    not: |
+      [60] extra="forbid", JSON şemasında additionalProperties: false üretir; strict mod bunu ister. Alan sırası cevap sırasıdır: gerekçeyi başa koymak küçük bir adım adım düşünme etkisi verir.
+
+  - id: sema-istek
+    tur: kod
+    baslik: "İstek ve doğrulama"
+    dil: "python"
+    kod: |
+      cevap = client.chat.completions.create(
+          model=MODEL, messages=mesajlar, temperature=0,
+          response_format={
+              "type": "json_schema",
+              "json_schema": {"name": "puanlama",
+                              "strict": True,
+                              "schema": sema}},
+          extra_body={"provider":
+                      {"require_parameters": True}})
+
+      metin = cevap.choices[0].message.content
+      p = Puanlama.model_validate_json(metin)
+      print(p.duygu, p.puan)
+    vurgu: [4, 6, 9, 12]
+    aciklama:
+      - "json_schema + strict: biçim garantisi."
+      - "require_parameters: yalnızca şemayı destekleyen sağlayıcıya git."
+      - "Pydantic yine de doğrular; uymazsa hata verir, siz sayarsınız."
+    kaynak: "OpenRouter, Structured Outputs ve Provider Routing (erişim 12.10.2026)"
+    not: |
+      [62] require_parameters olmadan OpenRouter, isteği şemayı yok sayan bir sağlayıcıya da yönlendirebilir; cevap yine serbest metin gelir. Lab'da model_validate_json'ı try/except içinde çağırıp geçersiz cevapları sayacağız.
+
+  - id: her-model-desteklemez
+    tur: liste
+    baslik: "Her model desteklemez"
+    maddeler:
+      - "openrouter.ai/models sayfasında “structured outputs” filtresi: destekleyenleri listeler."
+      - "Desteklemeyen model şemayı yok sayabilir; require_parameters bunu engeller."
+      - "Response Healing: OpenRouter bozuk JSON'u bazen kendisi onarır; yine de güvenmeyin."
+      - "Her durumda Pydantic ile doğrulayın: Doğrulama, son savunma hattıdır."
+    kaynak: "OpenRouter, Structured Outputs · Response Healing (erişim 12.10.2026)"
+    not: |
+      [64] 12.10.2026 itibarıyla ücretsiz modellerden nvidia/nemotron-3-super-120b-a12b:free yapılandırılmış çıktıyı destekliyor; google/gemma-4-31b-it:free response_format kabul ediyor ama strict şemayı desteklemiyor. Lab'daki iki model karşılaştırması tam bu fark. Ders haftası yeniden kontrol edin.
+
+  - id: json-denetci
+    tur: interaktif
+    baslik: "Dene: JSON Şema Denetçisi"
+    url: "https://istem-muhendisligi-dersi.vercel.app/h03/json"
+    kisa_url: "istem-muhendisligi-dersi.vercel.app/h03/json"
+    adimlar:
+      - "Lab şeması hazır: Pydantic karşılığına bakın."
+      - "Örnek cevapları yapıştırın: hangi alan kırmızı, neden?"
+      - "“puan”: “4” ile “puan”: 4 farkını deneyin."
+    sure: "4 dakika"
+    kaynak: "Ders sitesi · tarayıcıda çalışır, veri göndermez"
+    not: |
+      [66] Beklenen keşif: Tırnak içindeki "4" bir metindir, sayı değil; şema reddeder. ```json çiti olan cevap geçersiz JSON'dur.
+
+  - id: kontrol-json
+    tur: kontrol
+    cevap_slayti: true
+    soru: "Strict JSON şeması kullandınız. Aşağıdakilerden hangisi hâlâ olabilir?"
+    secenekler:
+      - "Cevapta “puan” alanının eksik olması"
+      - "“duygu” alanına “belki” yazılması"
+      - "İronik bir yorumun “olumlu” etiketlenmesi"
+      - "Cevabın başına “Elbette!” eklenmesi"
+    dogru: 2
+    aciklama: "Şema biçimi garanti eder: alanlar ve izin verilen değerler. Etiketin doğru olduğunu garanti etmez; onu ölçmek gerekir."
+    not: |
+      [68] Bugünün sorusuna yaklaştık: biçim garantisi tamam, doğruluk lab'da.
+
+  # ───────────────────────── BÖLÜM 4 · OPENROUTER, MALİYET, DÜZEN (20 dk) ─────────────────────────
+
+  - id: bolum-4
+    tur: bolum
+    bolum: "4 · OpenRouter ve maliyet"
+    no: "Bölüm 4"
+    baslik: "OpenRouter, maliyet ve düzen"
+    alt: "Tek anahtar, çok model; anahtarı ve istemi güvende tutmak"
+
+  - id: openrouter
+    tur: kavram
+    baslik: "OpenRouter nedir?"
+    tanim: "Yüzlerce modele tek anahtar ve tek adresle ulaşan bir aracı. OpenAI uyumlu olduğu için yalnızca base_url ve model adı değişir."
+    ornek: "nvidia/nemotron-3-super-120b-a12b:free · google/gemma-4-31b-it:free · openrouter/free"
+    benzetme: "Uçak bileti karşılaştırma sitesi: Tek yerden ararsınız, uçuşu farklı havayolları yapar."
+    kaynak: "OpenRouter, Quickstart ve Models (erişim 12.10.2026)"
+    not: |
+      [76] Model adı: sağlayıcı/model. ":free" son eki ücretsiz sürüm. openrouter/free: o an uygun bir ücretsiz modele yönlendirir; denemede pratik ama sonuçlar hangi modelin seçildiğine göre değişir, bu yüzden lab'da sabit model adı kullanıyoruz. Bir model aynı anda birkaç sağlayıcıda çalışabilir; OpenRouter birini seçer (videodaki "sağlayıcı seçimi").
+
+  - id: limitler
+    tur: tablo
+    baslik: "Ücretsiz modellerde sınırlar"
+    basliklar: ["Durum", "Dakikada", "Günde"]
+    genislikler: [6.0, 3.0, 3.1]
+    satirlar:
+      - ["Kredi yok ya da 10 $'ın altında", "20 istek", "50 istek"]
+      - ["En az 10 $ kredi alınmış", "20 istek", "1.000 istek"]
+    alt: "Lab ~35 istek: Günlük 50'nin altında. İstekler arasında 3 sn bekleyerek dakikada 20'yi aşmayız."
+    kaynak: "OpenRouter, API Limits (erişim 12.10.2026)"
+    not: |
+      [78] Sınır aşılırsa 429 hatası döner; kod bekleyip yeniden dener. Kredi yüklemek zorunlu değil. Sınıfça aynı anda istek atınca bazı ücretsiz modeller sağlayıcı tarafında da yoğunluk hatası verebilir: o durumda yedek model (iki slayt sonra).
+
+  - id: fiyat
+    tur: kavram
+    baslik: "Fiyat nasıl okunur?"
+    tanim: "Ücretli modellerde fiyat milyon token başına, girdi ve çıktı için ayrı verilir. Çıktı genellikle daha pahalıdır."
+    ornek: "Örnek fiyat: girdi 0,20 $/M, çıktı 0,80 $/M. 100 yorum × (150 girdi + 40 çıktı) = 15.000 + 4.000 token ≈ 0,003 + 0,0032 = 0,006 $"
+    benzetme: "Taksimetre: Biniş (girdi) ve yol (çıktı) ayrı yazar; uzun cevap uzun yol."
+    kaynak: "OpenRouter, Models sayfası · fiyatlar örnek"
+    not: |
+      [80] Fiyatlar örnek; gerçek fiyatlar model sayfasında ve sık değişiyor. Hafta 2'ye bağ: Türkçe aynı iş için daha çok token, dolayısıyla daha çok ücret. Akıl yürüten modellerde görünmeyen düşünme token'ları da çıktıya yazılır.
+
+  - id: yedek-model
+    tur: kod
+    baslik: "Yönlendirme ve yedek model"
+    dil: "python"
+    kod: |
+      cevap = client.chat.completions.create(
+          model="nvidia/nemotron-3-super-120b-a12b:free",
+          extra_body={"models": [
+              "google/gemma-4-31b-it:free",
+              "openrouter/free"]},
+          messages=mesajlar)
+
+      print(cevap.model)   # hangisi cevap verdi?
+      print(cevap.usage)
+    vurgu: [3, 8]
+    aciklama:
+      - "İlk model hata verirse (yoğunluk, limit) sıradaki denenir."
+      - "cevap.model hangisinin cevap verdiğini söyler."
+      - "Yönlendirme fikri: kolay işi ucuz modele, zor işi güçlü modele."
+    kaynak: "OpenRouter, Model Fallbacks (erişim 12.10.2026)"
+    not: |
+      [82] Dikkat: Yedek model şemayı desteklemiyorsa ve require_parameters açıksa o model atlanır. Yönlendirme: %80'i basit sınıflandırma, %20'si zor akıl yürütme olan bir iş karışımında hepsini güçlü modele göndermek gereksiz pahalı. V3.3'te hesaplayacağız. stream=True ile cevap token token gelir (videodaki geri akış); sohbet arayüzleri böyle yapar, toplu işte gerekmez.
+
+  - id: video-onbellek
+    tur: video
+    baslik: "Önek önbellekleme"
+    dosya: ../../animasyonlar/render/h03-m3.3-onbellek.mp4
+    kapak: ../../animasyonlar/render/h03-m3.3-onbellek-kapak.png
+    yer_tutucu: "M3.3 · Aynı sistem istemi ikinci istekte önbellekten gelir; maliyet çubuğu küçülür (30 sn)"
+    ipucu: "İstemin değişmeyen kısmı başta olursa, sonraki isteklerde önbellekten ucuza okunur."
+
+  - id: onbellek
+    tur: kavram
+    baslik: "Önek önbellekleme (prefix caching)"
+    tanim: "İstekler aynı uzun başlangıçla (önek) başlıyorsa sağlayıcı o kısmı önbellekten okur; o token'lar çok daha ucuza gelir."
+    ornek: "100 yorum: system + örnekler her istekte aynı (önek), yalnızca <yorum> değişir. Sabit kısım başa, değişken kısım sona."
+    benzetme: "Fotokopi şablonu: Antetli kâğıt bir kez hazırlanır, her mektupta yalnızca gövde yazılır."
+    kaynak: "OpenRouter, Prompt Caching (erişim 12.10.2026)"
+    not: |
+      [86] Önbellekten okuma, sağlayıcıya göre normal girdi fiyatının yaklaşık 0,1–0,5 katı. Bazı sağlayıcılarda kendiliğinden, bazılarında (ör. Anthropic) cache_control işaretiyle; çoğunda en az ~1.000 token'lık önek gerekir. Ücretsiz modellerde fark görünmez ama ilke aynı: değişen şeyi istemin başına koymayın.
+
+  - id: anahtar-guvenligi
+    tur: iki-kolon
+    baslik: "API anahtarı güvenliği"
+    sol:
+      baslik: "Colab'da"
+      maddeler:
+        - "Soldaki 🔑 Secrets paneli"
+        - "Ad: OPENROUTER_API_KEY, not defterine erişim izni"
+        - "Kodda: userdata.get(...)"
+        - "Not defterini paylaşınca anahtar gitmez"
+    sag:
+      baslik: "Kendi projenizde"
+      maddeler:
+        - ".env dosyası, os.environ ile okuma"
+        - ".gitignore içine .env"
+        - "Anahtar asla kodda, not defterinde, repoda"
+        - "Sızdıysa OpenRouter'da hemen iptal edin"
+    not: |
+      [88] Herkese açık GitHub repolarındaki anahtarlar dakikalar içinde botlarca bulunur. Kredi yüklü bir anahtar sızarsa fatura sizin. Teslimden önce kontrol: Not defterinde "sk-or-" ile başlayan bir metin var mı?
+
+  - id: surumleme
+    tur: akis
+    kademeli: false
+    baslik: "İstem de koddur: sürümleyin"
+    adimlar:
+      - { ad: "prompts/v1.txt", aciklama: "Zero-shot istem" }
+      - { ad: "Çalıştır", aciklama: "8 yorum, doğruluk" }
+      - { ad: "sonuclar.md", aciklama: "Sayıları yaz" }
+      - { ad: "prompts/v2.txt", aciklama: "Bir değişiklik" }
+      - { ad: "git commit", aciklama: "Ne değişti, neden" }
+    alt: "İstemi kodun içine gömmeyin; ayrı dosyada tutun. Hangi sürümün hangi sonucu verdiğini Git hatırlar."
+    not: |
+      [90] Lab'da v1 ve v2, ödevde v3. Bir istemi "daha iyi" yaptığınızı yalnızca aynı test setiyle ölçerek söyleyebilirsiniz. Hafta 12'de değerlendirme setlerine geri döneceğiz.
+
+  - id: yonlendirme-hesap
+    tur: interaktif
+    baslik: "Dene: Yönlendirme Hesaplayıcı"
+    url: "https://istem-muhendisligi-dersi.vercel.app/h03/yonlendirme"
+    kisa_url: "istem-muhendisligi-dersi.vercel.app/h03/yonlendirme"
+    adimlar:
+      - "Görev karışımını seçin: kaçta kaçı kolay, kaçta kaçı zor?"
+      - "“Hepsi güçlü modelde” ile “yönlendirilmiş” aylık maliyeti karşılaştırın."
+      - "Fiyat tablosundaki bir değeri değiştirin: sonuç nasıl oynuyor?"
+    sure: "3 dakika"
+    kaynak: "Ders sitesi · fiyatlar tarihli varsayılan, düzenlenebilir"
+    not: |
+      [92] Projeksiyonda siz gösterin ya da öğrencilere 3 dakika verin. Mesaj: Varsayılan ayarlarda (%90 kolay iş, gemma-4-31b ↔ gpt-5.5) yönlendirme yaklaşık 3 kat ucuz; kolay işin payı düştükçe kazanç azalır.
+
+  - id: kontrol-maliyet
+    tur: kontrol
+    cevap_slayti: true
+    soru: "API anahtarınızı nerede saklamalısınız?"
+    secenekler:
+      - "Not defterinin ilk hücresinde"
+      - "Repodaki config.py dosyasında"
+      - "Colab Secrets'ta ya da .gitignore'daki .env dosyasında"
+      - "README'de, ekip arkadaşları görsün diye"
+    dogru: 2
+    aciklama: "Anahtar kodda ve repoda durmaz. Colab'da Secrets, kendi projenizde .env + .gitignore."
+    not: |
+      [94] Hızlı geçin.
+
+  - id: mola
+    tur: mola
+    dakika: 10
+    metin: "Moladan sonra Colab'da lab. OpenRouter'a giriş yapın ve İstem Atölyesi'ni (/h03/atolye) bir kez daha açın."
+
+  # ───────────────────────── LAB (60 dk) ─────────────────────────
+
+  - id: lab
+    tur: lab
+    bolum: "Lab"
+    baslik: "Lab: Yorum puanlayıcı"
+    hedef: "8 Türkçe ürün yorumunu iki istemle ve iki modelle puanlatmak; doğruluğu ve geçersiz cevapları ölçmek."
+    adimlar:
+      - "Kurulum: anahtar, Colab Secrets, kontrol hücresi."
+      - "Zero-shot (v1) ve few-shot (v2) istemi karşılaştırın."
+      - "JSON şemasıyla isteyin, Pydantic ile doğrulayın."
+      - "Aynı kodu iki modelle çalıştırın."
+      - "Not defterini ve dosyaları GitHub'a koyun."
+    teslim:
+      - "hafta-03/lab.ipynb"
+      - "prompts/v1.txt, v2.txt"
+      - "sonuclar.md: doğruluk, geçersiz JSON, token"
+      - "Not defterinde anahtar yok"
+    sure: "Lab 60 dk · teslim: Hafta 4 dersi"
+    not: |
+      [105] Bireysel çalışma; yan yana oturanlar sonuçlarını karşılaştırabilir. Toplam ~35 istek.
+
+  - id: colab-ac
+    tur: interaktif
+    baslik: "Not defterini Colab'da açın"
+    url: "https://colab.research.google.com/github/asimsinan/istem-muhendisligi-dersi/blob/main/hafta-03/lab.ipynb"
+    kisa_url: "github.com/asimsinan/istem-muhendisligi-dersi"
+    adimlar:
+      - "QR'ı okutun ya da repodaki “Open in Colab” rozetine tıklayın."
+      - "Google hesabınızla girin; “Dosya → Drive'a kopya kaydet”."
+      - "Hücreleri yukarıdan aşağı sırayla çalıştırın."
+    sure: "2 dakika"
+    not: |
+      [106] Kopya kaydetmeden çalışırlarsa değişiklikler kaybolabilir. Colab ilk açılışta "Bu not defteri Google tarafından yazılmadı" uyarısı verir: "Yine de çalıştır".
+
+  - id: kurulum
+    tur: liste
+    numarali: true
+    baslik: "Adım 1 · Kurulum (8 dk)"
+    maddeler:
+      - "openrouter.ai → Keys → Create Key. Anahtarı kopyalayın; bir daha gösterilmez."
+      - "Colab'da soldaki 🔑 Secrets → Add new secret: OPENROUTER_API_KEY, değer olarak anahtar."
+      - "“Notebook access” anahtarını açın."
+      - "Kurulum hücresi: !pip install -q openai pydantic"
+      - "Kontrol hücresini çalıştırın: cevap, model adı ve usage yazdırılmalı."
+    not: |
+      [108] En sık hata: Secret adı yanlış yazılmış ya da notebook access kapalı → userdata.get hata verir. İkincisi: anahtarı tırnak ya da boşlukla kopyalamak → 401. Anahtar oluşturamayan öğrenci yanındakiyle birlikte çalışsın; anahtarlar paylaşılmaz.
+
+  - id: gorev-1
+    tur: etkinlik
+    baslik: "Adım 2 · Zero-shot ve few-shot (15 dk)"
+    sure: "~15 dakika"
+    kim: "Örnekler doğruluğu artırdı mı? Hangi yorumda hâlâ yanılıyor?"
+    adimlar:
+      - "prompts/v1.txt hücresini çalıştırın (örneksiz istem)."
+      - "8 yorumu puanlatın; not defteri doğruluğu hesaplar."
+      - "3 örnekli prompts/v2.txt hücresini çalıştırın, tekrar puanlatın ve iki sonucu karşılaştırın."
+    istem_not: "8 yorum not defterinde hazır; ilk dördü:"
+    istem: |
+      1) Kargo ertesi gün geldi, ürün tam anlatıldığı gibi. Teşekkürler.
+      2) Ekranı çok güzel ama pil yarım günü zor çıkarıyor.
+      3) Harika! İkinci gün açılmaz oldu, tam da beklediğim gibi.
+      4) Satıcı iade talebime üç haftadır cevap vermiyor.
+    not: |
+      [115] Doğru etiketler not defterinde: 1 olumlu/5, 2 karışık/3, 3 olumsuz/1 (ironi), 4 olumsuz/1, 5 "Fiyatına göre idare eder, çok beklentiye girmeyin." karışık/3, 6 "Kulaklığın sesi temiz, bas biraz zayıf ama bu fiyata çok iyi." olumlu/4, 7 "Kutudan çizik çıktı ama değişim hızlı yapıldı, şimdi memnunum." olumlu/4, 8 "Ne diyeyim, bir yıldır kullanıyorum, şikâyetim yok." olumlu/4. Doğruluk yalnızca duyguya bakar; puanda ±1 fark kabul. Beklenen: v1'de ironi (3) ve 7 sık yanlış; v2'de ironi çoğu zaman düzelir.
+
+  - id: gorev-2
+    tur: etkinlik
+    baslik: "Adım 3 · JSON şeması (18 dk)"
+    sure: "~18 dakika"
+    kim: "Şemasız kaç cevap bozuk geldi? Şemayla kaç?"
+    adimlar:
+      - "Önceki tablolarda: json.loads kaç cevabı okuyamadı?"
+      - "Puanlama sınıfı ve şemalı hücreyi çalıştırın (response_format + strict)."
+      - "Geçersiz cevap sayısını ve doğruluğu sonuclar.md'ye yazın."
+    istem_not: "Şema (Pydantic)"
+    istem: |
+      class Puanlama(BaseModel):
+        gerekce: str
+        duygu: Literal["olumlu",
+                       "olumsuz",
+                       "karışık"]
+        puan: Literal[1, 2, 3, 4, 5]
+    not: |
+      [132] Şemasız modda tipik bozukluklar: ```json çiti, baştaki açıklama cümlesi. Not defterindeki temizle() yardımcı fonksiyonunu kullanmadan sayın; amaç farkı görmek. Şemayla geçersiz sayısı 0 olmalı; değilse require_parameters kapalıdır ya da model desteklemiyor.
+
+  - id: gorev-3
+    tur: etkinlik
+    baslik: "Adım 4 · İki model (10 dk)"
+    sure: "~10 dakika"
+    kim: "Hangi model daha doğru, hangisi daha hızlı, hangisi daha çok token harcadı?"
+    adimlar:
+      - "Adım 4 hücresi aynı kodu MODEL_2 ile çalıştırır."
+      - "Sonuç tablosu hücresi sonuclar.md'yi yazar: doğruluk, geçersiz JSON, süre, token."
+      - "Şemayı desteklemeyen modelde ne oldu?"
+    istem_not: "Modeller (derse yakın yeniden doğrulanır)"
+    istem: |
+      # 1) şema destekli
+      MODEL = "nvidia/nemotron-3-super-120b-a12b:free"
+      # 2) strict şema yok
+      MODEL = "google/gemma-4-31b-it:free"
+    not: |
+      [150] Gemma'da require_parameters açıkken istek reddedilebilir (uygun sağlayıcı yok); kapatınca cevap gelir ama şema garanti değildir. Tam olarak öğretmek istediğimiz fark. 429 alan öğrenci 1 dakika beklesin.
+
+  - id: teslim
+    tur: liste
+    numarali: true
+    baslik: "Adım 5 · Teslim (9 dk)"
+    maddeler:
+      - "Kontrol: Not defterinde “sk-or-” ile başlayan bir metin var mı? Olmamalı."
+      - "Colab: Dosya → GitHub'a kopya kaydet → reponuz, hafta-03/lab.ipynb"
+      - "prompts/v1.txt, v2.txt ve sonuclar.md'yi indirin (soldaki 📁 paneli)."
+      - "GitHub'da hafta-03/ klasörüne yükleyin."
+    not: |
+      [160] "GitHub'a kopya kaydet" ilk kullanımda GitHub yetkisi ister. Özel repo için "Include private repos" işaretlenmeli. Zamanı yetmeyen evde tamamlar; teslim Hafta 4 dersi.
+
+  # ───────────────────────── KAPANIŞ (10 dk) ─────────────────────────
+
+  - id: sinif-sonuclari
+    tur: tablo
+    bolum: "Kapanış"
+    baslik: "Sınıf sonuçları"
+    basliklar: ["Ölçüm", "Sınıfın en sık sonucu", "Sizi en çok şaşırtan"]
+    genislikler: [4.4, 3.8, 3.9]
+    satirlar:
+      - ["Zero-shot doğruluk (8 yorumda)", "", ""]
+      - ["Few-shot doğruluk", "", ""]
+      - ["Şemasız geçersiz cevap", "", ""]
+      - ["Şemalı geçersiz cevap", "", ""]
+    not: |
+      [165] El kaldırarak ya da 3–4 kişiden sesli alın; tahtaya yazın. En çok yanılınan yorumu sorun (genellikle ironi).
+
+  - id: soruya-donus
+    tur: ifade
+    etiket: "Bugünün sorusuna dönelim"
+    metin: "Biçimi şema garanti eder; doğruluğu ölçmek gerekir."
+    alt: "Rol ve kısıtlar sistem mesajında, örnekler kalıbı kilitler, strict JSON şeması biçimi garanti eder, Pydantic doğrular. Etiketin doğru olduğunu ise ancak etiketli bir test setiyle bilirsiniz."
+    not: |
+      [170] Açılıştaki sohbet cevabını hatırlatın: üç paragraf → tek JSON nesnesi.
+
+  - id: ozet
+    tur: ozet
+    maddeler:
+      - "İstem altı parçadan oluşur; sabit olanlar sistem mesajına, değişen girdi kullanıcı mesajına. API hafızasızdır."
+      - "Örnekler kalıbı kilitler; çeşitli ve test verisinden ayrı seçilmeli."
+      - "Strict JSON şeması biçimi garanti eder; OpenRouter'da tek anahtar, anahtar ise asla kodda."
+    not: |
+      [172] Bir öğrenciye okutun.
+
+  - id: sozluk
+    tur: sozluk
+    terimler:
+      - { tr: "Sistem mesajı", en: "system message", tanim: "Geliştiricinin yazdığı, her istekte aynı kalan rol, bağlam ve kurallar." }
+      - { tr: "Hafızasız", en: "stateless", tanim: "API'nin önceki istekleri hatırlamaması; geçmiş her istekte yeniden gönderilir." }
+      - { tr: "Az örnekli istem", en: "few-shot prompting", tanim: "Talimata birkaç çözülmüş örnek eklemek." }
+      - { tr: "Yapılandırılmış çıktı", en: "structured output", tanim: "Cevabın bir JSON şemasına uymasının API tarafından garanti edilmesi." }
+      - { tr: "Kısıtlı çözümleme", en: "constrained decoding", tanim: "Şemaya uymayan token'ların seçim sırasında elenmesi." }
+      - { tr: "Önek önbellekleme", en: "prefix caching", tanim: "İsteklerin aynı başlangıcının önbellekten ucuza okunması." }
+    not: |
+      [174] Vizede bu altı terim tanım sorusu olarak gelebilir.
+
+  - id: odev
+    tur: liste
+    numarali: true
+    baslik: "Ödev ve gelecek hafta"
+    maddeler:
+      - "Lab teslimi: hafta-03/ klasörüne lab.ipynb, prompts/ ve sonuclar.md. Son tarih: Hafta 4 dersi."
+      - "İsteminizde tek bir değişiklik yapın (prompts/v3.txt), aynı 8 yorumla ölçün, sonucu sonuclar.md'ye ekleyip Git'e işleyin."
+      - "Hafta 4 hazırlığı: Lakera Agent Breaker'da ilk iki seviyeyi deneyin; nasıl geçtiğinizi not alın."
+      - "Hafta 4: Daha iyi istemler ve ilk güvenlik uyarısı."
+    not: |
+      [176] v3 değişikliği için öneriler: bir örnek daha, kısıtı değiştirmek, gerekçeyi kaldırmak, sıcaklığı değiştirmek. Önemli olan bir seferde tek değişiklik ve ölçmek.
+
+  - id: kaynaklar
+    tur: kaynak
+    qr: "https://github.com/asimsinan/istem-muhendisligi-dersi"
+    kaynaklar:
+      - { ad: "OpenRouter Quickstart", url: "https://openrouter.ai/docs/quickstart", tur: "OpenRouter · belge", tarih: "erişim 12.10.2026" }
+      - { ad: "Structured Outputs", url: "https://openrouter.ai/docs/features/structured-outputs", tur: "OpenRouter · belge", tarih: "erişim 12.10.2026" }
+      - { ad: "API Limits", url: "https://openrouter.ai/docs/api/reference/limits", tur: "OpenRouter · belge", tarih: "erişim 12.10.2026" }
+      - { ad: "Prompt engineering guide", url: "https://platform.openai.com/docs/guides/prompt-engineering", tur: "OpenAI · rehber", tarih: "erişim 12.10.2026" }
+      - { ad: "Prompt engineering overview", url: "https://docs.anthropic.com/en/docs/build-with-claude/prompt-engineering/overview", tur: "Anthropic · rehber", tarih: "erişim 12.10.2026" }
+      - { ad: "The Prompt Report", url: "https://arxiv.org/abs/2406.06608", tur: "Schulhoff vd. · derleme", tarih: "2024" }
+      - { ad: "Language Models are Few-Shot Learners", url: "https://arxiv.org/abs/2005.14165", tur: "Brown vd. · makale", tarih: "2020 · yalnızca özet" }
+      - { ad: "Chain-of-Thought Prompting", url: "https://arxiv.org/abs/2201.11903", tur: "Wei vd. · makale", tarih: "2022 · yalnızca özet" }
+    not: |
+      [178] Teşekkür edip bitirin.

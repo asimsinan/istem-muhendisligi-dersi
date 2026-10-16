@@ -1,0 +1,558 @@
+{
+ "components/Attention.svelte": [
+  [
+   ">Çok Başlı Öz Dikkat<",
+   ">Multi-head Self Attention<"
+  ],
+  [
+   ">Anahtar<",
+   ">Key<"
+  ],
+  [
+   ">Sorgu<",
+   ">Query<"
+  ],
+  [
+   ">Değer<",
+   ">Value<"
+  ],
+  [
+   ">Çıktı<",
+   ">Out<"
+  ],
+  [
+   "'Anahtar, 4 sorgu başında ortak, RoPE ile döndürülmüş' : `Anahtar, Baş ${$attentionHeadIdx + 1}`}, vektör(",
+   "'Key, shared by 4 query heads, rotated with RoPE' : `Key, Head ${$attentionHeadIdx + 1}`}, vector("
+  ],
+  [
+   ">Sorgu, Baş {$attentionHeadIdx + 1}{gemmaMi($modelMeta) ? ', RoPE ile döndürülmüş' : ''}, vektör(",
+   ">Query, Head {$attentionHeadIdx + 1}{gemmaMi($modelMeta) ? ', rotated with RoPE' : ''}, vector("
+  ],
+  [
+   "'Değer, 4 sorgu başında ortak' : `Değer, Baş ${$attentionHeadIdx + 1}`}, vektör(",
+   "'Value, shared by 4 query heads' : `Value, Head ${$attentionHeadIdx + 1}`}, vector("
+  ],
+  [
+   ">Dikkat çıktısı, Baş {$attentionHeadIdx + 1}, vektör(",
+   ">Attention output, Head {$attentionHeadIdx + 1}, vector("
+  ],
+  [
+   "<span class=\"gemma-rozet satir\">ortak</span>",
+   "<span class=\"gemma-rozet satir\">shared</span>"
+  ]
+ ],
+ "components/AttentionMatrix.svelte": [
+  [
+   ">Ölçekleme · Maske<",
+   ">Scaling · Mask<"
+  ],
+  [
+   ">Nokta çarpım<",
+   ">Dot product<"
+  ],
+  [
+   ">\n\t\t\t\tDikkat <",
+   ">\n\t\t\t\tAttention <"
+  ]
+ ],
+ "components/Embedding.svelte": [
+  [
+   ">Tokenizasyon<",
+   ">Tokenization<"
+  ],
+  [
+   ">Kodlaması<",
+   ">Encoding<"
+  ],
+  [
+   ">\n\t\t\tGömme\n\t\t\t<",
+   ">\n\t\t\tEmbedding\n\t\t\t<"
+  ],
+  [
+   ">Konum<",
+   ">Positional<"
+  ],
+  [
+   ">konum<",
+   ">position<"
+  ],
+  [
+   "Token'ları, önceden belirlenmiş sözlükten \\ngelen gömmelerle sayısal temsillere \\nçevirir ve anlamlarını yakalar.",
+   "Converts tokens into numerical \\nrepresentations using embeddings \\nderived from predefined vocabulary, \\ncapturing their semantic meaning."
+  ],
+  [
+   "Token konumlarını, dizideki sıralarını \\nyakalayan sayısal temsillere çevirir.",
+   "Converts token positions into \\nnumerical representations that \\ncapture their order in the sequence."
+  ],
+  [
+   "<span>Token<br />Gömme</span>",
+   "<span>Token<br />Embedding</span>"
+  ],
+  [
+   ">vektör({$modelMeta.dimension})<",
+   ">vector({$modelMeta.dimension})<"
+  ]
+ ],
+ "components/InputForm.svelte": [
+  [
+   ">\n\t\t\t\tÖrnekler<",
+   ">\n\t\t\t\tExamples<"
+  ],
+  [
+   ">\n\t\t\tÜret\n\t\t<",
+   ">\n\t\t\tGenerate\n\t\t<"
+  ],
+  [
+   "placeholder=\"Kendi cümlenizi yazın\"",
+   "placeholder=\"Test your own input text\""
+  ],
+  [
+   "<span class=\"rozet gri\">Telefonda yalnızca örnekler</span>",
+   "<span class=\"rozet gri\">Examples only on phones</span>"
+  ],
+  [
+   "<span class=\"aciklama\">Kendi cümlenizi yazmak için bilgisayardan açın.</span>",
+   "<span class=\"aciklama\">Open on a computer to type your own sentence.</span>"
+  ],
+  [
+   ">Model iniyor · %{Math.round($modelIlerleme * 100)}",
+   ">Downloading model · {Math.round($modelIlerleme * 100)}%"
+  ],
+  [
+   "<span class=\"aciklama\">210 MB, yalnızca ilk açılışta. Bu sırada örnekleri deneyin.</span>",
+   "<span class=\"aciklama\">224 MB, only on first visit. Try the examples meanwhile.</span>"
+  ],
+  [
+   "<span class=\"rozet sari\">Model hazırlanıyor…</span>",
+   "<span class=\"rozet sari\">Preparing model…</span>"
+  ],
+  [
+   "<span class=\"aciklama\">Birkaç saniye sürer.</span>",
+   "<span class=\"aciklama\">Takes a few seconds.</span>"
+  ],
+  [
+   "<span class=\"rozet kirmizi\">Model inmedi</span>",
+   "<span class=\"rozet kirmizi\">Model failed to download</span>"
+  ],
+  [
+   "<span class=\"aciklama\">Bağlantıyı kontrol edip sayfayı yenileyin. Örnekler çalışmaya devam eder.</span>",
+   "<span class=\"aciklama\">Check your connection and reload the page. The examples still work.</span>"
+  ],
+  [
+   "aria-label=\"Model seçimi\"",
+   "aria-label=\"Model choice\""
+  ],
+  [
+   "` · ${MODELLER[ad].boyut} indirilir`",
+   "` · downloads ${MODELLER[ad].boyut}`"
+  ],
+  [
+   ">{MODELLER[inenModel].kisa} model {$ekDurum[inenModel] === 'iniyor'\n\t\t\t\t\t\t\t\t\t? `iniyor · %${Math.round(($ekIlerleme[inenModel] ?? 0) * 100)}`\n\t\t\t\t\t\t\t\t\t: 'hazırlanıyor…'}",
+   ">{MODELLER[inenModel].kisa} model {$ekDurum[inenModel] === 'iniyor'\n\t\t\t\t\t\t\t\t\t? `downloading · ${Math.round(($ekIlerleme[inenModel] ?? 0) * 100)}%`\n\t\t\t\t\t\t\t\t\t: 'preparing…'}"
+  ],
+  [
+   "; bu sırada {MODELLER[$selectedModel].kisa.toLocaleLowerCase(YEREL)} modelle devam edebilirsiniz.</span>",
+   "; meanwhile you can continue with the {MODELLER[$selectedModel].kisa} model.</span>"
+  ],
+  [
+   ">{MODELLER[hataliModel].kisa} model inmedi · tekrar dene</button",
+   ">{MODELLER[hataliModel].kisa} model failed · try again</button"
+  ],
+  [
+   "`En fazla ${wordLimit} kelime yazabilirsiniz.`",
+   "`You can enter up to ${wordLimit} words.`"
+  ]
+ ],
+ "components/LinearSoftmax.svelte": [
+  [
+   ">Ölçekli logit'ler<",
+   ">Scaled logits<"
+  ],
+  [
+   ">\n\t\t\tOlasılıklar\n\t\t\t<",
+   ">\n\t\t\tProbabilities\n\t\t\t<"
+  ],
+  [
+   ">Token'lar<",
+   ">Tokens<"
+  ],
+  [
+   ">\n\t\t\t\t\t\t\tLogit'ler <",
+   ">\n\t\t\t\t\t\t\tLogits <"
+  ],
+  [
+   ">\n\t\t\t\t\t\t\t\t\t\t\ttoplam=<",
+   ">\n\t\t\t\t\t\t\t\t\t\t\tsum=<"
+  ]
+ ],
+ "components/Operation.svelte": [
+  [
+   ">Katman Normalizasyonu<",
+   ">Layer Normalization<"
+  ],
+  [
+   ">Artık<",
+   ">Residual<"
+  ]
+ ],
+ "components/Sampling.svelte": [
+  [
+   ">Örnekleme<",
+   ">Sampling<"
+  ],
+  [
+   "Sıradaki token'ın olasılık \\ndağılımından nasıl \\nseçileceğini değiştirir.",
+   "Changes how next \\ntoken is selected from \\nprobability distribution."
+  ]
+ ],
+ "components/Temperature.svelte": [
+  [
+   ">Sıcaklık<",
+   ">Temperature<"
+  ],
+  [
+   "Çıktının olasılık \\ndağılımını ve sıradaki \\ntoken'ın rastgeleliğini \\ndeğiştirir.",
+   "Changes output \\nprobability distribution \\nand randomness \\nof next token."
+  ]
+ ],
+ "components/SubsequentBlocks.svelte": [
+  [
+   "> özdeş<",
+   "> more identical<"
+  ],
+  [
+   "<span class=\"strong\">Transformer<br />bloğu daha</span>",
+   "<span class=\"strong\">Transformer<br />Blocks</span>"
+  ],
+  [
+   "vektör({$modelMeta.dimension})",
+   "vector({$modelMeta.dimension})"
+  ]
+ ],
+ "components/Popovers/ActivationPopover.svelte": [
+  [
+   ">\n\t\tKarmaşık örüntüleri öğrenmek için doğrusal dönüşümün çıktısına doğrusal olmayan bir dönüşüm uygular.\n\t<",
+   ">\n\t\tApplies non-linear transformation to linearly transformed output to learn complex patterns.\n\t<"
+  ],
+  [
+   "title=\"GELU aktivasyonu\"",
+   "title=\"GELU Activation\""
+  ]
+ ],
+ "components/Popovers/AttentionWeightPopover.svelte": [
+  [
+   ">Dikkat<",
+   ">Attention<"
+  ],
+  [
+   ">Değer<",
+   ">Value<"
+  ],
+  [
+   ">Çıktı<",
+   ">Out<"
+  ],
+  [
+   "Dikkat başı ${$attentionHeadIdx + 1} çıktısı",
+   "Attention Head ${$attentionHeadIdx + 1} Out"
+  ]
+ ],
+ "components/Popovers/CommonPopover.svelte": [
+  [
+   ">\n\t\t\t\tDevamı\n\t\t\t<",
+   ">\n\t\t\t\tRead more\n\t\t\t<"
+  ]
+ ],
+ "components/Popovers/DropoutPopover.svelte": [
+  [
+   ">\n\t\tRastgele seçilen nöronları kapatır. Yalnızca eğitimde kullanılır.\n\t<",
+   ">\n\t\tDisables randomly selected neurons. Used only during training.\n\t<"
+  ]
+ ],
+ "components/Popovers/LayerNormPopover.svelte": [
+  [
+   ">\n\t\tKararlılık için katman girdisini standart bir dağılıma getirir.\n\t<",
+   ">\n\t\tNormalizes layer input to have a standard distribution for stability.\n\t<"
+  ],
+  [
+   "title=\"Katman normalizasyonu\"",
+   "title=\"Layer Normalization\""
+  ]
+ ],
+ "components/Popovers/LogitWeightPopover.svelte": [
+  [
+   ">\n\t\t\t\tÇıktı izdüşüm ağırlıkları\n\t\t\t\t<",
+   ">\n\t\t\t\tOutput Projection Weights\n\t\t\t\t<"
+  ],
+  [
+   ">\n\t\t\t\tLogit'ler\n\t\t\t\t<",
+   ">\n\t\t\t\tLogits\n\t\t\t\t<"
+  ],
+  [
+   ">Çıktı<",
+   ">Output<"
+  ],
+  [
+   ">Gömme<",
+   ">Embedding<"
+  ],
+  [
+   "Tüm bloklardan geçtikten sonra \\nson token'ın vektörü önceki \\ntoken'ların bağlam bilgisini taşır.",
+   "After passing through all blocks, \\nthe final token's embedding vector \\ncontains all the contextual information \\nfrom the preceding tokens."
+  ],
+  [
+   "Son vektörü sözlük üzerinde bir dağılıma çevirir.\\nParametreler eğitimde öğrenildi, tahminde sabit.",
+   "Transforms the final embedding into a vocabulary distribution.\\nParameters were learned in training, fixed in prediction."
+  ],
+  [
+   "Dönüşümden sonra eklenen kaymalar.\\nParametreler eğitimde öğrenildi, tahminde sabit.",
+   "Offsets added after the transformation.\\nParameters were learned in training, fixed in prediction."
+  ],
+  [
+   "Softmax'tan önce modelin sözlükteki \\nher token için ham tercih puanları.",
+   "Raw scores representing the model’s preference \\nfor each vocabulary token before applying softmax."
+  ],
+  [
+   "Çıktı izdüşüm sapması{#if",
+   "Output projection bias{#if"
+  ],
+  [
+   "<span class=\"gemma-yok\">Gemma'da yok</span>",
+   "<span class=\"gemma-yok\">not in Gemma</span>"
+  ]
+ ],
+ "components/Popovers/MLPDownWeightPopover.svelte": [
+  [
+   ">\n\t\t\t\tGenişletilmiş gömmeler <",
+   ">\n\t\t\t\tExpanded Embeddings <"
+  ],
+  [
+   ">\n\t\t\t\tSıkıştırma ağırlıkları <",
+   ">\n\t\t\t\tCompression Weights <"
+  ],
+  [
+   ">Sıkıştırılmış <",
+   ">Compressed <"
+  ],
+  [
+   ">gömmeler<",
+   ">Embeddings<"
+  ],
+  [
+   "MLP genişletme katmanından geçmiş vektörler.",
+   "Expanded latent vectors through MLP expansion layer."
+  ],
+  [
+   "Genişletilmiş vektörleri yeniden özgün boyuta indirir. \\nParametreler eğitimde öğrenildi, tahminde sabit.",
+   "Projects expanded latent vectors back to original space. \\nParameters that learned in training, fixed in prediction."
+  ],
+  [
+   "Sıkıştırmadan sonra eklenen kaymalar. \\nParametreler eğitimde öğrenildi, tahminde sabit.",
+   "Offsets added after compression. \\nParameters that learned in training, fixed in prediction."
+  ],
+  [
+   "Sıkıştırma sapması{#if",
+   "Compression bias{#if"
+  ],
+  [
+   "<span class=\"gemma-yok\">Gemma'da yok</span>",
+   "<span class=\"gemma-yok\">not in Gemma</span>"
+  ]
+ ],
+ "components/Popovers/MLPWeightPopover.svelte": [
+  [
+   ">\n\t\t\t\tGenişletme ağırlıkları<",
+   ">\n\t\t\t\tExpansion Weights<"
+  ],
+  [
+   ">Genişletilmiş <",
+   ">Expanded <"
+  ],
+  [
+   ">\n\t\t\t\tGömmeler<",
+   ">\n\t\t\t\tEmbeddings<"
+  ],
+  [
+   "Dikkat mekanizmasından geçmiş vektörler.",
+   "Embeddings transformed through attention mechanism."
+  ],
+  [
+   "Vektörleri daha büyük bir boyuta genişletir. \\nParametreler eğitimde öğrenildi, tahminde sabit.",
+   "Projects embedding vectors to expanded latent space. \\nParameters were learned in training, fixed in prediction."
+  ],
+  [
+   "Genişletmeden sonra eklenen kaymalar. \\nParametreler eğitimde öğrenildi, tahminde sabit.",
+   "Offsets added after expansion. \\nParameters that learned in training, fixed in prediction."
+  ],
+  [
+   "Genişletme sapması{#if",
+   "Expansion bias{#if"
+  ],
+  [
+   "<span class=\"gemma-yok\">Gemma'da yok</span>",
+   "<span class=\"gemma-yok\">not in Gemma</span>"
+  ],
+  [
+   "<div class=\"title\">Expanded <br />Gömmeler</div>",
+   "<div class=\"title\">Expanded <br />Embeddings</div>"
+  ]
+ ],
+ "components/Popovers/PositionalEncodingPopover.svelte": [
+  [
+   ">Konum kodlaması<",
+   ">Positional Encoding<"
+  ],
+  [
+   ">Kodlama matrisi<",
+   ">Encoding Matrix<"
+  ],
+  [
+   ">Konum<",
+   ">Position<"
+  ],
+  [
+   ">Gömme<",
+   ">Embedding<"
+  ],
+  [
+   "title=\"Konum kodlaması\"",
+   "title=\"Positional Encoding\""
+  ]
+ ],
+ "components/Popovers/QKVWeightPopover.svelte": [
+  [
+   ">\n\t\t\t\tQ·K·V ağırlıkları<",
+   ">\n\t\t\t\tQ·K·V Weights<"
+  ],
+  [
+   ">\n\t\t\t\tGömmeler<",
+   ">\n\t\t\t\tEmbeddings<"
+  ],
+  [
+   "Gömmeler token'lardan doğar, \\nbloklardan geçtikçe soyut \\ntemsillere dönüşür.",
+   "Embeddings originate from tokens \\nbut evolve through blocks, becoming \\nabstract representations."
+  ],
+  [
+   "Vektörleri Sorgu, Anahtar ve Değer vektörlerine dönüştürür. \\nParametreler eğitimde öğrenildi, tahminde sabit.",
+   "Transforms embedding vectors into Query, Key, and Value vectors. \\nParameters were learned in training, fixed in prediction."
+  ],
+  [
+   "Dönüşümden sonra eklenen kaymalar. \\nParametreler eğitimde öğrenildi, tahminde sabit.",
+   "Offsets added after transformation. \\nParameters that learned in training, fixed in prediction."
+  ],
+  [
+   "Q·K·V sapması{#if",
+   "Q·K·V bias{#if"
+  ],
+  [
+   "<span class=\"gemma-yok\">Gemma'da yok</span>",
+   "<span class=\"gemma-yok\">not in Gemma</span>"
+  ]
+ ],
+ "components/Popovers/ResidualPopover.svelte": [
+  [
+   ">\n\t\tBilginin korunmasına yardım etmek için katmanın girdisini çıktısına ekler.\n\t<",
+   ">\n\t\tAdds layer input to output to help preserve information.\n\t<"
+  ],
+  [
+   "title=\"Artık bağlantı\"",
+   "title=\"Residual Connection\""
+  ]
+ ],
+ "components/Popovers/SoftmaxPopover.svelte": [
+  [
+   ">Ölçekli logit<",
+   ">Scaled logit<"
+  ],
+  [
+   ">Normalizasyon<",
+   ">Normalization<"
+  ],
+  [
+   ">Aksi hâlde <",
+   ">Otherwise <"
+  ],
+  [
+   ">sıcaklık<",
+   ">temperature<"
+  ],
+  [
+   "<span class=\"highlight\">\"{selected?.token}\"</span> token'ının seçilme olasılığı",
+   "Probability of <span class=\"highlight\">\"{selected?.token}\"</span> token being sampled"
+  ],
+  [
+   ">Logit <Katex",
+   ">If logit <Katex"
+  ]
+ ],
+ "components/common/HelpPopover.svelte": [
+  [
+   ">\n\t\t\t\t\tDers kitabını aç\n\t\t\t\t<",
+   ">\n\t\t\t\t\tOpen Textbook\n\t\t\t\t<"
+  ],
+  [
+   ">\n\t\t\t\tDevamı\n\t\t\t<",
+   ">\n\t\t\t\tRead more\n\t\t\t<"
+  ]
+ ],
+ "components/BlockTransition.svelte": [
+  [
+   "<span class=\"title-text\">Transformer Bloğu {$blockIdxTemp + 1}</span>",
+   "<span class=\"title-text\">Transformer Block {$blockIdxTemp + 1}</span>"
+  ]
+ ],
+ "components/HeadStack.svelte": [
+  [
+   ">Baş {$attentionHeadIdxTemp + 1} / {$modelMeta.attention_head_num}</span",
+   ">Head {$attentionHeadIdxTemp + 1} / {$modelMeta.attention_head_num}</span"
+  ]
+ ],
+ "components/Mlp.svelte": [
+  [
+   "<span class=\"gemma-rozet\">kapılı · GeGLU</span>",
+   "<span class=\"gemma-rozet\">gated · GeGLU</span>"
+  ],
+  [
+   "vektör({$modelMeta.dimension})",
+   "vector({$modelMeta.dimension})"
+  ],
+  [
+   "vektör({mlpBoyutu($modelMeta)}){gemmaMi($modelMeta) ? ': GELU(kapı) × yukarı' : ''}",
+   "vector({mlpBoyutu($modelMeta)}){gemmaMi($modelMeta) ? ': GELU(gate) × up' : ''}"
+  ]
+ ],
+ "components/QKV.svelte": [
+  [
+   "vektör({$modelMeta.dimension})",
+   "vector({$modelMeta.dimension})"
+  ],
+  [
+   "vektör({$modelMeta.dimension * 3})",
+   "vector({$modelMeta.dimension * 3})"
+  ]
+ ],
+ "components/textbook/TextbookCard.svelte": [
+  [
+   "aria-hidden=\"true\">aşağı kaydırın ▾</div>",
+   "aria-hidden=\"true\">scroll down ▾</div>"
+  ]
+ ],
+ "@app.html": [
+  [
+   "<html lang=\"tr\">",
+   "<html lang=\"en\">"
+  ],
+  [
+   "<title>Transformer Gezgini · Türkçe GPT-2</title>",
+   "<title>Transformer Explorer · GPT-2</title>"
+  ],
+  [
+   "Transformer Gezgini: Dil modelinin içini görerek keşfedin",
+   "Transformer Explorer: see inside a language model"
+  ],
+  [
+   "Türkçe GPT-2 tarayıcıda çalışır: token, gömme, dikkat ve sıradaki kelime adım adım (Transformer Explainer uyarlaması, İstem Mühendisliği dersi).",
+   "GPT-2 runs in your browser: tokens, embeddings, attention and the next word, step by step (an adaptation of Transformer Explainer for the Prompt Engineering course, SDÜ)."
+  ]
+ ]
+}

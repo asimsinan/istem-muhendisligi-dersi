@@ -1,0 +1,71 @@
+// TR: "Şu an ne oluyor?" kutusu: ders sitesinin kırmızı-beyaz paleti
+$kirmizi: #c8102e;
+$kirmizi-acik: #fdecee;
+$metin: #1d1d1f;
+$ikincil: #5f6368;
+$cizgi: #e5e5ea;
+$mono: 'JetBrains Mono', ui-monospace, monospace;
+
+.kutu {
+    position: absolute;
+    // TR: sol alt köşe: kamera konuyu ekranın ortasına koyar, kutu onu örtmesin (Türkçe panel sağ altta)
+    left: 0.75rem;
+    bottom: 0.75rem;
+    width: min(21rem, calc(50% - 1.2rem));
+    max-height: calc(100% - 7.4rem);
+    overflow-y: auto;
+    background: rgba(255, 255, 255, 0.97);
+    border: 1px solid $cizgi;
+    border-left: 4px solid $kirmizi;
+    border-radius: 0.75rem;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    padding: 0.6rem 0.8rem 0.7rem;
+    font-family: Inter, 'Segoe UI', Roboto, sans-serif;
+    color: $metin;
+    z-index: 5;
+}
+.kucuk { padding-bottom: 0.6rem; }
+.ust { display: flex; align-items: center; gap: 0.45rem; }
+.adim { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: $kirmizi; white-space: nowrap; }
+.baslik { font-size: 0.95rem; font-weight: 700; flex: 1; min-width: 0; }
+.odak { font-size: 0.75rem; color: $ikincil; display: flex; align-items: center; gap: 0.2rem; cursor: pointer; white-space: nowrap;
+    input { accent-color: $kirmizi; margin: 0; }
+}
+.kapat { border: 0; background: none; font-size: 1.1rem; line-height: 1; color: $ikincil; cursor: pointer; padding: 0 0.2rem; }
+.govde { margin-top: 0.45rem; }
+.ozet { font-size: 0.88rem; line-height: 1.45; margin: 0 0 0.5rem; }
+.not { font-size: 0.76rem; color: $ikincil; line-height: 1.4; margin: 0.45rem 0 0; }
+.formul { font-family: $mono; font-size: 0.85rem; background: #f5f5f7; border-radius: 0.4rem; padding: 0.25rem 0.5rem; margin-bottom: 0.4rem; display: inline-block; }
+
+.parcalar { display: flex; flex-wrap: wrap; gap: 0.25rem; align-items: center; }
+.ok { color: $kirmizi; font-weight: 700; margin: 0 0.15rem; }
+.parca {
+    font-family: $mono; font-size: 0.8rem; background: $kirmizi-acik; border: 1px solid #f5c6cd; border-radius: 0.3rem;
+    padding: 0.05rem 0.3rem; white-space: pre; display: inline-flex; flex-direction: column; align-items: center; line-height: 1.25;
+    small { font-size: 0.65rem; color: $ikincil; }
+}
+.parcaVurgu { background: $kirmizi; border-color: $kirmizi; color: #fff; small { color: #ffe3e7; } }
+
+.vektorSatir { display: grid; grid-template-columns: 0.9rem 1fr; align-items: end; gap: 0.3rem; margin: 0.25rem 0; }
+.isaret { font-weight: 700; color: $ikincil; text-align: center; padding-bottom: 0.15rem; }
+.vektorAd { font-size: 0.72rem; color: $ikincil; line-height: 1.2; margin-bottom: 0.1rem; }
+.hucreler { display: flex; gap: 2px; align-items: center; }
+.hucre { font-family: $mono; font-size: 0.66rem; min-width: 2.55rem; text-align: center; padding: 0.15rem 0.1rem; border-radius: 0.2rem; color: #111; }
+.devam { color: $ikincil; font-size: 0.8rem; margin-left: 0.1rem; }
+
+.cubuklar { display: flex; flex-direction: column; gap: 0.18rem; }
+.cubukSatir { display: grid; grid-template-columns: 5.6rem 1fr auto; gap: 0.4rem; align-items: center; font-size: 0.8rem; }
+.cubukAd { font-family: $mono; white-space: pre; overflow: hidden; text-overflow: ellipsis; }
+.cubuk { height: 0.5rem; background: $cizgi; border-radius: 1rem; overflow: hidden; span { display: block; height: 100%; background: #e88b98; } }
+.cubukDeger { font-size: 0.75rem; color: $ikincil; font-variant-numeric: tabular-nums; text-align: right; font-family: $mono; white-space: pre; }
+.vurgu { .cubuk span { background: $kirmizi; } .cubukAd, .cubukDeger { color: $metin; font-weight: 600; } }
+
+.tablo {
+    display: grid; grid-template-columns: 1fr auto auto; gap: 0.15rem 0.9rem; font-family: $mono; font-size: 0.8rem;
+    span:nth-child(3n+2), span:nth-child(3n) { text-align: right; }
+}
+.tbas { font-family: Inter, sans-serif; font-size: 0.7rem; font-weight: 700; color: $ikincil; text-transform: uppercase; letter-spacing: 0.04em; }
+
+@media (max-width: 640px) {
+    .kutu { width: calc(100% - 1.5rem); max-height: 40%; bottom: auto; top: 6.6rem; }
+}

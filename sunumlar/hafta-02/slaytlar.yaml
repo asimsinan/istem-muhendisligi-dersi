@@ -1,0 +1,722 @@
+# HAFTA 2 — Model kabaca nasıl çalışır?
+# Durum: metinler onaylı (06.10.2026); 09.10.2026 sitedeki model seçiciye göre güncellendi. Akış: YOL-HARITASI.md §5 "Hafta 2 kararları".
+# Kaynak: README.md v3.6 · token ölçümleri tiktoken (o200k_base, cl100k_base) ile 06.10.2026'da yapıldı.
+# Notlardaki [dk] işaretleri dersin başından itibaren yaklaşık zamanı gösterir.
+# Lab görev metinleri interaktif Lab Defteri (/h02/lab) ile AYNI olmalıdır.
+
+deste:
+  ad: hafta-02
+  hafta: 2
+  katman: 0
+  baslik: "Hafta 2 · Model kabaca nasıl çalışır?"
+  yazar: "Asım Sinan Yüksel"
+
+slaytlar:
+
+  # ───────────────────────── AÇILIŞ (10 dk) ─────────────────────────
+
+  - id: kapak
+    tur: kapak
+    bolum: Açılış
+    ust: "Hafta 2"
+    baslik: "Model kabaca nasıl çalışır?"
+    alt: "Metin modele nasıl girer, cevap nasıl çıkar?"
+    yazar: "Asım Sinan Yüksel · Bahar 2027"
+    not: |
+      [0] Bilgisayarların açık ve şarjda olduğunu kontrol edin. Bugün lab bilgisayarla.
+
+  - id: gecen-hafta
+    tur: ifade
+    etiket: "Geçen haftadan"
+    metin: "Çıkış kartlarınızda en çok karışan konu"
+    alt: "İki dakikada birlikte netleştirelim."
+    not: |
+      [1] Kartları ders öncesi okuyun; en sık geçen karışıklığı seçin. Genellikle "uygulama ile model farkı" ya da "neden farklı cevap veriyor" çıkar; ikincisi bugünün konusu.
+
+  - id: bugunun-sorusu
+    tur: ifade
+    etiket: "Bugünün sorusu"
+    metin: "Aynı anlamdaki bir Türkçe cümle, İngilizcesinden kaç kat token tutar?"
+    alt: "“Öğrencilerimizden gelen soruları cevaplayabilecek bir yapay zekâ asistanı geliştirmek istiyoruz.” · “We want to build an AI assistant that can answer the questions coming from our students.”"
+    not: |
+      [3] "Token" kelimesini henüz tanımlamayın; "modelin okuduğu parça" demeniz yeterli.
+
+  - id: oylama-kac-kat
+    tur: kontrol
+    baslik: "Tahmin edin"
+    soru: "Türkçe cümle, İngilizcesine göre kaç kat token tutar?"
+    secenekler:
+      - "Aynı (1 kat)"
+      - "Yaklaşık 1,5 kat"
+      - "Yaklaşık 2 kat"
+      - "3 kat veya daha fazla"
+    yonerge: "El kaldırarak oylayın. Cevap birinci bölümde."
+    not: |
+      [4] Sayıları kabaca not edin. Cevap: GPT'nin güncel tokenizer'ında 1,5 kat, eski tokenizer'ında 2,1 kat (slayt "Türkçe vergisi").
+
+  - id: neredeyiz
+    tur: video
+    baslik: "Neredeyiz?"
+    dosya: ../../animasyonlar/render/h01-m1.3k-dort-katman-kisa.mp4
+    kapak: ../../animasyonlar/render/h01-m1.3k-dort-katman-kisa-kapak.png
+    ipucu: "Hâlâ en içteki katmandayız: İstem. Bugün istemin modelin içinde neye dönüştüğüne bakıyoruz."
+    not: |
+      [5] Kısa geçin.
+
+  - id: hedefler
+    tur: liste
+    numarali: true
+    baslik: "Bu hafta neler öğreneceğiz?"
+    maddeler:
+      - "Bir metnin token'lara nasıl bölündüğünü göstermek ve token sayısının neden önemli olduğunu açıklamak"
+      - "Token'ın vektöre dönüşmesini ve sıra bilgisinin rolünü anlatmak"
+      - "Dikkat mekanizmasını bir örnek cümle üzerinden açıklamak"
+      - "Sıcaklık ve top-p'nin çıktıyı nasıl değiştirdiğini deneyerek göstermek"
+    not: |
+      [6] Dört hedef, dört bölüm.
+
+  - id: bugunun-plani
+    tur: tablo
+    baslik: "Bugünün planı"
+    basliklar: ["Bölüm", "Süre", "Ne yapacağız?"]
+    genislikler: [3.4, 1.4, 7.3]
+    satirlar:
+      - ["1 · Token", "25 dk", "Metin parçalara nasıl bölünür? Türkçe neden pahalı?"]
+      - ["2 · Vektör", "15 dk", "Parçalar sayılara nasıl dönüşür? Model boyutu"]
+      - ["3 · Dikkat", "20 dk", "Kelimeler birbirine nasıl bakar? Canlı gösterim"]
+      - ["4 · Seçim", "15 dk", "Sıcaklık ve top-p"]
+      - ["Mola + Lab", "65 dk", "Bilgisayarla: token ölçümü ve sıcaklık deneyi"]
+      - ["Kapanış", "15 dk", "Sonuçlar, çıkış kartı, Hafta 3 hazırlığı"]
+    not: |
+      [7] Hafta 3 için OpenRouter hesabı açılacağını şimdiden söyleyin.
+
+  - id: serit
+    tur: akis
+    baslik: "Bugünün şeridi: metinden cevaba"
+    adimlar:
+      - { ad: "Metin", aciklama: "Sizin yazdığınız istem" }
+      - { ad: "Token", aciklama: "Metin parçalara bölünür" }
+      - { ad: "Vektör", aciklama: "Her parça bir sayı listesine dönüşür" }
+      - { ad: "Dikkat", aciklama: "Parçalar birbirine bakar" }
+      - { ad: "Seçim", aciklama: "Sıradaki parça seçilir" }
+    alt: "Model bu şeridi her yeni token için baştan sona tekrar eder."
+    not: |
+      [8] Kademeli slayt: her tıklamada bir kutu gelir. Her bölümün başında bu şeridin bir kutusu yanacak.
+
+  # ───────────────────────── BÖLÜM 1 · TOKEN (25 dk) ─────────────────────────
+
+  - id: bolum-1
+    tur: bolum
+    bolum: "1 · Token"
+    no: "Bölüm 1"
+    baslik: "Token"
+    alt: "Model metni nasıl parçalara böler?"
+
+  - id: serit-token
+    tur: akis
+    kademeli: false
+    etkin: 1
+    baslik: "Şeritte neredeyiz?"
+    adimlar:
+      - { ad: "Metin" }
+      - { ad: "Token" }
+      - { ad: "Vektör" }
+      - { ad: "Dikkat" }
+      - { ad: "Seçim" }
+    not: |
+      [11] Tek cümle: "Model metni harf harf ya da kelime kelime değil, parça parça okur."
+
+  - id: kelime-tahmin
+    tur: kontrol
+    cevap_slayti: true
+    baslik: "Tahmin edin"
+    soru: "GPT'nin tokenizer'ı “öğrencilerimizden” kelimesini kaç parçaya böler?"
+    secenekler:
+      - "1 (tek kelime)"
+      - "3 (öğrenci · ler · imizden)"
+      - "5 (her ek ayrı)"
+      - "7"
+    dogru: 3
+    aciklama: "7 parça: ö · ğ · r · enc · iler · imiz · den. Bölünme eklere göre değil, sıklığa göre yapılır."
+    not: |
+      [12] Önce el kaldırma, sonra cevap slaytı. Çoğu öğrenci 3 ya da 5 der; eklere göre bölündüğünü düşünür. İlginç olan "ö", "ğ", "r" gibi tek harflik parçalar.
+
+  - id: token-nedir
+    tur: kavram
+    baslik: "Token nedir?"
+    tanim: "Modelin işlediği en küçük metin parçası. Bir kelime, kelimenin bir parçası, bir noktalama işareti ya da bir emoji olabilir."
+    ornek: "“from our students” → from · our · students (3 token) · “öğrencilerimizden” → 7 token"
+    benzetme: "Lego parçaları: Model metni hazır parçalardan kurar. Sık kullanılan kelimeler tek parça; nadir kelimeler küçük parçaların birleşimi."
+    not: |
+      [14] Modelin bir "sözlüğü" (vocabulary) olduğunu söyleyin: GPT'nin güncel tokenizer'ında yaklaşık 200 bin parça var (o200k adı buradan).
+
+  - id: video-bpe
+    tur: video
+    baslik: "Parçalar nasıl belirlenir? BPE"
+    dosya: ../../animasyonlar/render/h02-m2.1-bpe.mp4
+    kapak: ../../animasyonlar/render/h02-m2.1-bpe-kapak.png
+    yer_tutucu: "M2.1 · BPE adım adım, bir paragrafta: yan yana ikililer sayılır, en sık olan her yerde birleşir; 18 adımda 192 parça → 101 (77 sn)"
+    ipucu: "En sık yan yana gelen iki parça birleşir; bu, sözlük dolana kadar tekrar eder."
+    not: |
+      [16] BPE: Byte Pair Encoding (Sennrich vd., 2016). Videoda dört cümlelik bir paragraf harflere bölünür; ilk adımda “l + a” ikilisinin metinde 12 kez yan yana geçtiği tek tek sayılır. En sık ikili her yerde birleşir: la → lar (çoğul eki) → en, er, ler … 18 adımda “öğrenciler” ve “kitap” tek parça olur. İngilizce metin çok olduğu için gerçek sözlükte İngilizce kelimeler tek parçaya kadar birleşmiş; Türkçe kelimeler yarı yolda kalmış.
+
+  - id: bpe-canli
+    tur: interaktif
+    baslik: "Canlı: BPE adım adım"
+    url: "https://istem-muhendisligi-dersi.vercel.app/h02/bpe"
+    kisa_url: "istem-muhendisligi-dersi.vercel.app/h02/bpe"
+    adimlar:
+      - "Videodaki paragraf: “Sonraki birleştirme”ye basın."
+      - "Basmadan önce tahmin edin: hangi ikili birleşecek?"
+      - "Sağdaki tablo: ikililer kaçar kez geçiyor?"
+    sure: "2 dakika · projeksiyonda; evde kendi paragrafınızla"
+    kaynak: "Ders sitesi · videodaki paragraf ve aynı kurallar"
+    not: |
+      [17] Siz ilerletin. 3. adımdan sonra durup sorun: “Sıradaki ne olur?” Tablonun ilk satırını gösterin, sonra basın. “Sona kadar” ile 18 adımı bitirin ve “öğrenciler”, “kitap”, “lar” parçalarını gösterin. Öğrencilere evde kendi paragraflarını yapıştırıp denemelerini söyleyin.
+
+  - id: tokenler
+    tur: tokenler
+    baslik: "Aynı anlam, farklı sayıda parça"
+    satirlar:
+      - { etiket: "İngilizce", parcalar: ["from", " our", " students"] }
+      - { etiket: "Türkçe", parcalar: ["ö", "ğ", "r", "enc", "iler", "imiz", "den"] }
+      - { etiket: "İngilizce", parcalar: ["Many", " drops", " make", " a", " lake", "."] }
+      - { etiket: "Türkçe", parcalar: ["D", "aml", "aya", " dam", "l", "aya", " gö", "l", " olur", "."] }
+    alt: "␣ işareti kelimenin önündeki boşluktur; boşluk da token'ın parçası."
+    kaynak: "GPT o200k_base tokenizer, tiktoken ile ölçüldü (06.10.2026)"
+    not: |
+      [19] "aya" iki kez çıkıyor ama "damla" hiç tek parça değil. Model Türkçe kelimelerin eklerini bilmiyor; yalnızca hangi harf dizilerinin sık geçtiğini biliyor.
+
+  - id: turkce-vergisi
+    tur: sayilar
+    baslik: "Türkçe vergisi: aynı anlam, daha çok token"
+    ogeler:
+      - { sayi: "17", ad: "İngilizce cümle", aciklama: "Her iki tokenizer'da da 17 token." }
+      - { sayi: "26", ad: "Türkçe · güncel", aciklama: "GPT'nin güncel tokenizer'ı (o200k): 1,5 kat." }
+      - { sayi: "36", ad: "Türkçe · eski", aciklama: "GPT-4'ün tokenizer'ı (cl100k): 2,1 kat." }
+    alt: "Aynı iş için Türkçe daha çok token harcar: daha yüksek ücret, bağlam penceresine daha az metin."
+    kaynak: "Bugünün sorusundaki cümle çifti · tiktoken, 06.10.2026 · ayrıca Petrov vd. (2023), Bayram vd. (2025)"
+    not: |
+      [21] Bugünün sorusunun cevabı. Oylama sonucuna dönün. Yeni tokenizer'ın Türkçeyi daha iyi bölmesi, çok dilli veriye daha çok yer verildiğini gösteriyor. Türkçe için özel tokenizer çalışmaları var (Bayram vd. 2025, TR-MMLU).
+
+  - id: neden-onemli
+    tur: liste
+    baslik: "Token sayısı neden önemli?"
+    maddeler:
+      - "Maliyet: API'ler token başına ücret alır; hem gönderdiğiniz hem aldığınız token sayılır."
+      - "Bağlam penceresi: Modelin bir seferde görebileceği metin token ile ölçülür."
+      - "Hız: Model cevabı token token üretir; daha çok token, daha uzun bekleme."
+      - "Garip hatalar: Harf saymak, kelimeyi ters yazmak zor; çünkü model harfleri değil parçaları görür."
+    not: |
+      [22] Son madde ilginç bir sınıf sorusu: "çilek kelimesinde kaç e var?" gibi sorularda modellerin zorlanmasının bir nedeni tokenizasyon.
+
+  - id: dene-token
+    tur: interaktif
+    baslik: "Dene: Türkçe Token Laboratuvarı"
+    url: "https://istem-muhendisligi-dersi.vercel.app/h02/token"
+    kisa_url: "istem-muhendisligi-dersi.vercel.app/h02/token"
+    adimlar:
+      - "Adınızı ve soyadınızı yazın: kaç token?"
+      - "Bir atasözü yazın, sonra İngilizcesini: hangisi daha uzun?"
+      - "Bir emoji, bir tarih ve bir kod satırı deneyin."
+    sure: "7 dakika"
+    not: |
+      [23] Bilgisayarlardan açtırın. Sayfa birkaç tokenizer'ı yan yana gösterir. 7 dakika sonra 2–3 ilginç sonucu sesli alın.
+
+  - id: kontrol-token
+    tur: kontrol
+    cevap_slayti: true
+    soru: "Aşağıdakilerden hangisi doğrudur?"
+    secenekler:
+      - "Bir token her zaman bir kelimedir"
+      - "Tokenizer Türkçe kelimeleri eklerine göre böler"
+      - "Aynı metin farklı modellerde farklı sayıda token tutabilir"
+      - "Token sayısı maliyeti etkilemez"
+    dogru: 2
+    aciklama: "Her model ailesinin kendi tokenizer'ı ve sözlüğü var. Token kelimeden küçük de olabilir; bölünme ek değil sıklık esaslıdır; ücret token başına ödenir."
+    not: |
+      [31] 30 saniye, el kaldırma.
+
+  # ───────────────────────── BÖLÜM 2 · VEKTÖR (15 dk) ─────────────────────────
+
+  - id: bolum-2
+    tur: bolum
+    bolum: "2 · Vektör"
+    no: "Bölüm 2"
+    baslik: "Vektör"
+    alt: "Parçalar sayılara nasıl dönüşür?"
+
+  - id: serit-vektor
+    tur: akis
+    kademeli: false
+    etkin: 2
+    baslik: "Şeritte neredeyiz?"
+    adimlar:
+      - { ad: "Metin" }
+      - { ad: "Token" }
+      - { ad: "Vektör" }
+      - { ad: "Dikkat" }
+      - { ad: "Seçim" }
+    not: |
+      [35] "Model kelime bilmez, sayı bilir."
+
+  - id: video-gomme
+    tur: video
+    baslik: "Token'dan vektöre"
+    dosya: ../../animasyonlar/render/h02-m2.2-gomme.mp4
+    kapak: ../../animasyonlar/render/h02-m2.2-gomme-kapak.png
+    yer_tutucu: "M2.2 · BPE sözlüğünde her parçanın numarası → gömme tablosunda o numaralı satır (768 sayı) → vektör; tablo eğitimde rastgele başlar, düzeltilerek öğrenilir; sıra bilgisi eklenir (37 sn)"
+    ipucu: "Token numarası, gömme tablosundaki satır numarasıdır; satırdaki sayılar eğitimde öğrenilir."
+
+  - id: vektor
+    tur: kavram
+    baslik: "Token gömme (token embedding)"
+    tanim: "Her token, sözlükteki numarasına karşılık gelen uzun bir sayı listesine çevrilir. Bu listeye vektör denir. Benzer anlamlı token'ların vektörleri birbirine yakındır."
+    ornek: "“elma” → sözlükteki numarası → [0,12 · −0,83 · 0,44 · … ] (büyük modellerde birkaç bin sayı)"
+    benzetme: "Harita koordinatı: Isparta ile Burdur birbirine yakın, Isparta ile Tokyo uzak. Vektör de anlam haritasında bir konum; yalnız iki değil, binlerce boyutlu."
+    not: |
+      [37] Bu sayılar elle yazılmaz; eğitim sırasında öğrenilir. "Model eğitmek" büyük ölçüde bu sayıları ayarlamak demektir.
+
+  - id: video-yakinlik
+    tur: video
+    baslik: "Benzer kelimeler neden yakın?"
+    dosya: ../../animasyonlar/render/h02-m2.6-yakinlik.mp4
+    kapak: ../../animasyonlar/render/h02-m2.6-yakinlik-kapak.png
+    yer_tutucu: "M2.6 · Aynı boşluğa uyan kelimeler benzer düzeltmeler alır; Türkçe GPT-2'nin gerçek gömme tablosunda şehirler, günler, renkler, meyveler kümelenir (38 sn)"
+    ipucu: "Benzer cümlelerde geçen kelimeler, benzer vektörler kazanır."
+    kaynak: "ytu-ce-cosmos/turkish-gpt2 gömme tablosu (wte), kosinüs benzerliği ve PCA, 09.10.2026"
+    not: |
+      [38] Harita ve komşu listeleri gerçek: ders sitesindeki modelin kendi tablosundan. Kimse "Isparta Burdur'a yakın" diye yazmadı; model metinlerden çıkardı. Hafta 8'deki anlamsal aramaya köprü.
+
+  - id: konum
+    tur: kavram
+    baslik: "Sıra neden önemli?"
+    tanim: "Dikkat mekanizması kelimelerin sırasını kendiliğinden bilmez. Bu yüzden her token'a “kaçıncı sıradayım” bilgisi eklenir. Buna konum kodlaması denir."
+    ornek: "“Ali Ayşe'yi aradı” ile “Ayşe Ali'yi aradı”: aynı kelimeler, farklı anlam."
+    benzetme: "Sinema bileti: Aynı salon, aynı film; koltuk numarası nerede oturduğunuzu söyler."
+    not: |
+      [40] Günümüz modellerinin çoğu RoPE (Su vd., 2021) yöntemini kullanır; adını anmak yeterli, ayrıntı yok.
+
+  - id: iki-gomme
+    tur: iki-kolon
+    baslik: "İki farklı “gömme”: bu hafta ve Hafta 8"
+    sol:
+      baslik: "Token gömme (bu hafta)"
+      maddeler:
+        - "Modelin içinde, her token için"
+        - "Amaç: cevabı üretmek"
+        - "Siz görmezsiniz; model kullanır"
+        - "Her modelin kendine özgü"
+    sag:
+      baslik: "Arama gömmesi (Hafta 8)"
+      maddeler:
+        - "Ayrı bir modelle, bütün bir cümle ya da paragraf için"
+        - "Amaç: benzer belgeyi bulmak"
+        - "Siz hesaplar, veritabanında saklarsınız"
+        - "RAG sistemlerinin temeli"
+    not: |
+      [42] README'deki kritik ayrım. İkisi de "vektör" ama amaçları farklı. Hafta 8'de bu slayta geri döneceğiz.
+
+  - id: model-boyutu
+    tur: sayilar
+    baslik: "Model boyutu: parametre sayısı"
+    ogeler:
+      - { sayi: "2–4B", ad: "Küçük", aciklama: "Dizüstünde, hatta telefonda çalışır. Ör. Gemma 4 E2B, E4B." }
+      - { sayi: "26–31B", ad: "Orta", aciklama: "Güçlü bir ekran kartı ister. Ör. Gemma 4 31B." }
+      - { sayi: "1T+", ad: "Çok büyük", aciklama: "Veri merkezinde çalışır. Ör. Qwen 3.8 (2,4T)." }
+    alt: "B = milyar, T = trilyon parametre. Parametre: eğitimde öğrenilen sayılar. Büyük model genelde daha yetenekli ama daha pahalı ve yavaş."
+    kaynak: "Google, Gemma 4 duyurusu (Nisan 2026) · Alibaba Qwen 3.8 · Hafta 5: kendi bilgisayarınızda model"
+    not: |
+      [44] Kaba kural: 7B bir model 4 bit'e sıkıştırılınca yaklaşık 4–5 GB bellek ister. Hafta 5'te "bilgisayarım hangi modeli kaldırır?" sayfasıyla hesaplayacağız. Kapalı modellerin boyutu çoğu zaman açıklanmaz.
+
+  # ───────────────────────── BÖLÜM 3 · DİKKAT (20 dk) ─────────────────────────
+
+  - id: bolum-3
+    tur: bolum
+    bolum: "3 · Dikkat"
+    no: "Bölüm 3"
+    baslik: "Dikkat"
+    alt: "Kelimeler birbirine nasıl bakar?"
+
+  - id: serit-dikkat
+    tur: akis
+    kademeli: false
+    etkin: 3
+    baslik: "Şeritte neredeyiz?"
+    adimlar:
+      - { ad: "Metin" }
+      - { ad: "Token" }
+      - { ad: "Vektör" }
+      - { ad: "Dikkat" }
+      - { ad: "Seçim" }
+    not: |
+      [50] Geçen hafta "Transformer, tek cümlede" slaytında bunun adını koymuştuk.
+
+  - id: video-dikkat
+    tur: video
+    baslik: "“o” kime bakıyor?"
+    dosya: ../../animasyonlar/render/h02-m2.3-dikkat.mp4
+    kapak: ../../animasyonlar/render/h02-m2.3-dikkat-kapak.png
+    yer_tutucu: "M2.3 · “Ali kitabı Ayşe'ye verdi çünkü o…”: “o”dan diğer kelimelere dikkat yayları; kalınlık = ağırlık (60 sn)"
+    ipucu: "Yayın kalınlığı, “o”nun o kelimeye ne kadar dikkat ettiğini gösterir."
+
+  - id: dikkat
+    tur: kavram
+    baslik: "Dikkat (attention)"
+    tanim: "Her token, cümledeki diğer token'lara bakar ve her biri için “benim için ne kadar önemli?” ağırlığını hesaplar. Sonra kendi vektörünü bu ağırlıklarla günceller."
+    ornek: "“yüz”: “Yüz lira verdi” · “Yüzünü yıkadı” · “Denizde yüzdü”. Hangi anlam olduğunu çevresindeki kelimeler belirler."
+    benzetme: "Kalabalık bir toplantıda herkes konuşur; siz sizi ilgilendiren birkaç kişiye kulak verirsiniz. Her token da diğerlerine farklı oranda kulak verir."
+    kaynak: "Vaswani vd., “Attention Is All You Need” (2017)"
+    not: |
+      [54] Bu işlem bir kez değil, üst üste onlarca katmanda tekrarlanır. Her katmanda vektörler biraz daha "anlamlı" hâle gelir.
+
+  - id: transformer-explainer
+    tur: interaktif
+    baslik: "Canlı: Transformer Explainer"
+    url: "https://poloclub.github.io/transformer-explainer/"
+    kisa_url: "poloclub.github.io/transformer-explainer"
+    adimlar:
+      - "Hazır örneklerden birini seçin; model inince kendi İngilizce cümlenizi yazabilirsiniz."
+      - "Bir kelimenin üzerine gelin: hangi kelimelere bakıyor?"
+      - "Sağdaki listeye bakın: sıradaki kelime adayları ve olasılıkları."
+    sure: "2 dakika · projeksiyonda"
+    kaynak: "Polo Club, Georgia Tech · tarayıcıda çalışan GPT-2 small (124M), İngilizce"
+    not: |
+      [56] Orijinal sayfa. Projeksiyonda 2 dakika siz gösterin. Model (~600 MB) inmeden cümle kutusu kapalıdır; sınıf bilgisayarında ders öncesi bir kez açıp indirin. Telefonda yalnızca hazır örnekler çalışır.
+
+  - id: transformer-explainer-tr
+    tur: interaktif
+    baslik: "Canlı: Transformer Gezgini · Türkçe"
+    url: "https://istem-muhendisligi-dersi.vercel.app/transformer/"
+    kisa_url: "istem-muhendisligi-dersi.vercel.app/transformer"
+    adimlar:
+      - "Bilgisayardan açın; model inerken hazır örnekleri deneyin."
+      - "Kendi Türkçe cümlenizi yazın (en çok 12 kelime) ve Üret'e basın."
+      - "Bir kelimenin üzerine gelin: dikkat nereye gidiyor? Sağda adaylar ve olasılıklar."
+    sure: "4 dakika"
+    kaynak: "Model: YTÜ Cosmos Türkçe GPT-2 (124M) · Arayüz: Polo Club (MIT)"
+    not: |
+      [58] Aynı araç, Türkçe eğitilmiş bir modelle. Türkçe kelimelerin çoğu burada tek token; İngilizce GPT-2 ile karşılaştırma bölüm 1'e köprü. "Ali kitabı Ayşe'ye verdi çünkü o" örneğini açtırın: videodaki "o"nun dikkatini gerçek modelde görsünler. Erken bitenler kutunun altındaki model seçiciden Orta, Çok dilli ve Gemma'yı deneyebilir.
+
+  - id: transformer-gezgini-3b
+    tur: interaktif
+    baslik: "Canlı: Transformer Gezgini · 3B anlatım"
+    url: "https://istem-muhendisligi-dersi.vercel.app/transformer-3b/"
+    kisa_url: "istem-muhendisligi-dersi.vercel.app/transformer-3b"
+    adimlar:
+      - "Aynı cümle, aynı model; bu kez 3B sahnede adım adım."
+      - "“5 Dikkat” adımı: “o” en çok hangi parçaya bakacak? Önce tahmin."
+      - "Animasyon modelin gerçek cevabını gösterir."
+    sure: "2 dakika · projeksiyonda"
+    kaynak: "Ders sitesi · aynı Türkçe GPT-2 · rehber: ASY · Anlatım ve Ayrıntılı modları, TR/EN"
+    not: |
+      [62] Siz gösterin. Anlatım modunda 5. adıma (Dikkat) geçin; ASY'nin bilgi kartı açılır, "Animasyonu başlat"a basınca tahmin sorusu gelir. Sınıfa el kaldırtın, sonra çoğunluğun cevabını tıklayın. 3. blok 5. başta "o" en çok "verdi"ye bakıyor (%43); çoğu öğrenci "Ali" ya da "Ayşe" der. Evde Ayrıntılı modunu ve "Öğrenci/Mühendis" düzeylerini önerin.
+
+  - id: video-baglam
+    tur: video
+    baslik: "Pencereye neler sığar?"
+    dosya: ../../animasyonlar/render/h02-m2.7-baglam.mp4
+    kapak: ../../animasyonlar/render/h02-m2.7-baglam-kapak.png
+    yer_tutucu: "M2.7 · Pencere: talimat + geçmiş + belge + soru + cevap; sığmayınca API reddeder, sohbet uygulaması eskiyi kırpar; Türkçe daha az sığar (33 sn)"
+    ipucu: "Cevap da pencereye sığmak zorunda; sığmayan eski mesajları model görmez."
+    not: |
+      [64] Animasyondaki 24 kutuluk pencere şematik; gerçek boyutlar son sahnede.
+
+  - id: baglam-penceresi
+    tur: kavram
+    baslik: "Bağlam penceresi (context window)"
+    tanim: "Modelin bir seferde dikkat edebileceği en fazla token sayısı. İstem, sohbet geçmişi, yapıştırdığınız belge ve modelin cevabı bu pencereye sığmak zorunda."
+    ornek: "Güncel büyük modellerde yüz binlerce token, bazılarında bir milyon civarı. Türkçe metin aynı pencereye daha az sığar."
+    benzetme: "Çalışma masası: Ne kadar büyük olursa olsun bir sınırı var. Masaya çok şey yığınca önemli kâğıdı bulmak da zorlaşır."
+    not: |
+      [65] Hafta 6'ya köprü: Pencere büyük olsa bile çok uzun bağlamda dikkat dağılır ("bağlam çürümesi"). Bugün yalnızca merak bırakın.
+
+  - id: kontrol-dikkat
+    tur: kontrol
+    cevap_slayti: true
+    soru: "Model “yüz” kelimesinin hangi anlamda kullanıldığını nasıl belirler?"
+    secenekler:
+      - "Sözlükteki ilk anlamı seçer"
+      - "Cümledeki diğer kelimelere bakar"
+      - "Rastgele seçer"
+      - "Kullanıcıya sorar"
+    dogru: 1
+    aciklama: "Dikkat mekanizması: “lira”, “yıkadı”, “denizde” gibi komşu kelimelere bakarak “yüz”ün vektörünü günceller."
+    not: |
+      [66] Hızlı geçin.
+
+  # ───────────────────────── BÖLÜM 4 · SEÇİM (15 dk) ─────────────────────────
+
+  - id: bolum-4
+    tur: bolum
+    bolum: "4 · Seçim"
+    no: "Bölüm 4"
+    baslik: "Seçim"
+    alt: "Sıradaki token nasıl seçilir?"
+
+  - id: serit-secim
+    tur: akis
+    kademeli: false
+    etkin: 4
+    baslik: "Şeritte neredeyiz?"
+    adimlar:
+      - { ad: "Metin" }
+      - { ad: "Token" }
+      - { ad: "Vektör" }
+      - { ad: "Dikkat" }
+      - { ad: "Seçim" }
+    not: |
+      [67] Geçen hafta oynadığınız kaydırıcıya geri dönüyoruz.
+
+  - id: video-sicaklik
+    tur: video
+    baslik: "Sıcaklık (temperature)"
+    dosya: ../../animasyonlar/render/h02-m2.4-sicaklik.mp4
+    kapak: ../../animasyonlar/render/h02-m2.4-sicaklik-kapak.png
+    yer_tutucu: "M2.4 · Olasılık çubukları: sıcaklık düşünce en olası aday öne çıkar, yükselince dağılım yayılır (45 sn)"
+    ipucu: "Sıcaklık olasılıkları değiştirmez gibi görünür ama dağılımı sivriltir ya da yayar."
+
+  - id: sicaklik-tablo
+    tur: tablo
+    baslik: "Sıcaklık: ne zaman düşük, ne zaman yüksek?"
+    basliklar: ["Sıcaklık", "Davranış", "Ne zaman?"]
+    genislikler: [2.2, 5.2, 4.7]
+    satirlar:
+      - ["0 – 0,3", "Hep en olası seçenek; tutarlı", "JSON, kod, sınıflandırma"]
+      - ["0,7 – 1", "Dengeli; doğal ve biraz çeşitli", "Sohbet, özet, e-posta"]
+      - ["1,2 ve üstü", "Az olası seçenekler de gelir; yaratıcı, hataya açık", "Beyin fırtınası, isim önerisi"]
+    alt: "Sıcaklık 0 bile her zaman birebir aynı cevabı garanti etmez."
+    not: |
+      [71] Son cümle için: sunucu tarafındaki paralel hesaplamalar küçük farklar yaratabilir. Ayrıntıya girmeyin.
+
+  - id: video-topp
+    tur: video
+    baslik: "Top-k ve top-p"
+    dosya: ../../animasyonlar/render/h02-m2.5-topp.mp4
+    kapak: ../../animasyonlar/render/h02-m2.5-topp-kapak.png
+    yer_tutucu: "M2.5 · top-k = 3: hep ilk 3 aday; top-p = 0,9: toplam 0,9'a ulaşana kadar; model emin/kararsızken aday sayısı (39 sn)"
+    ipucu: "top-k sabit sayıda aday bırakır; top-p aday sayısını modelin ne kadar emin olduğuna göre ayarlar."
+
+  - id: topp
+    tur: kavram
+    baslik: "Top-p nasıl çalışır?"
+    tanim: "Adaylar olasılık sırasına dizilir; toplamları p'ye (ör. 0,8) ulaşana kadar olanlar tutulur, gerisi atılır. Seçim yalnızca kalanlar arasından yapılır."
+    ornek: "p = 0,8: gül %53 + elma %25 = %78 → halı da eklenir (%88) → 3 aday kalır; geri kalan yüzlerce düşük olasılıklı aday elenir."
+    benzetme: "Menüden önce en çok sevilen yemekleri ayırıp sonra yalnızca onların arasından seçmek."
+    kaynak: "Holtzman vd., “The Curious Case of Neural Text Degeneration” (2020)"
+    not: |
+      [74] Pratik öneri: Sıcaklık ile top-p'yi aynı anda çok oynatmayın; birini sabit tutup diğerini değiştirin.
+
+  - id: dene-sicaklik
+    tur: interaktif
+    baslik: "Dene: sıcaklık, top-k ve top-p"
+    url: "https://istem-muhendisligi-dersi.vercel.app/h02/sicaklik"
+    kisa_url: "istem-muhendisligi-dersi.vercel.app/h02/sicaklik"
+    adimlar:
+      - "Sıcaklığı 0,2'ye çekin, “10 kez üret”e basın."
+      - "Sıcaklığı 1,5'e çekin, tekrar basın. Ne değişti?"
+      - "“Model emin” ve “Model kararsız” düğmeleri: top-k ve top-p kaçar aday bırakıyor?"
+    sure: "4 dakika"
+    not: |
+      [76] Geçen haftaki sayfa; bu sefer adlarını biliyorlar.
+
+  - id: guncel-not
+    tur: ifade
+    etiket: "Güncel not"
+    metin: "Akıl yürüten modellerde sıcaklık ayarı çoğu zaman kapalıdır ya da önerilmez."
+    alt: "GPT-5, o3 ve o4-mini yalnızca varsayılan sıcaklığı kabul eder; Google, Gemini 3 için 1,0'da bırakmayı önerir. Lab'da bu yüzden Gemma 4 kullanacağız."
+    kaynak: "OpenAI API belgeleri · Google, Gemini 3 geliştirici kılavuzu (erişim 06.10.2026)"
+    not: |
+      [80] Neden? Bu modeller cevap vermeden önce kendi içinde birçok deneme üretip seçiyor; sıcaklığı değiştirmek bu ayarlı süreci bozuyor. Gemini 3'te 1'in altına inmek döngüye girme ve kalite düşüşüne yol açabiliyor.
+
+  - id: kontrol-sicaklik
+    tur: kontrol
+    cevap_slayti: true
+    soru: "Faturadan tutarı JSON olarak çıkaran bir sistem için hangi sıcaklık uygundur?"
+    secenekler:
+      - "0 – 0,2"
+      - "0,7"
+      - "1,5"
+      - "Fark etmez"
+    dogru: 0
+    aciklama: "Tek doğru cevabı olan, tutarlılık istenen işlerde düşük sıcaklık. Yaratıcılık istenen işlerde yüksek."
+    not: |
+      [81] Hızlı geçin.
+
+  - id: serit-tam
+    tur: akis
+    kademeli: false
+    baslik: "Şeridin tamamı"
+    adimlar:
+      - { ad: "Metin", aciklama: "İstem" }
+      - { ad: "Token", aciklama: "BPE ile parçalar" }
+      - { ad: "Vektör", aciklama: "Gömme + konum" }
+      - { ad: "Dikkat", aciklama: "Onlarca katman" }
+      - { ad: "Seçim", aciklama: "Sıcaklık, top-p" }
+    alt: "Seçilen token metne eklenir, şerit baştan döner: cevap token token oluşur."
+    not: |
+      [82] Bölüm 1–4'ün özeti. Mini deneyde "aynı soruya farklı cevap" nedeninin artık tam açıklaması: Seçim adımı.
+
+  - id: mola
+    tur: mola
+    dakika: 10
+    metin: "Moladan sonra bilgisayarla lab: Lab Defteri ve Google AI Studio. Google hesabınızla giriş yapmış olun."
+
+  # ───────────────────────── LAB (55 dk) ─────────────────────────
+
+  - id: lab
+    tur: lab
+    bolum: "Lab"
+    baslik: "Lab: Token ve sıcaklık"
+    hedef: "Token sayısının ve sıcaklığın çıktıyı nasıl etkilediğini ölçmek."
+    adimlar:
+      - "Lab Defteri'ni açın (sonraki slayttaki QR)."
+      - "Görev A: Token Laboratuvarı'nda beş metnin token sayısını ölçün."
+      - "Görev B: Google AI Studio'da aynı istemi üç sıcaklıkta üçer kez çalıştırın."
+      - "Her denemeyi deftere yazın; farkları sayın."
+      - "Bitince Markdown olarak indirin."
+    teslim:
+      - "Beş metnin token sayıları"
+      - "Türkçe vergisi hesabı"
+      - "9 deneme ve farkların sayısı"
+      - "Bir paragraf yorum"
+      - "rapor.md → GitHub: hafta-02/"
+    sure: "Lab 45 dk + paylaşım 10 dk · teslim: gelecek ders"
+    not: |
+      [92] Bireysel çalışma; yan yana oturanlar sonuçlarını karşılaştırabilir.
+
+  - id: lab-defteri
+    tur: interaktif
+    baslik: "Lab Defteri'ni açın"
+    url: "https://istem-muhendisligi-dersi.vercel.app/h02/lab"
+    kisa_url: "istem-muhendisligi-dersi.vercel.app/h02/lab"
+    adimlar:
+      - "Adınızı yazın; görevler sayfada hazır."
+      - "Ölçümleri ve denemeleri doğrudan sayfaya yazın."
+      - "Yazdıklarınız yalnızca bu bilgisayarın tarayıcısında saklanır."
+    sure: "1 dakika"
+
+  - id: gorev-a
+    tur: etkinlik
+    baslik: "Görev A · Token ölçümü"
+    sure: "~15 dakika"
+    kim: "Hangi metin beklediğinizden fazla token tutuyor?"
+    adimlar:
+      - "Lab Defteri'nde her metnin yanındaki “Token Laboratuvarı'nda aç” bağlantısına tıklayın."
+      - "Üç sözlükteki token sayısını deftere yazın."
+      - "Defterin hesapladığı Türkçe vergisine bakın: üç sütun aynı mı?"
+    istem_not: "Metinler Lab Defteri'nde hazır"
+    istem: |
+      1) Öğrencilerimizden gelen soruları cevaplayabilecek bir yapay zekâ asistanı geliştirmek istiyoruz.
+      2) We want to build an AI assistant that can answer the questions coming from our students.
+      3) print('Merhaba dünya')
+      4) 06.10.2026 tarihinde 3,14 TL ödedim. 🙂
+      5) Kendi adınız ve soyadınız
+    not: |
+      [93] Beklenen (o200k): 1 → 26, 2 → 17 (oran ~1,5); cl100k: 36 / 17 (~2,1); Türkçe GPT-2: 14 / 28 (oran tersine, ~0,5). Kod satırı 6 token. Tarih rakamları parça parça bölünür. Emoji genelde 1–2 token; bayrak emojisi 4'e kadar çıkar.
+
+  - id: aistudio
+    tur: liste
+    numarali: true
+    baslik: "Google AI Studio'ya giriş"
+    maddeler:
+      - "aistudio.google.com adresine gidin, Google hesabınızla girin."
+      - "Model olarak Gemma 4 31B'yi seçin."
+      - "Sağdaki ayarlarda “Temperature” kaydırıcısını bulun; “Top P” gelişmiş ayarlarda."
+      - "Her denemeden önce yeni sohbet açın; önceki cevap sonrakini etkilemesin."
+    not: |
+      [108] Model listesi değişebilir; Gemma 4 yoksa sıcaklık ayarı açık, "thinking" özelliği olmayan herhangi bir model olur. Google hesabı olmayan öğrenci yanındakiyle birlikte çalışsın.
+
+  - id: gorev-b
+    tur: etkinlik
+    baslik: "Görev B · Sıcaklık deneyi"
+    sure: "~25 dakika"
+    kim: "Sıcaklık arttıkça cevaplar ne kadar değişiyor?"
+    adimlar:
+      - "İstemi sıcaklık 0 ile üç kez çalıştırın (her seferinde yeni sohbet)."
+      - "Aynısını 1 ve 2 ile yapın; 9 cevabı deftere yazın."
+      - "Her sıcaklıkta kaç farklı cevap çıktığını sayın; sonra top-p'yi 0,3'e çekip bir kez daha deneyin."
+    istem_not: "İstem Lab Defteri'nde hazır"
+    istem: "Isparta'da açılacak bir kafe için tek satırlık, akılda kalıcı bir slogan yaz. Yalnızca sloganı yaz."
+    not: |
+      [110] Beklenen: 0'da üç cevap aynı ya da çok benzer; 1'de farklı ama makul; 2'de bazen tuhaf kelimeler, anlamsızlaşma. Top-p düşükken sıcaklık yüksek olsa bile cevaplar toparlanır.
+
+  # ───────────────────────── KAPANIŞ (15 dk) ─────────────────────────
+
+  - id: sinif-sonuclari
+    tur: tablo
+    bolum: "Kapanış"
+    baslik: "Sınıf sonuçları"
+    basliklar: ["Ölçüm", "Sınıfın en sık sonucu", "Sizi en çok şaşırtan"]
+    genislikler: [4.2, 3.9, 4.0]
+    satirlar:
+      - ["Türkçe / İngilizce token oranı", "", ""]
+      - ["En çok token tutan kısa metin", "", ""]
+      - ["Sıcaklık 0: kaç farklı cevap?", "", ""]
+      - ["Sıcaklık 2: kaç farklı cevap?", "", ""]
+    not: |
+      [137] El kaldırarak ya da 3–4 kişiden sesli alın; tahtaya yazın.
+
+  - id: soruya-donus
+    tur: ifade
+    etiket: "Bugünün sorusuna dönelim"
+    metin: "Türkçe, aynı iş için 1,5 ile 2 kat daha çok token harcıyor."
+    alt: "Neden? Tokenizer sıklığa göre böler ve eğitim metninin çoğu İngilizce. Sonuç: daha yüksek maliyet, pencereye daha az metin. İstem yazarken bunu hesaba katacağız."
+    not: |
+      [145] Hafta 3'e köprü: "İstem yazarken token'ı bilmek neden işinize yarar?" Kısa, net istem hem ucuz hem pencerede yer açar.
+
+  - id: ozet
+    tur: ozet
+    maddeler:
+      - "Model metni token'lara böler; bölünme ek değil sıklık esaslı, Türkçe daha çok token tutar."
+      - "Her token bir vektöre dönüşür; dikkat, token'ların birbirine bakarak anlamı netleştirmesidir."
+      - "Sıradaki token bir olasılık listesinden seçilir; sıcaklık ve top-p bu seçimi ayarlar."
+    not: |
+      [147] Bir öğrenciye okutun.
+
+  - id: cikis-karti
+    tur: ifade
+    etiket: "Çıkış kartı · 1 dakika"
+    metin: "Şeridin beş adımını sırayla yazın."
+    alt: "Altına en çok zorlandığınız adımı işaretleyin."
+    not: |
+      [149] Kartlardan Hafta 3'ün başında en çok işaretlenen adıma 2 dakika ayırın.
+
+  - id: sozluk
+    tur: sozluk
+    terimler:
+      - { tr: "Token", en: "token", tanim: "Modelin işlediği en küçük metin parçası." }
+      - { tr: "Tokenizer", en: "tokenizer", tanim: "Metni token'lara bölen ve numaralandıran araç; her model ailesinin kendine ait." }
+      - { tr: "Token gömme", en: "token embedding", tanim: "Token'ın modelin içindeki sayı listesi (vektör) karşılığı." }
+      - { tr: "Dikkat", en: "attention", tanim: "Token'ların birbirine bakarak anlamı bağlama göre belirlemesi." }
+      - { tr: "Bağlam penceresi", en: "context window", tanim: "Modelin bir seferde görebileceği en fazla token sayısı." }
+      - { tr: "Sıcaklık / top-p", en: "temperature / top-p", tanim: "Sıradaki token seçiminin ne kadar çeşitli olacağını ayarlayan iki parametre." }
+    not: |
+      [151] Vizede bu altı terim tanım sorusu olarak gelebilir.
+
+  - id: odev
+    tur: liste
+    numarali: true
+    baslik: "Ödev ve gelecek hafta"
+    maddeler:
+      - "Lab raporunuzu (rapor.md) GitHub reponuzda hafta-02/ klasörüne koyun. Son tarih: Hafta 3 dersi."
+      - "OpenRouter'da hesap açın (openrouter.ai). Kredi yüklemeyin; Hafta 3'te birlikte anahtar oluşturacağız."
+      - "İsteğe bağlı: 3Blue1Brown, “Transformers, the tech behind LLMs” ve “Attention in transformers” videoları."
+      - "Hafta 3: İstem yazma, OpenRouter API ve düzenli çıktı. Python kurulu olsun."
+    not: |
+      [153] OpenRouter hesabının dersten önce açılması kurulum süresini çok kısaltır. Python kurulumunda sorun yaşayan olursa ders öncesi ofis saatine çağırın.
+
+  - id: kaynaklar
+    tur: kaynak
+    qr: "https://github.com/asimsinan/istem-muhendisligi-dersi"
+    kaynaklar:
+      - { ad: "Transformer Explainer", url: "https://poloclub.github.io/transformer-explainer/", tur: "Polo Club · interaktif", tarih: "derste kullanıldı" }
+      - { ad: "Transformer Gezgini · Türkçe", url: "https://istem-muhendisligi-dersi.vercel.app/transformer/", tur: "Ders sitesi · YTÜ Cosmos GPT-2", tarih: "derste kullanıldı" }
+      - { ad: "Transformer Gezgini · 3B anlatım", url: "https://istem-muhendisligi-dersi.vercel.app/transformer-3b/", tur: "Ders sitesi · adım adım, ASY ile", tarih: "derste kullanıldı" }
+      - { ad: "BPE adım adım", url: "https://istem-muhendisligi-dersi.vercel.app/h02/bpe", tur: "Ders sitesi · kendi paragrafınızla", tarih: "derste kullanıldı" }
+      - { ad: "Transformers, the tech behind LLMs", url: "https://www.youtube.com/watch?v=wjZofJX0v4M", tur: "3Blue1Brown · video", tarih: "isteğe bağlı" }
+      - { ad: "Subword Units: BPE makalesi", url: "https://arxiv.org/abs/1508.07909", tur: "Sennrich vd. · makale", tarih: "2016 · yalnızca özet" }
+      - { ad: "Neural Text Degeneration (top-p)", url: "https://arxiv.org/abs/1904.09751", tur: "Holtzman vd. · makale", tarih: "2020 · ileri okuma" }
+      - { ad: "Tokenization Standards: Turkish as a Benchmark", url: "https://arxiv.org/abs/2502.07057", tur: "Bayram vd. · makale", tarih: "2025 · Türkçe" }
+    not: |
+      [155] Teşekkür edip bitirin.

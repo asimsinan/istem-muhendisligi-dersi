@@ -1,0 +1,17 @@
+import fs from 'fs';
+import { agirliklariAc, ileri } from '../src/llm/tr/TurkceModel';
+import { BaytBPE } from '../src/llm/tr/bpe';
+const j = JSON.parse(fs.readFileSync('public/tokenizer/tokenizer.json', 'utf8'));
+const tok = new BaytBPE(j.model.vocab, j.model.merges);
+const b = fs.readFileSync('cikti/gpt2-tr-3b.bin');
+const { config, t } = agirliklariAc(new Uint8Array(b.buffer, b.byteOffset, b.byteLength));
+const ids = tok.kodla("Türkiye'nin başkenti").map(p => p.id);
+const T = 32;
+let s0 = performance.now();
+const s = ileri({ config, t, tok } as any, ids, T);
+console.log('süre ms', Math.round(performance.now() - s0), 'ids', ids);
+const V = config.vocab_size, o = (s.n - 1) * V;
+const en = [...s.sm.subarray(o, o + V)].map((p, i) => [i, p]).sort((a, b) => b[1] - a[1]).slice(0, 5);
+console.log(en.map(([i, p]) => [tok.coz([i]), p.toFixed(3)]));
+const out: Record<string, number[]> = { res2_11: [...s.bloklar[11].res2], attsm_5: [...s.bloklar[5].attsm], lnf: [...s.lnf], fc_3: [...s.bloklar[3].fc], qkv_0: [...s.bloklar[0].qkv], ln1agg_2: [...s.bloklar[2].ln1agg], attagg_7: [...s.bloklar[7].attagg] };
+fs.writeFileSync('/tmp/claude-0/sp/js3b.json', JSON.stringify(out));

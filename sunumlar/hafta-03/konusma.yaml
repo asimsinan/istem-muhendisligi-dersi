@@ -1,0 +1,483 @@
+# HAFTA 3 — Konuşma metni (hoca için). Biçim: hafta-02/konusma.yaml ile aynı.
+# Sunumun konuşmacı notlarına ve telefon boyutlu hoca kılavuzuna (cikti/hafta-03-hoca.pdf) girer. Öğrenciye gösterilmez.
+
+kapak:
+  soyle: |
+    Günaydın. Bugün bilgisayarlar yine açık; ikinci yarıda Google Colab'da kod yazacağız.
+    Başlığımız: İstem yazma, OpenRouter API ve düzenli çıktı. Şimdiye kadar modellerle hep sohbet penceresinden konuştuk. Bugün aynı modeli bir Python programından çağıracağız ve cevabı bir programın okuyabileceği biçime sokacağız.
+  gecis: |
+    Önce geçen haftanın çıkış kartları.
+
+gecen-hafta:
+  soyle: |
+    Geçen hafta şeridin beş adımını yazdınız ve en zorlandığınızı işaretlediniz. En çok işaretlenen: (kartlardaki adımı söyleyin).
+    (O adımı iki dakikada tekrar anlatın.)
+    Bir de şunu hatırlayalım: Seçim adımındaki sıcaklığı AI Studio'da kaydırıcıyla değiştirdik. Bugün aynı ayarı tek satır kodla vereceğiz.
+  gecis: |
+    Bugünün sorusu.
+
+bugunun-sorusu:
+  soyle: |
+    Bir e-ticaret sitesinde çalışıyorsunuz. 100 müşteri yorumunu modele puanlatacaksınız ve sonuçları bir tabloya yazacaksınız.
+    Soru şu: Model her seferinde yalnızca bir puan döndürsün, başka hiçbir şey dönmesin. Bunu nasıl garanti edersiniz?
+  sor: "Aklınıza gelen ilk yöntem ne?"
+  beklenen: ["“İstemde ‘sadece sayı yaz’ deriz.” Cevabı tartışmayın; derste bunun neden yetmediğini göreceğiz."]
+  gecis: |
+    Önce bugün bildiğimiz yolla deneyelim.
+
+canli-deneme:
+  soyle: |
+    Bu cümleyi sohbet uygulamasına aynen yazıyorum.
+    (Yazın, cevabı gösterin.)
+    Bakın: birkaç paragraf, artılar, eksiler ve bir yerde gömülü bir puan. İnsan için iyi bir cevap. Ama bir program bu metinden puanı nasıl çekecek? “3/5” mi yazmış, “üç” mü, “3 diyebilirim” mi?
+    Bugünün sonunda aynı yorumdan tek bir JSON nesnesi alacağız: duygu, puan, gerekçe. Her seferinde aynı biçimde.
+  gecis: |
+    Haritada neredeyiz?
+
+neredeyiz:
+  soyle: |
+    Hâlâ en içteki katmandayız: İstem. Bu hafta ve gelecek hafta İstem katmanını bitiriyoruz. Bu hafta temel iskelet ve API; gelecek hafta inceltme ve ilk güvenlik uyarısı.
+  gecis: |
+    Bugünün hedefleri.
+
+hedefler:
+  soyle: |
+    Dört hedef, dört bölüm.
+    Bir: System, user, assistant rollerini ve API'nin hafızasız çalıştığını açıklamak.
+    İki: Zero-shot, few-shot ve adım adım düşünmeyi karşılaştırmak.
+    Üç: JSON şemasıyla çıktı istemek ve Python'da doğrulamak.
+    Dört: Tek OpenRouter anahtarıyla iki modeli çağırmak, token ve maliyeti okumak.
+  gecis: |
+    Zamanı şöyle kullanacağız.
+
+bugunun-plani:
+  soyle: |
+    Dört bölüm, sonra mola ve Colab'da lab. Kimsenin bilgisayarına bir şey kurmasına gerek yok; Colab tarayıcıda çalışıyor.
+    Geçen hafta OpenRouter hesabı açmanızı istemiştim. Açmayan varsa şimdi, ilk bölümde açsın.
+  gecis: |
+    Birinci bölüm.
+
+bolum-1:
+  soyle: |
+    Birinci bölüm: İstem, mesajlar ve roller. Önce iyi bir istemin parçalarına bakacağız, sonra bu istemin modele nasıl gittiğine.
+
+istem-parcalari:
+  soyle: |
+    Bir istem altı parçadan oluşabilir: Rol, Görev, Bağlam, Örnekler, Çıktı biçimi, Kısıtlar ve üslup.
+    Bunu ben uydurmadım. OpenAI, Anthropic ve Google'ın istem rehberleri ve istem tekniklerini derleyen büyük bir akademik çalışma farklı adlarla aynı parçaları sayıyor. İnternette CO-STAR gibi kısaltmalar göreceksiniz; hepsi bu çekirdeğin farklı adlandırması.
+    Ekranda yorum puanlayıcımız için her parçanın bir örneği var. Sağdaki sütun önemli: Her istekte aynı kalan şeyler sistem mesajına, her istekte değişen görev ve girdi kullanıcı mesajına gider.
+    Bir uyarı: Bu bir kontrol listesi, sihirli formül değil. Kısa bir soruda yalnızca görev yeter. İstemin iyi olduğunu ise ancak test söyler; lab'da ölçeceğiz.
+  sor: "Hangi parçayı en sık unutuyoruz?"
+  beklenen: ["Genellikle Çıktı biçimi ve Bağlam."]
+  gecis: |
+    Aynı istemi bir dosyaya yazınca nasıl görünüyor?
+
+istem-ayiricili:
+  soyle: |
+    Bu, lab'daki istem dosyasının neredeyse aynısı. İki tür işaret var.
+    Diyez ile başlayan başlıklar Markdown: istemin bölümlerini ayırıyor. Hem model hem siz için okunaklı.
+    Köşeli parantezli etiket XML: Yorumun nerede başlayıp nerede bittiğini kesin gösteriyor. Yorumun içinde “görmezden gel” gibi bir cümle olsa bile, model onun talimat değil girdi olduğunu daha kolay ayırır. Bunun güvenlik tarafını gelecek hafta konuşacağız.
+    Model ikisini de bir program gibi ayrıştırmaz; yalnızca sınır işareti olarak okur.
+  gecis: |
+    Peki hangisini ne zaman kullanalım?
+
+ayiricilar:
+  soyle: |
+    Markdown başlıkları bölümler için. XML etiketleri, içeriğin sınırı kesin olmalıysa: kullanıcının yazdığı metin, bir belge, örnekler.
+    En yaygın düzen ikisi birlikte: bölümler Markdown, değişken içerik XML. Etiket adlarını siz seçersiniz; tutarlı olsun yeter.
+    Kısa, tek cümlelik bir istemde ikisine de gerek yok.
+    Bir not: Eskiden cevabı bir etiketin içine yazdırıp oradan ayıklamak yaygındı. Bugün buna gerek yok; üçüncü bölümde daha iyi bir yolu göreceğiz.
+  gecis: |
+    Şimdi bu mesajların modele nasıl gittiğine bakalım.
+
+tek-metin:
+  soyle: |
+    Hafta 2'yi hatırlayın: Model yalnızca sıradaki token'ı tahmin eder. O hâlde system, user, assistant ayrı kanallar olamaz.
+    Gerçekten de değiller. Mesajlar, bu özel token'larla tek bir metne birleştiriliyor. Bu Gemma'nın şablonu; ilginç olan, Gemma'da ayrı bir system rolü bile yok, sistem metni ilk mesajın başına ekleniyor. Son satır “model” diye açık kalıyor ve model metni oradan devam ettiriyor.
+    Her model ailesinin kendi şablonu var; API bunu sizin yerinize yapıyor.
+  gecis: |
+    Üç rolü tek tek görelim.
+
+roller:
+  soyle: |
+    System: Sizin, yani geliştiricinin yazdığı; rol, bağlam, biçim ve kurallar.
+    User: Kullanıcının ya da programınızın gönderdiği görev ve girdi.
+    Assistant: Modelin cevapları. Ama dikkat: Geçmişi geri gönderirken bu mesajları siz eklersiniz. Hatta modelin hiç söylemediği bir assistant mesajı da yazabilirsiniz; bunu örnek vermek için kullanacağız.
+  gecis: |
+    Bir isteğin yolculuğunu izleyelim.
+
+video-yolculuk:
+  soyle: |
+    (Video oynar.) Python kodu isteği OpenRouter'a gönderiyor; OpenRouter modeli çalıştıran bir sağlayıcı seçiyor; cevap token token geri akıyor.
+    İkinci tura dikkat edin.
+  sor: "İkinci turda girdi token'ı neden büyüdü?"
+  beklenen: ["Çünkü ilk turun tamamı da yeniden gönderildi."]
+  gecis: |
+    Bunun bir adı var.
+
+hafizasiz:
+  soyle: |
+    API hafızasızdır. Model sizi hatırlamaz, önceki isteği hatırlamaz.
+    Sohbet uygulamasında model sizi hatırlıyor gibi görünüyor, çünkü uygulama her mesajınızda tüm geçmişi yeniden gönderiyor. API'de bu iş sizde.
+  gecis: |
+    Bunun maliyeti var.
+
+hafizasiz-tablo:
+  soyle: |
+    Her turda girdi büyüyor. Onuncu turda, ilk mesajınızı onuncu kez gönderiyorsunuz ve onuncu kez ödüyorsunuz.
+    Bizim işimizde, yani 100 yorumu puanlamada, geçmişe hiç gerek yok. Her yorumu ayrı, geçmişsiz bir istek olarak gönderiyoruz. Hem ucuz hem de bir yorumun puanı ötekini etkilemiyor.
+  gecis: |
+    Şimdi koda bakalım.
+
+istek-kodu:
+  soyle: |
+    Lab'daki ilk hücre bu. OpenAI'nin Python kütüphanesini kullanıyoruz ama adresi OpenRouter'a çeviriyoruz. Böylece aynı kod yüzlerce modelle çalışıyor.
+    Anahtar kodda yazmıyor; Colab'ın gizli bilgiler panelinden okunuyor. Birazdan neden önemli olduğunu konuşacağız.
+    Model adı tek satır. Sıcaklık ve en fazla token geçen haftanın ayarları; artık kodda.
+  gecis: |
+    Ne geri geliyor?
+
+cevap-anatomisi:
+  soyle: |
+    Cevap bir JSON nesnesi. Bizi ilgilendiren üç yer var.
+    content: Modelin yazdığı metin. Dikkat edin, hâlâ serbest metin: “Karışık. Puan: 3.” Bunu ayıklamak kırılgan.
+    finish_reason: stop ise model kendisi bitirdi; length ise sizin koyduğunuz sınıra takıldı, cevap yarım.
+    usage: girdi ve çıktı token'ları. Ücret bunlardan hesaplanıyor. Lab'da her istekte toplayacağız.
+  gecis: |
+    Şimdi kendiniz kurun.
+
+atolye:
+  soyle: |
+    İstem Atölyesi'ni açın. Altı parçayı açıp kapatın ve oluşan messages listesini izleyin. Biçim düğmesiyle aynı istemi düz, Markdown ve XML hâlinde görün; token sayısına bakın.
+    Son olarak “Asistan cevabı ekle” ile ikinci turu kurun. Altı dakika.
+  sor: "Markdown ve XML kaç token ekledi? İkinci turda girdi kaç oldu?"
+  beklenen: ["Ayırıcılar birkaç düzine token ekler; ikinci tur girdiyi iki katın üstüne çıkarır."]
+  gecis: |
+    Kısa bir kontrol.
+
+kontrol-roller:
+  soyle: |
+    Bir sohbet botu, üç mesaj önce söylediğiniz adınızı hatırlıyor. Nasıl? El kaldırın.
+    (Cevap slaytı.) Geliştirici geçmişi her istekte yeniden gönderiyor.
+  gecis: |
+    İkinci bölüm.
+
+bolum-2:
+  soyle: |
+    İkinci bölüm: Örnekle öğretmek. İstemin “Örnekler” parçasına yakından bakıyoruz.
+
+zero-few:
+  soyle: |
+    Zero-shot: yalnızca talimat. Few-shot: talimata birkaç çözülmüş örnek eklemek.
+    Yeni bir stajyer düşünün. Ona kural listesi verebilirsiniz ya da birkaç doldurulmuş form gösterebilirsiniz. İkincisinde biçim hakkında kimse soru sormaz.
+    Bugünkü büyük modeller talimatla da iyi iş çıkarıyor. Örneklerin asıl kazancı biçimde ve zor durumlarda: ironi, karışık duygu.
+  gecis: |
+    Videoda görelim.
+
+video-fewshot:
+  soyle: |
+    (Video oynar.) Aynı yorum beş kez soruluyor. Örnek yokken cevaplar farklı biçimlerde geliyor. Örnekler eklendikçe hepsi aynı kalıba oturuyor.
+  gecis: |
+    Lab'daki örnekler şunlar.
+
+ornekler-kod:
+  soyle: |
+    Üç örnek, her duygudan bir tane. Her örnekte bir yorum ve beklenen çıktı.
+    Üçüncüye bakın: “Süper, kılavuz bile eksik çıktı.” Bu ironi. “İroniye dikkat et” demek yerine bir ironi örneği göstermek çoğu zaman daha iyi çalışır.
+    Bu örnekler lab'daki 8 yorumdan farklı. Neden önemli, bir sonraki slayt.
+  gecis: |
+    Örnek seçerken tuzaklar.
+
+ornek-tuzaklari:
+  soyle: |
+    Dört tuzak.
+    Hep aynı etiket: Üç olumlu örnek modeli olumluya iter.
+    Sıra: Son örnek daha çok etkiler; sırayı karıştırın.
+    Fazla benzer örnekler: Hep kısa yorum gösterirseniz uzun yorumda şaşırır.
+    Ve en sinsisi: Test edeceğiniz yorumu örnek olarak koymak. Doğruluk yükselir ama sahte.
+  gecis: |
+    Bir teknik daha: modeli düşündürmek.
+
+adim-adim:
+  soyle: |
+    Adım adım düşünme: Modelden cevaptan önce ara adımlarını yazmasını istemek. Matematik sınavında “işlemi göster” gibi.
+    Çok adımlı işlerde doğruluğu artırıyor. Bedeli: daha çok çıktı token'ı, yani daha çok ücret ve bekleme. Basit bir duygu etiketinde çoğu zaman gerekmez.
+  gecis: |
+    Ama 2026'da bu konuda bir şey değişti.
+
+akil-yuruten:
+  soyle: |
+    Akıl yürüten modeller cevap vermeden önce zaten içeride düşünüyor. Onlara “adım adım düşün” yazmak çoğu zaman gereksiz.
+    Bunun yerine düşünme miktarını bir parametreyle ayarlıyorsunuz: düşük, orta, yüksek.
+    Dikkat: Bu düşünme token'larını görmeseniz de ödüyorsunuz; çıktı token'ı olarak sayılıyor.
+  gecis: |
+    Kısa bir kontrol.
+
+kontrol-fewshot:
+  soyle: |
+    Dört örneğin dördü de olumlu. Ne olur?
+    (Cevap slaytı.) Model belirsiz yorumları da olumluya iter. Örnekler etiket dağılımını da öğretir.
+  gecis: |
+    Üçüncü bölüm: bugünün sorusunun asıl cevabı.
+
+bolum-3:
+  soyle: |
+    Üçüncü bölüm: Düzenli çıktı. Bir programın güvenle okuyabileceği cevap.
+
+json-ver:
+  soyle: |
+    İlk akla gelen: İstemde “bana JSON ver” demek. Çoğu zaman çalışır. Ama 100 yorumda iki üç kez şunlardan biri olur: Cevabın başına “Elbette, işte JSON” eklenir, JSON kod çitine sarılır, bir alan eksik kalır ya da puan “dört” diye yazılır.
+    Programınız tek bir bozuk cevapta durur.
+  sor: "Bunu istemle mi çözeriz, API'yle mi?"
+  beklenen: ["İkisi birden; garanti API'den gelir."]
+  gecis: |
+    Üç yolu karşılaştıralım.
+
+json-modlari:
+  soyle: |
+    İstemde rica etmek hiçbir şeyi garanti etmez.
+    json_object modu geçerli bir JSON garanti eder ama hangi alanların geleceğini garanti etmez.
+    json_schema ve strict: Şemadaki alanlar ve izin verilen değerler garanti.
+    Ama en alttaki satır en önemlisi: Şema biçimi garanti eder, doğruluğu değil. Model ironik bir yorumu “olumlu” etiketleyebilir; “olumlu” geçerli bir değer. Doğruluğu ölçmemiz gerekiyor.
+  gecis: |
+    Peki şema bunu nasıl garanti ediyor?
+
+video-kisitli:
+  soyle: |
+    (Video oynar.) Geçen haftanın aday çubuklarını tanıdınız. Şema “duygu” alanında yalnızca üç değere izin veriyor; öteki adaylar sönüyor.
+  gecis: |
+    Adı kısıtlı çözümleme.
+
+kisitli-cozumleme:
+  soyle: |
+    Her token seçiminde, şemaya göre o noktada gelemeyecek token'ların olasılığı sıfırlanıyor. Model geçersiz bir token'ı seçemiyor.
+    Geçen hafta top-k aday listesini olasılığa göre kesiyordu. Burada listeyi şema kesiyor. Bu yüzden strict şema bir rica değil, garanti.
+  gecis: |
+    Şemayı Python'da nasıl yazıyoruz?
+
+pydantic-sema:
+  soyle: |
+    JSON şemasını elle yazmak zahmetli. Pydantic ile bir Python sınıfı yazıyoruz; şema kendiliğinden oluşuyor.
+    Literal: Bu alan yalnızca bu değerleri alabilir. extra forbid: Şemada olmayan alan gelemez; strict mod bunu istiyor.
+    Bir incelik: gerekçe alanı başta. Model alanları sırayla yazdığı için önce gerekçeyi, sonra puanı yazıyor. Küçük bir adım adım düşünme.
+  gecis: |
+    İstek ve doğrulama.
+
+sema-istek:
+  soyle: |
+    response_format ile şemayı gönderiyoruz, strict açık.
+    require_parameters önemli: OpenRouter'a “bu isteği yalnızca şemayı destekleyen bir sağlayıcıya gönder” diyor. Olmazsa şemayı yok sayan bir sağlayıcıya da gidebilir.
+    Gelen metni yine de Pydantic ile doğruluyoruz. Uymazsa hata verir; lab'da bu hataları sayacağız.
+  gecis: |
+    Bir uyarı.
+
+her-model-desteklemez:
+  soyle: |
+    Her model yapılandırılmış çıktıyı desteklemez. OpenRouter'ın model listesinde bir filtre var; destekleyenleri gösteriyor.
+    OpenRouter bozuk JSON'u bazen kendisi onarıyor; buna güvenmeyin.
+    Her durumda kural aynı: Doğrulama son savunma hattıdır.
+    Lab'da biri destekleyen, biri desteklemeyen iki ücretsiz modeli karşılaştıracağız.
+  gecis: |
+    Kendiniz deneyin.
+
+json-denetci:
+  soyle: |
+    JSON Şema Denetçisi'ni açın. Lab şeması hazır. Örnek cevapları yapıştırın; şemaya uymayan alanlar kırmızı yanıyor.
+    Özellikle şunu deneyin: puan 4 ile puan tırnak içinde “4”. Dört dakika.
+  sor: "Tırnak içindeki 4 neden reddedildi?"
+  beklenen: ["Çünkü o bir metin, sayı değil."]
+  gecis: |
+    Kontrol.
+
+kontrol-json:
+  soyle: |
+    Strict şema kullandınız. Hangisi hâlâ olabilir?
+    (Cevap slaytı.) İronik bir yorumun olumlu etiketlenmesi. Şema biçimi garanti eder, doğruluğu değil.
+  gecis: |
+    Son bölüm.
+
+bolum-4:
+  soyle: |
+    Dördüncü bölüm: OpenRouter, maliyet ve düzen. Anahtarı ve istemi nasıl güvende ve düzenli tutarız?
+
+openrouter:
+  soyle: |
+    OpenRouter bir aracı: Yüzlerce modele tek anahtar ve tek adresle ulaşıyorsunuz. Uçak bileti karşılaştırma sitesi gibi; aramayı tek yerden yaparsınız, uçuşu farklı havayolları yapar.
+    Model adları sağlayıcı eğik çizgi model biçiminde. Sonunda “:free” olanlar ücretsiz.
+    openrouter/free diye bir ad da var: o an uygun bir ücretsiz modeli seçiyor. Denemek için pratik ama sonuç hangi modelin seçildiğine göre değişir; lab'da sabit model kullanacağız.
+  gecis: |
+    Ücretsiz modellerin sınırları var.
+
+limitler:
+  soyle: |
+    Ücretsiz modellerde dakikada 20 istek. Günde ise 50 istek; en az 10 dolar kredi aldıysanız 1000.
+    Lab yaklaşık 35 istek, yani sınırın altında. Kodda istekler arasında 3 saniye bekliyoruz ki dakikada 20'yi aşmayalım. Kredi yüklemeniz gerekmiyor.
+  gecis: |
+    Ücretli modellerde fiyat nasıl okunur?
+
+fiyat:
+  soyle: |
+    Fiyat milyon token başına, girdi ve çıktı için ayrı. Çıktı genelde daha pahalı.
+    Örnek hesap ekranda: 100 yorum, bir kuruşun çok altında. Ama milyon yorumda, uzun istemlerle ve güçlü modelle iş değişir.
+    Hafta 2'yi hatırlayın: Türkçe aynı iş için daha çok token, yani daha çok ücret.
+  gecis: |
+    Bir model hata verirse ne olur?
+
+yedek-model:
+  soyle: |
+    models listesiyle yedek modeller veriyorsunuz. İlki yoğunluk ya da limit yüzünden hata verirse sıradaki deneniyor. Hangisinin cevap verdiğini cevap.model söylüyor.
+    Bir adım ötesi yönlendirme: Kolay işi ucuz modele, zor işi güçlü modele göndermek. Birazdan hesaplayacağız.
+  gecis: |
+    Bir maliyet hilesi daha.
+
+video-onbellek:
+  soyle: |
+    (Video oynar.) Aynı sistem istemiyle ikinci istek geliyor; o kısım önbellekten okunuyor ve maliyet çubuğu küçülüyor.
+  gecis: |
+    Adı önek önbellekleme.
+
+onbellek:
+  soyle: |
+    100 yorumda sistem mesajı ve örnekler her istekte aynı; yalnızca yorum değişiyor. Sağlayıcı bu aynı başlangıcı önbellekten çok daha ucuza okuyor.
+    Pratik kural: Sabit kısım başa, değişen kısım sona. Değişen bir şeyi, örneğin tarihi, istemin en başına koyarsanız önbellek hiç çalışmaz.
+  gecis: |
+    Şimdi en önemli konu: anahtar.
+
+anahtar-guvenligi:
+  soyle: |
+    API anahtarı bir kredi kartı gibi. Kodda, not defterinde ya da repoda asla yazılı durmaz.
+    Colab'da soldaki anahtar simgeli Secrets paneli var; anahtarı oraya koyuyorsunuz, not defterini paylaşsanız bile anahtar gitmiyor.
+    Kendi projelerinizde .env dosyası ve onu .gitignore'a eklemek.
+    Herkese açık repolardaki anahtarları botlar dakikalar içinde buluyor. Sızdıysa OpenRouter'da hemen iptal edin.
+  gecis: |
+    Son konu: İstem de koddur.
+
+surumleme:
+  soyle: |
+    İstemi kodun içine gömmeyin; ayrı bir dosyada tutun: prompts/v1.txt. Çalıştırın, sonuçları yazın, bir şey değiştirip v2 yapın, Git'e işleyin.
+    Bir istemi daha iyi yaptığınızı ancak aynı test setiyle ölçerek söyleyebilirsiniz. Hangi sürümün hangi sonucu verdiğini Git hatırlar.
+  gecis: |
+    Yönlendirmenin ne kadar kazandırdığına bakalım.
+
+yonlendirme-hesap:
+  soyle: |
+    Yönlendirme Hesaplayıcı'da görev karışımını seçin: Diyelim yüzde seksen kolay sınıflandırma, yüzde yirmi zor akıl yürütme. Hepsini güçlü modele göndermekle yönlendirmeyi karşılaştırın.
+  sor: "Kaç kat fark çıktı?"
+  beklenen: ["Varsayılan ayarlarda yaklaşık 3 kat; kolay işin payı düştükçe kazanç azalır."]
+  gecis: |
+    Son kontrol.
+
+kontrol-maliyet:
+  soyle: |
+    API anahtarınızı nerede saklamalısınız?
+    (Cevap slaytı.) Colab'da Secrets, kendi projenizde .gitignore'daki .env dosyası.
+  gecis: |
+    On dakika mola.
+
+mola:
+  soyle: |
+    On dakika mola. Döndüğünüzde OpenRouter'a giriş yapmış olun; lab'a başlıyoruz.
+
+lab:
+  soyle: |
+    Lab: Yorum puanlayıcı. 8 Türkçe ürün yorumunu iki istemle ve iki modelle puanlatacaksınız. Doğruluğu ve geçersiz cevap sayısını ölçeceksiniz.
+    Beş adım var; her adımın süresi slaytında. Bireysel çalışıyorsunuz ama yanınızdakiyle sonuç karşılaştırabilirsiniz.
+  gecis: |
+    Not defterini açalım.
+
+colab-ac:
+  soyle: |
+    QR'ı okutun ya da repodaki “Open in Colab” bağlantısına tıklayın. Önce Drive'a bir kopya kaydedin; yoksa değişiklikleriniz kaybolabilir.
+    Colab bir uyarı gösterecek: “Bu not defteri Google tarafından yazılmadı.” Yine de çalıştır deyin.
+  gecis: |
+    Adım bir: kurulum.
+
+kurulum:
+  soyle: |
+    OpenRouter'da Keys bölümünden yeni bir anahtar oluşturun. Anahtar yalnızca bir kez gösteriliyor, kopyalayın.
+    Colab'da soldaki anahtar simgesi, Secrets. Adı tam olarak OPENROUTER_API_KEY. Notebook access'i açın.
+    Sonra kurulum ve kontrol hücrelerini çalıştırın. Ekranda bir cevap, model adı ve token sayıları görmelisiniz.
+    (Sınıfı dolaşın. En sık hata: secret adı yanlış ya da notebook access kapalı.)
+  gecis: |
+    Adım iki.
+
+gorev-1:
+  soyle: |
+    Önce örneksiz istemle 8 yorumu puanlatın; not defteri doğruluğu kendisi hesaplıyor. Sonra üç örnekli istemle tekrar. Not defteri sonuçları biriktiriyor; sonunda sonuclar.md'ye kendisi yazacak.
+    Hangi yorumda hâlâ yanıldığına bakın.
+  gecis: |
+    Adım üç.
+
+gorev-2:
+  soyle: |
+    Önceki iki tablonun altındaki sayıya bakın: Kaç cevap doğrudan JSON olarak okunamadı? Sonra şemalı hücreyi çalıştırın ve tekrar sayın.
+  sor: "Şemayla kaç geçersiz cevap çıktı?"
+  beklenen: ["Sıfır. Değilse require_parameters kapalı ya da model desteklemiyor."]
+  gecis: |
+    Adım dört.
+
+gorev-3:
+  soyle: |
+    Aynı kod, yalnızca model adı değişiyor. İkinci model strict şemayı desteklemiyor: İstek önce reddedilir, not defteri require_parameters'ı kapatıp tekrar dener. Ne olduğuna bakın. Sonra sonuç tablosu hücresini çalıştırın.
+    429 hatası alan bir dakika beklesin; bu dakikalık sınır.
+  gecis: |
+    Son adım: teslim.
+
+teslim:
+  soyle: |
+    Önce kontrol: Not defterinizde “sk-or-” ile başlayan bir metin var mı? Olmamalı.
+    Sonra Dosya menüsünden GitHub'a kopya kaydedin; reponuzda hafta-03/lab.ipynb. İstem dosyalarını ve sonuclar.md'yi indirip aynı klasöre yükleyin.
+    Yetişmeyen evde tamamlasın; teslim gelecek ders.
+  gecis: |
+    Sonuçlarınızı toplayalım.
+
+sinif-sonuclari:
+  soyle: |
+    (Tahtaya yazın.) Zero-shot doğruluğunuz kaç? Few-shot? Şemasız kaç geçersiz cevap? Şemayla?
+    En çok hangi yorumda yanıldı?
+  beklenen: ["Genellikle ironik yorum (3) ve ‘çizik çıktı ama memnunum’ (7)."]
+  gecis: |
+    Bugünün sorusuna dönelim.
+
+soruya-donus:
+  soyle: |
+    100 yorum, her seferinde yalnızca bir puan. Cevap katmanlı: Rol ve kısıtlar sistem mesajında, örnekler kalıbı kilitliyor, strict JSON şeması biçimi garanti ediyor, Pydantic doğruluyor.
+    Ama biçim garantisi doğruluk garantisi değil. Etiketin doğru olduğunu ancak etiketli bir test setiyle ölçerek bilirsiniz. Bugün 8 yorumla yaptığınız tam olarak buydu.
+  gecis: |
+    Üç maddede özet.
+
+ozet:
+  soyle: |
+    (Bir öğrenciye okutun.)
+  gecis: |
+    Bu haftanın terimleri.
+
+sozluk:
+  soyle: |
+    Altı terim: sistem mesajı, hafızasız, few-shot, yapılandırılmış çıktı, kısıtlı çözümleme, önek önbellekleme. Vizede tanım sorusu olarak gelebilir.
+  gecis: |
+    Ödev.
+
+odev:
+  soyle: |
+    Lab'ı teslim edin. Sonra isteminizde tek bir değişiklik yapın, v3 olarak kaydedin, aynı 8 yorumla ölçün ve Git'e işleyin. Tek değişiklik; yoksa neyin işe yaradığını bilemezsiniz.
+    Gelecek hafta için: Lakera Agent Breaker'da ilk iki seviyeyi deneyin. Bir modeli kurallarını çiğnemeye ikna etmeye çalışacaksınız; nasıl yaptığınızı not alın. Gelecek haftanın güvenlik konusu buradan başlayacak.
+  gecis: |
+    Kaynaklar.
+
+kaynaklar:
+  soyle: |
+    OpenRouter belgeleri, büyük sağlayıcıların istem rehberleri ve üç makale. QR ders reposuna gidiyor. Teşekkürler.
+
+_ders:
+  hazirlik:
+    - "Hafta 2 çıkış kartlarını okuyun; en çok işaretlenen şerit adımını belirleyin (slayt {gecen-hafta})."
+    - "OpenRouter ücretsiz model listesini ve yapılandırılmış çıktı desteğini kontrol edin (openrouter.ai/models, “structured outputs” filtresi). nemotron-3-super:free ve gemma-4-31b-it:free değiştiyse slayt {istek-kodu}, {gorev-3}, {yedek-model} ve not defterini güncelleyin."
+    - "Limit tablosunu doğrulayın (openrouter.ai/docs/api/reference/limits); değiştiyse slayt {limitler}."
+    - "hafta-03/lab.ipynb'yi ücretsiz bir anahtarla Colab'da baştan sona çalıştırın; istek sayısını ölçün. “GitHub'a kopya kaydet” adımını bir kez deneyin."
+    - "Canlı deneme için sohbet uygulamasını açık tutun (slayt {canli-deneme})."
+    - "İstem Atölyesi (/h03/atolye), JSON Şema Denetçisi (/h03/json) ve Yönlendirme Hesaplayıcı (/h03/yonlendirme) yayında mı? V3.3 fiyat tablosunu güncelleyin."
+    - "Videoların kendiliğinden başladığını kontrol edin (slayt {video-yolculuk}, {video-fewshot}, {video-kisitli}, {video-onbellek})."
+    - "Çıkış kartı yok bu hafta; sınıf sonuçları tablosu için tahta kalemi."
+  gizli:
+    - "8 yorumun doğru etiketleri: 1 olumlu/5 · 2 karışık/3 · 3 olumsuz/1 (ironi) · 4 olumsuz/1 · 5 karışık/3 · 6 olumlu/4 · 7 olumlu/4 · 8 olumlu/4."

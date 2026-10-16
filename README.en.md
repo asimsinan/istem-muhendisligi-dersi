@@ -6,7 +6,7 @@
 
 ### From Prompt to Context and Loop Engineering
 
-**Version:** 3.5 · **Last updated:** July 2026  
+**Version:** 3.6 · **Last updated:** October 2026  
 **Status:** Draft — will be updated as the field evolves.
 
 Artificial intelligence tools are no longer just a curiosity; they have become part of the daily workflow in many professions. However, working productively with these tools requires far more than "asking good questions": systematically designing what information the model receives, which tools it can use, and when the process should stop is an engineering skill. This course is designed to build that skill from the ground up, through hands-on practice. [📺 Course introduction video](https://youtu.be/NW00MA3qW-E) (the video may be from an older version; the current framework is defined in this document).
@@ -192,6 +192,16 @@ Assessment consists of three core components. Each component aims to measure a d
 
 Homework grades do not mix into the midterm. Homework examples include "compare three different prompts," "build a Q&A system with 3 PDFs," and "write an agent with at most 5 steps and 5 tests."
 
+### Rules for using AI
+
+Because this course teaches how to work with AI tools, you may use them freely in assignments and the project. The rules are:
+
+1. **Using AI is allowed;** this course is about exactly that.
+2. **Say that you used it:** State which tool you used and for what in the short note with your submission.
+3. **You must be able to explain every line you submit.** This will be checked in the midterm and the project presentation.
+4. **Models can make things up;** verifying the output is your responsibility.
+5. **API keys and personal data** never go into a prompt or a repository.
+
 ### Final project (MVP) — rules
 
 The final project announcement will be made **after Week 8**; submission deadline will be in **Weeks 13–14**. The following components are required in every project:
@@ -221,11 +231,11 @@ Optional bonus items: skill file, ready MCP tool integration, compaction experim
 
 - The relationship between artificial intelligence, machine learning, and generative AI will be discussed (focus in this course: **text**).
 - The difference between discriminative models (classify) and generative models (produce new content) will be examined.
-- Current model families such as GPT, Claude, Gemini, and LLaMA will be introduced.
+- Current model families will be introduced: GPT (OpenAI), Claude (Anthropic), Gemini and the open-weight Gemma (Google), Qwen (Alibaba), DeepSeek, and Llama (Meta). The difference between closed and open-weight models will be discussed. *(Examples as of October 2026: GPT-6, Claude Fable 5 and Opus/Sonnet 5.5, Gemini 4, Gemma 4, Qwen 3.8, DeepSeek V4, Llama 4. Model names change every few months; for the current list see [OpenRouter models](https://openrouter.ai/models).)*
 - A very brief introduction to the Transformer architecture will be given.
 - **Conceptual:** The Prompt → Context → Harness → Loop map will be presented with the examples above.
 
-**Required:** You are expected to try 5 tasks with two different chat tools and write a short note about your observations.
+**Required:** In class, working in pairs on your phones, you try 5 tasks in two different chat tools; for each task you first predict, then try, then compare. Observations are recorded on the [Observation Notebook](https://istem-muhendisligi-dersi.vercel.app/h01/gozlem) page and submitted as `gozlem.md` to the `hafta-01/` folder of your course repository on GitHub by the next class.
 
 ---
 

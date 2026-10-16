@@ -1,0 +1,82 @@
+{
+ "what-is-transformer": {
+  "title": "What is a Transformer?",
+  "content": "<p>The <strong>Transformer</strong> is the architecture behind models like ChatGPT and Gemini; it was introduced in 2017. On this page, OpenAI's original <strong>GPT-2</strong> (small, 124 million parameters) runs in your browser. It is tiny compared with today's chat models, but ideal for seeing the fundamentals. A Turkish version of this page, running a Turkish GPT-2, is one click away (TR at the top).</p>"
+ },
+ "how-transformers-work": {
+  "title": "How does a Transformer work?",
+  "content": "<p>A Transformer is not magic; it builds text step by step, each time asking the question:</p>\n\t<blockquote class=\"question\">\n\t\t\"What is the most likely next word after this text?\"\n\t</blockquote>\n\t<p>Here we look at how a trained model generates text. Type your own sentence or pick an example, then press <strong>Generate</strong>. If the model has not been downloaded yet, try another <strong>Example</strong>.</p>"
+ },
+ "transformer-architecture": {
+  "title": "Transformer architecture",
+  "content": "<p>A Transformer has three main parts:</p><div class=\"numbered-list\"><div class=\"numbered-item\"><span class=\"number-circle\">1</span><div class=\"item-content\"><strong>Embedding</strong> turns text into numbers.</div></div><div class=\"numbered-item\"><span class=\"number-circle\">2</span><div class=\"item-content\"><strong>Transformer blocks</strong> mix information with self-attention and refine it with an MLP.</div></div><div class=\"numbered-item\"><span class=\"number-circle\">3</span><div class=\"item-content\"><strong>Probabilities</strong> determine how likely each possible next token is.</div></div></div>"
+ },
+ "embedding": {
+  "title": "Embedding",
+  "content": "<p>Before using text, a Transformer splits it into small pieces and represents each piece with a list of numbers (a vector). This process is called <strong>embedding</strong>; the word describes both the process and the resulting vector.</p><p>In this tool every vector appears as a rectangle; hover over it to see its size.</p>"
+ },
+ "token-embedding": {
+  "title": "Token embedding",
+  "content": "<p><strong>Tokenization</strong> splits text into tokens: words or pieces of words. GPT-2's vocabulary has 50,257 tokens, each with a number (ID); common words such as \"capital\" or \"France\" are usually a single piece.</p><p>In the <strong>token embedding</strong> step, each token is matched with a 768-number vector from a large table. These vectors are learned in training.</p>"
+ },
+ "positional-encoding": {
+  "title": "Positional encoding",
+  "content": "<p>Word order matters in language. <strong>Positional encoding</strong> adds information about each token's place in the sentence.</p><p>GPT-2 does this by adding a learned position vector to the token's vector. Many newer models add no vector at all: <strong>RoPE</strong> (rotary position embedding) rotates the Query and Key vectors by an angle that depends on the token's position during attention, so the score between two tokens depends on their distance. Either way, the goal is to help the model understand the order of the text.</p>"
+ },
+ "blocks": {
+  "title": "Repeated Transformer blocks",
+  "content": "<p>The <strong>Transformer block</strong> is the model's main processing unit. It has two parts:</p><ul><li><strong>Multi-head self-attention</strong>: lets tokens share information with each other</li><li><strong>MLP</strong>: refines the details of each token</li></ul><p>Models stack many of these blocks; token representations get richer as they pass through. GPT-2 small has 12 blocks.</p>"
+ },
+ "self-attention": {
+  "title": "Multi-head self-attention",
+  "content": "<p><strong>Self-attention</strong> lets the model decide which parts of the input matter most for each token. This way it captures relationships in meaning even between words that are far apart.</p><p>In its <strong>multi-head</strong> form, the model runs several attention operations in parallel; each focuses on different patterns in the text.</p>"
+ },
+ "qkv": {
+  "title": "Query, Key, Value",
+  "content": "<p>For self-attention, each token's vector is transformed into <span class=\"highlight\">three new vectors</span>: <span class=\"blue\">Query</span>, <span class=\"red\">Key</span> and <span class=\"green\">Value</span>. This is done by applying different weights and biases to each token vector; these parameters are learned in training.</p>\n<p>Then the <span class=\"blue\">Queries</span> are compared with the <span class=\"red\">Keys</span> to measure relevance; this relevance is used to weight the <span class=\"green\">Values</span>.</p>"
+ },
+ "multi-head": {
+  "title": "Multi-head structure",
+  "content": "<p>After creating the <span class=\"blue\">Q</span>, <span class=\"red\">K</span> and <span class=\"green\">V</span> vectors, the model splits them into several <strong>heads</strong> (12 in GPT-2 small). Each head works with its own smaller set of <span class=\"blue\">Q</span>/<span class=\"red\">K</span>/<span class=\"green\">V</span> and focuses on different patterns in the text: grammar, meaning, or links between distant words.</p><p>Multiple heads let the model learn many kinds of relationships in parallel.</p>"
+ },
+ "masked-self-attention": {
+  "title": "Masked self-attention",
+  "content": "<p>In each head, the model decides how much each token should focus on the others:</p><ul><li><strong>Dot product</strong>: matching numbers of the <span class=\"blue\">Query</span> and <span class=\"red\">Key</span> vectors are multiplied and added up; the results are the <span class=\"purple\">attention scores</span>.</li><li><strong>Mask</strong>: future tokens are hidden so the model cannot peek ahead and cheat.</li><li><strong>Softmax</strong>: scores are turned into probabilities; each row adds up to 1 and shows how much focus goes to earlier tokens.</li></ul>"
+ },
+ "output-concatenation": {
+  "title": "Attention output and concatenation",
+  "content": "<p>Each head produces its own attention output by <span class=\"highlight\">multiplying the <span class=\"purple\">attention scores</span> by the <span class=\"green\">Value</span> vectors</span>: a refined token representation that takes context into account.</p><p>GPT-2 small has 12 such outputs; they are concatenated side by side into a single vector of the original size (768 numbers).</p>"
+ },
+ "mlp": {
+  "title": "MLP (multi-layer perceptron)",
+  "content": "<p>The attention output passes through an <strong>MLP</strong> to refine the token representations. A linear layer changes the vector's values and size with learned weights and biases; then a non-linear activation decides how much of each value passes through.</p><p>There are many kinds of activation; GPT-2 uses <strong>GELU</strong>. GELU lets small values through partially and large values fully, so both subtle and strong patterns are captured.</p>"
+ },
+ "output-logit": {
+  "title": "Output logits",
+  "content": "<p>After all the Transformer blocks, the last token's vector, now enriched with the context of every earlier token, is multiplied by learned weights in a final layer.</p><p>The results are numbers called <strong>logits</strong>, one for each token in the vocabulary (50,257 in GPT-2). Each is a raw score for how likely that token is to come next.</p>"
+ },
+ "output-probabilities": {
+  "title": "Probabilities",
+  "content": "<p>Logits are only raw scores. To make them easier to interpret they are turned into <strong>probabilities</strong> between 0 and 1 that add up to 1. This shows how likely each token is to be the next word.</p><p>Instead of always picking the most likely token, different sampling strategies can be used to balance safety and creativity in the generated text.</p>"
+ },
+ "temperature": {
+  "title": "Temperature",
+  "content": "<p><strong>Temperature</strong> scales the logits before they are turned into probabilities. A <strong>low temperature</strong> (e.g. 0.2) makes large logits even larger and small ones smaller; the top-scoring tokens stand out and choices become <strong>more predictable</strong>. A <strong>high temperature</strong> (e.g. 1.0 and above) flattens the differences; less likely tokens join the race and the output becomes <strong>more creative</strong>.</p>"
+ },
+ "sampling": {
+  "title": "Sampling strategy",
+  "content": "<p>Finally, a strategy is needed to pick the next token. Common ones: greedy search always picks the most likely. <strong>Top-k</strong> keeps only the k most likely tokens. <strong>Top-p</strong> keeps the smallest set whose total probability is at least p, ruling out unlikely tokens from the start.</p><p>Then softmax turns the remaining logits into probabilities and a token is drawn at random from the allowed set.</p>"
+ },
+ "residual": {
+  "title": "Residual connection",
+  "content": "<p>Transformers have helper features that improve performance. For example, the <strong>residual connection</strong> adds a layer's input to its output, so information is not lost across many blocks. GPT-2 uses it twice in every block, which helps deep stacks train well.</p>"
+ },
+ "layer-normalization": {
+  "title": "Layer normalization",
+  "content": "<p><strong>Layer normalization</strong> keeps the mean and variance of the input numbers in balance, making both training and use more stable. It makes the model less sensitive to its initial weights and helps it learn better. In GPT-2 it is applied before self-attention, before the MLP, and once more before the final output.</p>"
+ },
+ "dropout": {
+  "title": "Dropout",
+  "content": "<p>During training, <strong>dropout</strong> randomly switches off some connections between numbers, so the model does not memorize specific patterns (overfitting) and learns more general features. GPT-2 uses it; newer large models trained on huge data often do not. During use (inference) dropout is turned off.</p>"
+ }
+}

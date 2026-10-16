@@ -1,0 +1,577 @@
+# HAFTA 2 — Konuşma metni (hoca için). Biçim: hafta-01/konusma.yaml ile aynı.
+# Bu dosya sunumun konuşmacı notlarına ve telefon boyutlu hoca kılavuzuna (cikti/hafta-02-hoca.pdf) girer. Öğrenciye gösterilmez.
+
+kapak:
+  soyle: |
+    Günaydın. Bu hafta bilgisayarlarınızı açık tutun; dersin ikinci yarısında onlarla çalışacağız.
+    Bugünün başlığı: Model kabaca nasıl çalışır? Geçen hafta ChatGPT gibi araçların ne olduğunu ve dersin haritasını gördük. Bugün kaputu açıyoruz: Siz bir istem yazdığınızda modelin içinde ne oluyor ve cevap nasıl ortaya çıkıyor?
+    Matematiğe girmeyeceğiz. Amacım, bu dönem istem yazarken, bağlam tasarlarken ve maliyet hesaplarken kafanızda doğru bir resim olması.
+  gecis: |
+    Başlamadan önce geçen haftanın çıkış kartlarına bakalım.
+
+gecen-hafta:
+  soyle: |
+    Geçen hafta çıkarken bıraktığınız kartları okudum. En çok karışan konu şuydu: (kartlarda en sık geçen konuyu söyleyin).
+    (Konuyu iki dakikada tekrar açıklayın. Sık çıkan iki örnek:)
+    (Eğer “uygulama ile model farkı” ise:) ChatGPT bir ürün, GPT ise onun içindeki model. Aynı model farklı ürünlerde, farklı ayarlarla çalışabilir.
+    (Eğer “aynı soruya neden farklı cevap” ise:) Bunun tam cevabı bugün. Dersin sonunda “seçim” adımını gördüğünüzde netleşecek.
+  gecis: |
+    Şimdi bugünün sorusu.
+
+bugunun-sorusu:
+  soyle: |
+    Ekranda aynı anlamı taşıyan iki cümle var. Biri Türkçe: “Öğrencilerimizden gelen soruları cevaplayabilecek bir yapay zekâ asistanı geliştirmek istiyoruz.” Diğeri bunun İngilizcesi.
+    Bir dil modeli metni harf harf ya da kelime kelime okumaz; “token” denen parçalar hâlinde okur. Ve bu dünyada ücret de token başına ödenir.
+    Soru şu: Türkçe cümle, İngilizcesine göre kaç kat token tutar?
+  gecis: |
+    Tahmininizi oylayalım.
+
+oylama-kac-kat:
+  soyle: |
+    Dört seçenek: Aynı, yaklaşık 1,5 kat, yaklaşık 2 kat, 3 kat veya daha fazla. El kaldırın. Aynı diyenler? 1,5 kat? 2 kat? 3 ve üstü?
+    (Sayıları söyleyin.) Cevabı birinci bölümde ölçerek göreceğiz.
+  gecis: |
+    Önce bugün haritanın neresinde olduğumuza bakalım.
+
+neredeyiz:
+  soyle: |
+    Hâlâ en içteki katmandayız: İstem. Ama bugün istemi yazmayı değil, yazdığınız istemin modelin içinde neye dönüştüğünü konuşacağız. İyi istem yazabilmek için modelin onu nasıl “okuduğunu” bilmek gerekiyor.
+  gecis: |
+    Bugünün hedefleri.
+
+hedefler:
+  soyle: |
+    Dört hedefimiz var, her biri bir bölüm.
+    Bir: Bir metnin token'lara nasıl bölündüğünü göstermek ve token sayısının neden önemli olduğunu açıklamak.
+    İki: Token'ın bir sayı listesine, yani vektöre dönüşmesini ve sıra bilgisinin rolünü anlatmak.
+    Üç: Dikkat mekanizmasını bir örnek cümle üzerinden açıklamak.
+    Dört: Sıcaklık ve top-p'nin çıktıyı nasıl değiştirdiğini deneyerek göstermek.
+  gecis: |
+    Zamanı şöyle kullanacağız.
+
+bugunun-plani:
+  soyle: |
+    Dört kısa bölüm: Token, Vektör, Dikkat, Seçim. Her birinde bir animasyon ya da canlı deneme var. Sonra on dakika mola ve bilgisayarla laboratuvar: token ölçümü ve sıcaklık deneyi.
+    Bir hatırlatma: Gelecek hafta API ile çalışacağız. Bu haftanın ödevinde OpenRouter'da hesap açmanızı isteyeceğim.
+  gecis: |
+    Bugünün tamamını tek bir şeritte özetleyeyim.
+
+serit:
+  soyle: |
+    (Her tıklamada bir kutu gelir.)
+    Birinci kutu: Metin. Sizin yazdığınız istem.
+    İkinci: Token. Model metni parçalara böler.
+    Üçüncü: Vektör. Her parça uzun bir sayı listesine dönüşür. Model kelime bilmez, sayı bilir.
+    Dördüncü: Dikkat. Parçalar birbirine bakar; her biri, anlamını çevresindekilere göre netleştirir.
+    Beşinci: Seçim. Model sıradaki parça için bir olasılık listesi çıkarır ve birini seçer.
+    Ve en önemlisi: Model bu şeridi her yeni token için baştan sona tekrar eder. Ekranda kelimelerin tek tek akmasının nedeni bu.
+    Her bölümün başında bu şeridi göreceksiniz; o bölümün kutusu kırmızı olacak.
+  gecis: |
+    İlk kutuyla başlıyoruz: Token.
+
+bolum-1:
+  soyle: |
+    Birinci bölüm: Token. Model metni nasıl parçalara böler? Ve Türkçe neden daha pahalı?
+  gecis: |
+    Şeritte ikinci kutudayız.
+
+serit-token:
+  soyle: |
+    Metin girdi; ilk iş onu parçalamak. Model metni harf harf ya da kelime kelime değil, parça parça okur.
+  gecis: |
+    Bir tahminle başlayalım.
+
+kelime-tahmin:
+  soyle: |
+    GPT'nin tokenizer'ı, yani metni parçalayan aracı, “öğrencilerimizden” kelimesini kaç parçaya böler?
+    Seçenekler: Tek kelime olarak 1; öğrenci, ler, imizden diye 3; her ek ayrı 5; ya da 7. El kaldırın.
+    (Cevap slaytına geçin.)
+    Cevap 7: ö, ğ, r, enc, iler, imiz, den. Dikkat edin: “öğrenci” diye bir parça yok. İlk üç parça tek harf. Bölünme Türkçenin eklerine göre değil. Peki neye göre? Birazdan göreceğiz.
+  sor: |
+    Kaç parça?
+  beklenen:
+    - "Çoğunluk 3 ya da 5 der: eklere göre bölündüğünü düşünür"
+    - "Doğru cevap 7; ek sınırlarıyla örtüşmeyen parçalar şaşırtır"
+  gecis: |
+    Önce token'ın ne olduğunu tanımlayalım.
+
+token-nedir:
+  soyle: |
+    Token, modelin işlediği en küçük metin parçası. Bir kelime olabilir, bir kelimenin parçası olabilir, bir noktalama işareti ya da bir emoji olabilir.
+    İngilizce “from our students” üç token: from, our, students. Her kelime tek parça. Türkçe karşılığı “öğrencilerimizden” ise yedi token.
+    Lego benzetmesi işe yarar: Model metni hazır parçalardan kurar. Elinde sınırlı sayıda parça var; GPT'nin güncel tokenizer'ında yaklaşık iki yüz bin. Sık kullanılan kelimeler tek parça hâlinde bu kutuda bulunur. Nadir kelimeler küçük parçaların birleşimiyle yazılır.
+  gecis: |
+    Peki bu iki yüz bin parça nasıl seçiliyor? BPE adlı bir yöntemle. Bir dakikalık animasyon.
+
+video-bpe:
+  soyle: |
+    (Video kendiliğinden başlar. Bitene kadar konuşmayın.)
+    Yöntemin adı BPE, Byte Pair Encoding. Videoda dört cümlelik bir paragraf var; tokenizer'ın eğitim metni bu olsaydı ne olurdu, ona baktık.
+    Başta her harf ayrı bir parça: 192 parça. Sonra her kelimede yan yana duran iki parçaya bakılıyor ve sayılıyor. “l” ile “a” bu paragrafta 12 yerde yan yana; bütün ikililer içinde en sık olanı bu. O yüzden “la” her yerde tek parça oluyor ve sözlüğe ekleniyor.
+    Sonra aynı şey yeniden: Bu kez en sık ikili “la” ile “r”, 10 kez. Yeni parça da birleşebiliyor; “lar” oluyor, yani Türkçenin çoğul eki. Kimse modele ek nedir diye öğretmedi; yalnızca saydı.
+    On sekiz adım sonunda “öğrenciler” ve “kitap” tek parça oldu, paragraf 192 parçadan 101 parçaya indi. Gerçek tokenizer'lar aynı işi milyarlarca kelimelik metinde, on binlerce kez yapıyor.
+    Bunun bir sonucu var: Eğitim metninde çok geçen diller ve kelimeler büyük parçalara kadar birleşir. Eğitim metninin büyük kısmı İngilizce olduğu için İngilizce kelimeler genelde tek parça. Türkçe kelimeler ise yarı yolda kalıyor.
+  gecis: |
+    Aynı paragrafı şimdi sitede adım adım ben ilerleteyim.
+
+bpe-canli:
+  soyle: |
+    (Projeksiyonda siz gösterin, yaklaşık 2 dakika.)
+    Videodaki paragraf burada. “Sonraki birleştirme”ye her bastığımda bir ikili birleşiyor. Kırmızı çerçeveli yerler sıradaki birleşmenin geçtiği yerler; sağdaki tablo da ikililerin kaçar kez geçtiğini gösteriyor.
+    (Üç kez basın. Sonra durun.)
+    Basmadan önce siz tahmin edin: Sıradaki birleşme ne olacak? Tabloya bakın.
+    (Cevapları alın, basın. Sonra “Sona kadar”a basın.)
+    On sekiz adım sonra kalan parçalara bakın: “öğrenciler”, “kitap”, “lar”, “ları”. Evde kendi paragrafınızı yapıştırıp deneyin; aynı kurallarla sizin metninizden bir sözlük çıkar.
+  sor: |
+    Sıradaki birleşme hangi ikili olacak? Neden?
+  beklenen:
+    - "Tablonun ilk satırı: metinde en çok yan yana geçen ikili. 3. adımdan sonra sıradaki “e + r” (8 kez)"
+    - "Eşit sayıda iki ikili varsa metinde önce görülen seçilir (sayfanın kuralı)"
+    - "Neden “öğrenciler” tek parça oldu da “öğrencilerimizden” olmadı? Sözlük, eğitim metninde sık geçenleri öğrenir"
+  gecis: |
+    Şimdi gerçek bir sözlükte yan yana görelim.
+
+tokenler:
+  soyle: |
+    Her renkli kutu bir token. Sağdaki sayı toplam.
+    “from our students” üç token, “öğrencilerimizden” yedi.
+    Bir atasözü deneyelim: “Many drops make a lake” altı token. “Damlaya damlaya göl olur” on token. Bakın: “aya” iki kez çıkıyor ama “damla” hiç tek parça değil; “göl” bile ikiye bölünmüş.
+    Küçük işaret: Bazı kutuların başındaki alt çizgi gibi işaret boşluğu gösteriyor. Boşluk da token'ın parçası.
+    Özetle: Tokenizer Türkçenin eklerini bilmiyor. Yalnızca hangi harf dizilerinin eğitim metninde ne kadar sık geçtiğini biliyor.
+  gecis: |
+    Şimdi bugünün sorusunun cevabı.
+
+turkce-vergisi:
+  soyle: |
+    Bugünün başındaki iki cümleyi ölçtüm. İngilizce cümle 17 token.
+    Türkçe cümle, GPT'nin güncel tokenizer'ında 26 token. Yani yaklaşık 1,5 kat. GPT-4'ün kullandığı eski tokenizer'da 36 token, yani 2,1 kat.
+    (Oylama sonucuna dönün:) Doğru tahmin edenler kimdi?
+    Buna “Türkçe vergisi” diyorum. Aynı işi Türkçe yaptırdığınızda daha çok token harcarsınız: daha yüksek ücret ve modelin penceresine daha az metin. İyi haber: Yeni tokenizer'lar Türkçeyi daha iyi bölüyor; 2,1 kattan 1,5 kata indi. Türkiye'de Türkçeye özel tokenizer'lar üzerine çalışmalar da var.
+  gecis: |
+    Token sayısı neden bu kadar önemli? Dört nedeni var.
+
+neden-onemli:
+  soyle: |
+    Bir: Maliyet. API'ler token başına ücret alır. Hem sizin gönderdiğiniz istem hem modelin yazdığı cevap sayılır. Gelecek hafta kendi kodunuzla model çağırdığınızda her isteğin token sayısını göreceksiniz.
+    İki: Bağlam penceresi. Modelin bir seferde görebileceği metin token ile ölçülür. Pencere dolunca eski metin dışarıda kalır.
+    Üç: Hız. Model cevabı token token üretir. Daha uzun cevap, daha uzun bekleme.
+    Dört: Garip hatalar. Bir modele “çilek kelimesinde kaç tane e var?” diye sorduğunuzda yanılabilir. Çünkü model harfleri değil parçaları görüyor; parçanın içindeki harfleri saymak ona doğal gelmiyor.
+  gecis: |
+    Kendi metinlerinizle deneyin.
+
+dene-token:
+  soyle: |
+    Bilgisayarlarınızdan QR koddaki adresi açın: Türkçe Token Laboratuvarı. Sayfa yazdığınız metni birkaç farklı modelin tokenizer'ında aynı anda parçalıyor.
+    Üç şey deneyin. Önce adınızı ve soyadınızı yazın: kaç token? Sonra bir atasözü ve onun İngilizcesi: hangisi daha uzun? Son olarak bir emoji, bir tarih ve bir kod satırı. Yedi dakikanız var.
+    (7 dakika sonra) İlginç bir şey bulan var mı?
+  sor: |
+    En şaşırtıcı sonucunuz neydi?
+  beklenen:
+    - "Adım beklediğimden çok parçaya bölündü (özellikle Türkçe karakterli adlar)"
+    - "Tarih rakam rakam ya da üçer üçer bölündü"
+    - "Bayrak emojisi birkaç token tutuyor"
+    - "Aynı metin farklı modellerde farklı sayıda token"
+  gecis: |
+    Bölümü bir soruyla kapatalım.
+
+kontrol-token:
+  soyle: |
+    Hangisi doğru? Otuz saniye düşünün, sonra el kaldırın.
+    (Cevap slaytına geçin.)
+    Doğru cevap C: Aynı metin farklı modellerde farklı sayıda token tutabilir. Her model ailesinin kendi tokenizer'ı ve kendi sözlüğü var. Laboratuvarda bunu ölçeceksiniz.
+    A yanlış: Token kelimeden küçük olabilir. B yanlış: Az önce gördük, bölünme eklere göre değil. D yanlış: Ücret token başına ödenir.
+  gecis: |
+    Metni parçaladık. Şimdi bu parçalar sayıya nasıl dönüşüyor?
+
+bolum-2:
+  soyle: |
+    İkinci bölüm: Vektör. Parçalar sayılara nasıl dönüşür ve bir modelin “büyüklüğü” ne demek?
+  gecis: |
+    Şeritte üçüncü kutu.
+
+serit-vektor:
+  soyle: |
+    Model kelime bilmez, sayı bilir. Her token'ı modelin anlayabileceği bir sayı listesine çevirmemiz gerekiyor.
+  gecis: |
+    Kırk saniyelik bir animasyon.
+
+video-gomme:
+  soyle: |
+    (Video kendiliğinden başlar. Bitene kadar konuşmayın.)
+    Az önce BPE ile sözlüğün nasıl oluştuğunu gördük. Sözlükteki her parçanın bir sıra numarası var; Türkçe GPT-2'de 50.257 parça. “Öğretmen” bu sözlükte 17.261 numara. Model metni bu numaralar olarak alır.
+    Modelin içinde bir tablo var: gömme tablosu. Sözlükte kaç parça varsa o kadar satır, her satırda 768 sayı. Token numarası, bu tablodaki satır numarası. 17.261 numaralı token, tablonun 17.261. satırını alır. O satırdaki sayılar token'ın vektörü.
+    Bu sayıları kimse elle yazmadı. Eğitimin başında rastgeleler. Model milyarlarca cümlede sıradaki token'ı tahmin etmeye çalışır; her yanlışta bu sayılar biraz düzeltilir. Sonunda anlamlı hâle gelirler.
+    Son olarak her vektöre “kaçıncı sıradayım” bilgisi eklenir.
+  gecis: |
+    Bunun adı token gömme.
+
+vektor:
+  soyle: |
+    Token gömme, İngilizcesiyle token embedding. Her token, sözlükteki numarasına karşılık gelen uzun bir sayı listesine çevrilir. Büyük modellerde bu liste birkaç bin sayıdan oluşur.
+    Bu sayılar elle yazılmaz; eğitim sırasında öğrenilir. “Model eğitmek” büyük ölçüde bu ve benzeri milyarlarca sayıyı ayarlamak demektir.
+    Bir harita düşünün. Isparta ile Burdur birbirine yakın, Isparta ile Tokyo uzak. İki sayı, yani enlem ve boylam, bir şehrin yerini söyler. Vektör de anlam haritasında bir konum; yalnız iki değil, binlerce boyutlu. “Elma” ile “armut” bu haritada yakın, “elma” ile “otobüs” uzak.
+  gecis: |
+    Peki benzer kelimeler neden yakın düşüyor?
+
+video-yakinlik:
+  soyle: |
+    (Video kendiliğinden başlar. Bitene kadar konuşmayın.)
+    “Bu sabah ___ günü okula gittim.” Boşluğa pazartesi, salı, çarşamba uyar; elma uymaz. Aynı boşluğa uyan kelimeler eğitim metninde benzer cümlelerde geçer. Model bu boşlukları tahmin ederken o kelimelerin vektörleri benzer yönde düzeltilir ve birbirine yaklaşır.
+    Haritadaki noktalar uydurma değil: ders sitesindeki Türkçe GPT-2'nin kendi gömme tablosundan. Şehirler, günler, renkler, meyveler kendi kümelerinde. Isparta'ya en yakın vektörler Burdur, Afyonkarahisar, Antalya. Kimse bunu modele söylemedi.
+  sor: |
+    Sizce “öğretmen” kelimesine en yakın vektörler hangileri çıkar?
+  beklenen:
+    - "Gerçek cevap: Öğretmen, öğretmenin, öğretmenler, öğretmeni… Aynı kelimenin ekli biçimleri; benzer cümlelerde geçtikleri için"
+    - "Anlam yakınlığı ile biçim yakınlığı karışık: model ikisini ayırmaz, yalnızca kullanım benzerliğini görür"
+  gecis: |
+    Bir sorun var: Bu vektörler kelimenin cümledeki yerini bilmiyor.
+
+konum:
+  soyle: |
+    “Ali Ayşe'yi aradı” ile “Ayşe Ali'yi aradı”. Kelimeler neredeyse aynı, anlam tamamen farklı. Fark sırada.
+    Birazdan göreceğimiz dikkat mekanizması kelimelerin sırasını kendiliğinden bilmez. Bu yüzden her token'a “kaçıncı sıradayım” bilgisi eklenir. Buna konum kodlaması diyoruz.
+    Sinema bileti benzetmesi: Herkes aynı salonda aynı filmi izliyor, ama koltuk numarası nerede oturduğunuzu söylüyor.
+    Günümüz modellerinin çoğu bunu RoPE adlı bir yöntemle yapıyor. Adını duymanız yeterli; ayrıntısı bu dersin konusu değil.
+  gecis: |
+    Burada bir karışıklığı baştan önleyeyim.
+
+iki-gomme:
+  soyle: |
+    “Gömme” kelimesini bu dönem iki farklı yerde duyacaksınız.
+    Bu haftaki token gömme modelin içinde. Her token için var, amacı cevap üretmek. Siz görmezsiniz, model kullanır. Her modelin kendine özgü.
+    Sekizinci haftada göreceğimiz arama gömmesi ise ayrı bir modelle, bütün bir cümle ya da paragraf için hesaplanır. Amacı benzer belgeyi bulmak. Onu siz hesaplar, bir veritabanında saklarsınız. Belgelerden cevap üreten RAG sistemlerinin temeli bu.
+    İkisi de “vektör” kavramını kullanıyor ama amaçları farklı. Sekizinci haftada bu slayta geri döneceğiz.
+  gecis: |
+    Vektörlerden söz açılmışken: Bir modelin “büyüklüğü” ne demek?
+
+model-boyutu:
+  soyle: |
+    Model adlarının yanında 4B, 31B gibi ifadeler görürsünüz. B milyar demek: modelin içindeki öğrenilmiş sayıların, yani parametrelerin sayısı.
+    Küçük modeller iki ila dört milyar parametre. Google'ın açık ağırlıklı Gemma 4 ailesinin küçük sürümleri gibi; dizüstü bilgisayarda, hatta telefonda çalışabilir.
+    Orta boy modeller yirmi ila otuz milyar civarı; Gemma 4 31B gibi. Güçlü bir ekran kartı ister. Bugünkü laboratuvarda bu modeli kullanacağız.
+    Çok büyük modeller trilyonun üzerinde. Qwen 3.8 yaklaşık 2,4 trilyon parametre. Bunlar ancak veri merkezinde çalışır. Kapalı modellerin çoğu boyutunu açıklamıyor.
+    Kaba kural: Büyük model genelde daha yetenekli ama daha pahalı ve daha yavaş. Beşinci haftada kendi bilgisayarınızın hangi boyutu kaldırabileceğini hesaplayacağız.
+  gecis: |
+    Şimdi şeridin en ilginç kutusuna geçiyoruz: Dikkat.
+
+bolum-3:
+  soyle: |
+    Üçüncü bölüm: Dikkat. Kelimeler birbirine nasıl bakar? Transformer'ı Transformer yapan fikir bu.
+  gecis: |
+    Şeritte dördüncü kutu.
+
+serit-dikkat:
+  soyle: |
+    Geçen hafta “Transformer, tek cümlede” slaytında bunun adını koymuştuk. Bugün nasıl çalıştığını görelim.
+  gecis: |
+    Geçen haftaki cümleye dönüyoruz.
+
+video-dikkat:
+  soyle: |
+    (Video kendiliğinden başlar. Bitene kadar konuşmayın.)
+    “Ali kitabı Ayşe'ye verdi çünkü o…” Bu cümlede “o” kim? Siz bunu anlamak için cümlenin başına bakıyorsunuz. Animasyonda “o” kelimesinden diğer kelimelere yaylar çıktı. Yayın kalınlığı, “o”nun o kelimeye ne kadar dikkat ettiğini gösteriyor. En kalın yaylar Ali ve Ayşe'ye gidiyor; “kitabı” ya da “verdi”ye giden yaylar ince.
+  gecis: |
+    Bunu bir tanıma dökelim.
+
+dikkat:
+  soyle: |
+    Dikkat, İngilizcesiyle attention: Her token cümledeki diğer token'lara bakar ve her biri için “benim için ne kadar önemli?” diye bir ağırlık hesaplar. Sonra kendi vektörünü bu ağırlıklarla günceller.
+    Türkçeden güzel bir örnek: “yüz” kelimesi. “Yüz lira verdi” cümlesinde sayı. “Yüzünü yıkadı” cümlesinde surat. “Denizde yüzdü” cümlesinde eylem. Model hangisi olduğunu çevresindeki kelimelere bakarak çıkarır: “lira”, “yıkadı”, “denizde”.
+    Benzetme: Kalabalık bir toplantıda herkes konuşuyor. Siz sizi ilgilendiren birkaç kişiye kulak veriyorsunuz. Her token da diğerlerine farklı oranda kulak veriyor.
+    Bu işlem bir kez değil, üst üste onlarca katmanda tekrarlanıyor. Her katmanda vektörler biraz daha anlamlı hâle geliyor.
+  gecis: |
+    Bunu gerçek bir modelde görelim.
+
+transformer-explainer:
+  soyle: |
+    (Projeksiyonda siz gösterin, yaklaşık 2 dakika.)
+    Bu sayfa Georgia Tech'teki bir araştırma grubunun yaptığı Transformer Explainer. Tarayıcınızda gerçek bir model çalıştırıyor: GPT-2, 124 milyon parametre. Bugünkü modellere göre minik ama yapısı aynı.
+    Bir örnek cümle seçiyorum. Bakın, cümle önce token'lara bölündü. Her token bir vektöre dönüştü. Bir kelimenin üzerine geliyorum: Çizgiler hangi kelimelere ne kadar dikkat ettiğini gösteriyor. En sağda, sıradaki kelime için aday listesi ve olasılıkları var.
+    Bu model İngilizce eğitildi. Türkçe bir cümle yazarsanız her kelimeyi küçük parçalara böler ve tahminleri anlamsız olur. O yüzden sizin için Türkçesini hazırladık.
+  gecis: |
+    Şimdi Türkçe sürümü sizin bilgisayarlarınızda açalım.
+
+transformer-explainer-tr:
+  soyle: |
+    Bu, aynı aracın Türkçe uyarlaması; ders sitemizde adı Transformer Gezgini. İçinde Yıldız Teknik Üniversitesi'ndeki Cosmos ekibinin Türkçe metinle eğittiği GPT-2 var; boyutu ve yapısı az önceki modelle aynı.
+    QR koddaki adresi bilgisayarınızdan açın. Model ilk açılışta yaklaşık 210 megabayt indiriyor. Yazı kutusunun hemen altında sarı bir “Model iniyor” göstergesi ve yüzdesi var. İnerken hazır örnekleri deneyin. Çubuk bitip yerine model düğmeleri, yani “✓ Küçük”, “Orta”, “Çok dilli”, “Gemma” gelince kutuya kendi Türkçe cümlenizi yazabilirsiniz, en çok 12 kelime.
+    Üç şeye bakın: Birincisi, cümleniz kaç token'a bölündü? İkincisi, bir kelimenin üzerine gelin: Dikkat nereye gidiyor? Üçüncüsü, sağdaki aday listesi.
+    Bir öneri: “Ali kitabı Ayşe'ye verdi çünkü o” örneğini açın. Videoda gördüğünüz “o”nun dikkatini gerçek bir modelde görün.
+    Erken bitiren aynı yerdeki “Orta” düğmesine bassın: Aynı ailenin 355 milyon parametrelik, 24 bloklu büyük kardeşi iner. Aynı cümleyi iki modelde deneyin; hangisi daha tutarlı? Daha da meraklı olan “Çok dilli” ve “Gemma”yı denesin: Bunlar Türkçeyle birlikte onlarca dilde eğitilmiş modeller. Dört dakikanız var.
+  sor: |
+    Kendi cümlenizde sıradaki kelime için en olası aday neydi? Beklediğiniz kelime miydi?
+  beklenen:
+    - "Türkçe kelimelerin çoğu tek token: İngilizce GPT-2'ye ve bölüm 1'deki GPT tokenizer'ına göre daha az parça"
+    - "“Ali kitabı Ayşe'ye verdi çünkü o” → adaylar kitabı, da, kitap gibi; küçük model, mükemmel değil"
+    - "Mantıklı adayların yanında tuhaf adaylar da var: birazdan konuşacağımız seçim adımına köprü"
+    - "Orta model daha tutarlı: “Bir varmış bir yokmuş, evvel zaman içinde” → küçük modelde çoğu zaman “,” ya da “bir”, orta modelde “kalbur saman içinde”. Model boyutu slaytına köprü: aynı yapı, daha çok parametre"
+    - "Çok dilli ve Gemma: aynı boydaki yalnız Türkçe model Türkçede daha iyi tahmin ediyor (bizim ölçümümüzde Türkçe metinde Cosmos küçük karakter başına 0,98 bit, XGLM 1,67, Gemma 3 270M 1,74; düşük olan iyi). Model ne kadar çok dile bölünürse her dile o kadar az kapasite kalır"
+    - "“Neden “-”, “:”, “|” üretiyor?” Model büyük ölçüde haber sitelerinden öğrendi; başlıklarda bu işaretler çok sık. Model ne okuduysa onu tahmin eder: eğitim verisi davranışı belirler"
+    - "Sayfa açılmıyor ya da yavaşsa: telefondan değil bilgisayardan açsınlar; yanındakiyle birlikte baksınlar"
+  gecis: |
+    Şimdi aynı modelin içine girelim; tahtaya bakın.
+
+transformer-gezgini-3b:
+  soyle: |
+    (Projeksiyonda siz gösterin, yaklaşık 2 dakika. Sayfayı ders öncesi açık tutun.)
+    Bu da aynı sitenin 3B anlatımı. Aynı cümle, aynı Türkçe model; ama bu kez cümlenin modelin içinden nasıl geçtiğini adım adım izliyoruz. Rehberimiz ASY, her adımın başında küçük bir kartla ne olacağını anlatıyor.
+    (5. adıma, Dikkat'e geçin. Kartı kapatın, tahmin sorusu gelir.)
+    Model bize bir soru soruyor: “o” en çok hangi kelimeye bakacak? Ali mi, Ayşe mi, başka bir şey mi? El kaldırın.
+    (Çoğunluğun cevabını tıklayın; animasyon gerçek dikkat paylarını gösterir.)
+    Bu blokta, bu başta “o” en çok “verdi”ye bakıyor. Neden? Her blokta on iki baş var ve her biri başka bir ilişkiye bakıyor. Bizim “o kim?” sorumuzun cevabı tek bir başta değil, hepsinin birleşiminde.
+    Evde Ayrıntılı moduna da bakın; orada aynı hesabı gerçek matrislerle görüyorsunuz. Başlığın yanındaki EN düğmesi de sayfayı İngilizce GPT-2 ile açıyor.
+  sor: |
+    Sizce “o” kime bakacaktı? Model neden farklı bir yere baktı?
+  beklenen:
+    - "Çoğunluk “Ali” ya da “Ayşe” der; model bu başta en çok “verdi”ye bakıyor (yaklaşık %43, “Ali” yaklaşık %15)"
+    - "Tek bir baş tüm anlamı taşımaz: 12 baş farklı ilişkilere bakar, 12 blok üst üste bunu inceltir"
+    - "Küçük model (124M) her zaman insan gibi düşünmez: tahminler olasılık, kesinlik değil"
+  gecis: |
+    Dikkatin bir sınırı var: pencere.
+
+video-baglam:
+  soyle: |
+    (Video kendiliğinden başlar. Bitene kadar konuşmayın.)
+    Pencereye yalnız sizin sorunuz girmez: sistem talimatı, sohbet geçmişi, yapıştırdığınız belge, yeni soru ve modelin yazacağı cevap. Hepsi aynı pencereye sığmak zorunda.
+    Sığmazsa iki şey olur: API isteği reddeder; sohbet uygulamaları ise en eski mesajları kırpar ya da özetler. Kırpılan mesajı model artık görmez; “unuttu” dediğimiz şey çoğu zaman bu.
+  gecis: |
+    Kavramı bir de kısaca toparlayalım.
+
+baglam-penceresi:
+  soyle: |
+    Bağlam penceresi, modelin bir seferde dikkat edebileceği en fazla token sayısı. Yazdığınız istem, sohbet geçmişi, yapıştırdığınız belge ve modelin cevabı, hepsi bu pencereye sığmak zorunda.
+    Güncel büyük modellerde bu pencere yüz binlerce token, bazılarında bir milyon civarı. Ama birinci bölümü hatırlayın: Türkçe metin aynı pencereye daha az sığar.
+    Benzetme: Çalışma masası. Ne kadar büyük olursa olsun bir sınırı var. Ve masaya çok şey yığınca önemli kâğıdı bulmak da zorlaşır. Bu ikinci kısım, yani pencere büyük olsa bile uzun metinde dikkatin dağılması, altıncı haftanın konusu.
+  gecis: |
+    Kısa bir kontrol.
+
+kontrol-dikkat:
+  soyle: |
+    Model “yüz” kelimesinin hangi anlamda kullanıldığını nasıl belirler? El kaldırın.
+    (Cevap slaytına geçin.)
+    B: Cümledeki diğer kelimelere bakar. Dikkat mekanizması tam olarak bu.
+  gecis: |
+    Son kutuya geldik: Seçim.
+
+bolum-4:
+  soyle: |
+    Dördüncü bölüm: Seçim. Model sıradaki token'ı nasıl seçiyor? Geçen hafta “aynı soruya neden farklı cevap?” diye sormuştuk. Tam cevabı burada.
+  gecis: |
+    Şeritte beşinci kutu.
+
+serit-secim:
+  soyle: |
+    Dikkat katmanlarından geçen vektörler en sonda bir olasılık listesine dönüşüyor: Sözlükteki her token için “sıradaki bu olabilir” olasılığı. Model bu listeden bir token seçiyor. Geçen hafta oynadığınız kaydırıcı bu seçimi ayarlıyordu.
+  gecis: |
+    O kaydırıcının adı sıcaklık.
+
+video-sicaklik:
+  soyle: |
+    (Video kendiliğinden başlar. Bitene kadar konuşmayın.)
+    Çubuklar aday token'ların olasılıkları. Sıcaklık düşükken en olası aday iyice öne çıkıyor, diğerleri neredeyse sıfıra iniyor; model hep aynı şeyi seçiyor. Sıcaklık yükseldikçe çubuklar birbirine yaklaşıyor; daha az olası adayların da seçilme şansı artıyor.
+    Yani sıcaklık modelin bilgisini değiştirmiyor; yalnızca seçimin ne kadar cesur olacağını ayarlıyor.
+  gecis: |
+    Hangi işte hangi sıcaklık?
+
+sicaklik-tablo:
+  soyle: |
+    Düşük sıcaklık, sıfır ile 0,3 arası: Model hep en olası seçeneği alır. Tutarlı, tekrar eden cevaplar. Tek doğru cevabı olan işler için: JSON çıktısı, kod, sınıflandırma.
+    Orta, 0,7 ile 1 arası: Dengeli; doğal ve biraz çeşitli. Sohbet, özet, e-posta. Çoğu uygulamanın varsayılanı burası.
+    Yüksek, 1,2 ve üstü: Az olası seçenekler de gelir. Yaratıcı ama hataya açık. Beyin fırtınası, isim önerisi.
+    Bir uyarı: Sıcaklık sıfır bile her zaman birebir aynı cevabı garanti etmez. Sunucudaki hesaplamalar küçük farklar yaratabilir.
+  gecis: |
+    Seçimi ayarlamanın ikinci yolu: top-p.
+
+video-topp:
+  soyle: |
+    (Video kendiliğinden başlar. Bitene kadar konuşmayın.)
+    İki yöntem var. Top-k: en olası k aday kalır, gerisi atılır; k üçse hep üç aday. Top-p: olasılıklar yukarıdan toplanır, toplam eşiğe ulaşınca çizgi çekilir.
+    Farkı son tabloda: Model eminken top-p iki aday bırakıyor, kararsızken beş. Top-k ise her durumda üç. Transformer Gezgini'nde ikisinin de ayarı var; lab'da sıcaklık ve top-p kullanacağız.
+  gecis: |
+    Top-p'yi bir örnekle sayalım.
+
+topp:
+  soyle: |
+    Top-p'nin diğer adı çekirdek örnekleme. Adaylar olasılık sırasına dizilir; toplamları p'ye ulaşana kadar olanlar tutulur, gerisi atılır.
+    Geçen haftaki örnek: “Isparta'nın en meşhur ürünü…” p'yi 0,8 alalım. Gül yüzde 53, elma yüzde 25; toplam yüzde 78, henüz 80'e ulaşmadı. Halıyı da ekliyoruz: yüzde 88. Eşik aşıldı. Üç aday kaldı; geri kalan yüzlerce düşük olasılıklı aday elendi. Model bu üçü arasından seçecek.
+    Neden işe yarar? Sıcaklığı yüksek tutup yaratıcılık isteseniz bile, saçma adayların seçilmesini engeller.
+    Pratik öneri: Sıcaklık ile top-p'yi aynı anda çok oynatmayın; birini sabit tutup diğerini değiştirin.
+  gecis: |
+    Geçen haftaki sayfada ikisini birlikte deneyin.
+
+dene-sicaklik:
+  soyle: |
+    Geçen haftaki sayfayı açın. Bu sefer kaydırıcıların adlarını biliyorsunuz.
+    Önce sıcaklığı 0,2'ye çekin ve “10 kez üret”e basın. Sonra 1,5'e çekin ve tekrar basın. Ne değişti? Son olarak videodaki karşılaştırma: “Model emin” ve “Model kararsız” düğmelerine basın. Grafiğin üstünde top-k ile top-p'nin kaçar aday bıraktığı yazıyor. Dört dakika.
+  sor: |
+    Model emin ve kararsızken top-k ile top-p kaçar aday bıraktı?
+  beklenen:
+    - "Sıcaklık 0,2'de neredeyse hep gül (yaklaşık yüzde 95)"
+    - "1,5'te halı, lavanta, kiraz gibi adaylar da çıktı"
+    - "Emin (sıcaklık 0,3): top-k 3, top-p 2 aday. Kararsız (sıcaklık 1,5): top-k yine 3, top-p 5 aday. Top-k sabit, top-p modele göre değişiyor"
+    - "İkisi birlikte açıkken iki koşulu da geçen adaylar kalır: kararsız durumda 3 aday (top-k sınırı)"
+  gecis: |
+    Laboratuvara geçmeden önce güncel bir not.
+
+guncel-not:
+  soyle: |
+    Bu alan çok hızlı değişiyor ve sıcaklık konusunda yeni bir durum var. Akıl yürüten modellerde, yani cevap vermeden önce kendi içinde uzun uzun düşünen modellerde, sıcaklık ayarı çoğu zaman kapalı ya da önerilmiyor.
+    OpenAI'nin GPT-5, o3 ve o4-mini modelleri yalnızca varsayılan sıcaklığı kabul ediyor; başka bir değer gönderirseniz hata veriyor. Google da Gemini 3 için sıcaklığı 1'de bırakmayı öneriyor; düşürmenin döngüye girme ve kalite düşüşüne yol açabileceğini söylüyor.
+    Nedeni şu: Bu modeller cevap vermeden önce kendi içinde birçok deneme üretip aralarından seçiyor. Sıcaklığı değiştirmek bu ayarlı süreci bozuyor.
+    Bu yüzden laboratuvarda akıl yürütme özelliği olmayan bir model kullanacağız: Google'ın açık ağırlıklı Gemma 4 modeli.
+  gecis: |
+    Son bir kontrol sorusu.
+
+kontrol-sicaklik:
+  soyle: |
+    Bir faturadan tutarı JSON olarak çıkaran bir sistem yazıyorsunuz. Hangi sıcaklık? El kaldırın.
+    (Cevap slaytına geçin.)
+    A: sıfır ile 0,2 arası. Tek doğru cevabı olan, tutarlılık istenen işlerde düşük sıcaklık. Faturadaki tutar yaratıcı olmamalı. Üçüncü haftada JSON çıktısı alırken bunu kullanacağız.
+  gecis: |
+    Şeridin tamamına bir kez daha bakalım.
+
+serit-tam:
+  soyle: |
+    Metin girer. BPE ile parçalara bölünür. Her parça bir vektöre dönüşür ve sıra bilgisi eklenir. Dikkat katmanlarında parçalar birbirine bakar; bu onlarca kez tekrarlanır. En sonda bir olasılık listesi çıkar ve sıcaklık ile top-p'nin ayarladığı bir seçimle sıradaki token belirlenir.
+    Seçilen token metne eklenir ve şerit baştan döner. Cevap böyle, token token oluşur.
+    Geçen haftaki mini deneyde aynı soruya iki aracın farklı cevap vermesinin bir nedeni de buydu: Seçim adımı her seferinde aynı sonucu vermiyor.
+  gecis: |
+    On dakika mola.
+
+mola:
+  soyle: |
+    On dakika mola. Döndüğünüzde bilgisayarla laboratuvar yapacağız. Mola sırasında aistudio.google.com adresini açıp Google hesabınızla giriş yapın; böylece zaman kaybetmeyiz.
+  gecis: |
+    (Moladan dönüşte) Herkes Google AI Studio'ya girebildi mi? Laboratuvarla devam ediyoruz.
+
+lab:
+  soyle: |
+    Bugünün laboratuvarı iki görevden oluşuyor ve bireysel. Yan yana oturanlar sonuçlarını karşılaştırabilir.
+    Görev A: Token ölçümü. Token Laboratuvarı'nda beş metnin token sayısını ölçeceksiniz ve Türkçe vergisini kendiniz hesaplayacaksınız.
+    Görev B: Sıcaklık deneyi. Google AI Studio'da aynı istemi üç farklı sıcaklıkta üçer kez çalıştıracaksınız; toplam dokuz deneme. Her sıcaklıkta kaç farklı cevap çıktığını sayacaksınız.
+    Her şeyi Lab Defteri'ne yazın. Bitince Markdown olarak indirip GitHub'daki reponuzda hafta-02 klasörüne rapor.md adıyla koyun. Son tarih gelecek ders.
+    Teslimde beş şeye bakacağım: beş metnin token sayıları, Türkçe vergisi hesabı, dokuz deneme ve farkların sayısı, bir paragraf yorum ve dosyanın doğru yerde olması.
+  gecis: |
+    Lab Defteri'ni açalım.
+
+lab-defteri:
+  soyle: |
+    QR kodu okutun ya da adresi bilgisayarınızda açın. Geçen haftaki Gözlem Defteri'ne benziyor: Adınızı yazın, görevler sayfada hazır. Ölçümleri ve denemeleri doğrudan sayfaya yazın.
+    Yazdıklarınız yalnızca bu bilgisayarın tarayıcısında saklanıyor. Laboratuvar bilgisayarı kullananlar bitirmeden sayfayı kapatmasın ve mutlaka indirsin.
+  gecis: |
+    Görev A ile başlıyoruz.
+
+gorev-a:
+  soyle: |
+    Görev A: Token ölçümü. Soru şu: Hangi metin beklediğinizden fazla token tutuyor?
+    Lab Defteri'nde beş metin hazır: Türkçe cümle, İngilizcesi, bir kod satırı, tarih, para ve emoji içeren bir cümle, ve kendi adınız soyadınız. Her birinin yanında “Token Laboratuvarı'nda aç” bağlantısı var; tıklayınca metin laboratuvarda açılıyor. Üç sözlüğün verdiği sayıyı deftere yazın.
+    Türkçe vergisini defter kendisi hesaplıyor: Türkçe cümlenin token sayısı bölü İngilizcesininki. Üçüncü sütuna dikkat edin, orada bir sürpriz var. On beş dakika.
+  beklenen:
+    - "GPT güncel tokenizer: Türkçe 26, İngilizce 17, oran yaklaşık 1,5"
+    - "Kod satırı 6 token civarı; tarih rakam grupları hâlinde bölünür"
+    - "Basit emoji 1–2 token; bayrak emojisi 4 tokene kadar çıkar"
+    - "Farklı model ailelerinin tokenizer'ları farklı sayılar verir"
+    - "Sürpriz: Türkçe GPT-2'de oran tersine döner (Türkçe 14, İngilizce 28). Bölünmeyi dil değil, sözlüğün hangi metinle oluşturulduğu belirler"
+  gecis: |
+    Görev B için Google AI Studio'ya geçiyoruz.
+
+aistudio:
+  soyle: |
+    aistudio.google.com adresine gidin ve Google hesabınızla girin.
+    Model olarak Gemma 4 31B'yi seçin. Neden Gemini değil? Az önce konuştuk: Gemini 3 bir akıl yürütme modeli ve sıcaklığın 1'de kalması öneriliyor. Gemma 4'te sıcaklığı rahatça değiştirebiliriz.
+    Sağdaki ayarlarda “Temperature” kaydırıcısını bulun. “Top P” gelişmiş ayarların altında.
+    Önemli: Her denemeden önce yeni bir sohbet açın. Aynı sohbette tekrar sorarsanız model önceki cevabını görür ve bu deneyi bozar.
+    (Google hesabı olmayan öğrenci yanındakiyle birlikte çalışsın.)
+  gecis: |
+    Görev B'nin istemi.
+
+gorev-b:
+  soyle: |
+    Görev B: Sıcaklık deneyi. İstem şu: “Isparta'da açılacak bir kafe için tek satırlık, akılda kalıcı bir slogan yaz. Yalnızca sloganı yaz.”
+    Sıcaklığı 0 yapın ve istemi üç kez çalıştırın; her seferinde yeni sohbet. Sonra 1 ile üç kez, sonra 2 ile üç kez. Dokuz cevabı deftere yazın.
+    Her sıcaklıkta kaç farklı cevap çıktığını sayın. Sonra sıcaklığı 2'de bırakıp top-p'yi 0,3'e çekin ve bir kez daha deneyin: Ne oldu?
+    Yirmi beş dakika. Bitirince bir paragraf yorum yazın: Sıcaklık arttıkça ne değişti, ve bu dersi kendi projenizde nasıl kullanırsınız?
+  beklenen:
+    - "Sıcaklık 0: üç cevap aynı ya da çok benzer"
+    - "Sıcaklık 1: farklı ama makul sloganlar"
+    - "Sıcaklık 2: bazen tuhaf kelimeler, dil karışması, anlamsızlaşma"
+    - "Top-p 0,3 ile sıcaklık 2'de bile cevap toparlanır"
+  gecis: |
+    Süre doldu. Sonuçları sınıfça toplayalım.
+
+sinif-sonuclari:
+  soyle: |
+    Dört soru soracağım; tabloyu birlikte dolduralım.
+    Türkçe ile İngilizce cümle arasında token oranını kaç buldunuz? Farklı tokenizer'larda farklı mıydı?
+    En çok token tutan kısa metin hangisiydi?
+    Sıcaklık sıfırda kaç farklı cevap aldınız? Sıcaklık ikide?
+    Sizi en çok ne şaşırttı?
+  sor: |
+    Oran kaç çıktı? Sıcaklık 0 ve 2'de kaç farklı cevap?
+  beklenen:
+    - "Oran 1,4–2,1 arasında; tokenizer'a göre değişir"
+    - "Sıcaklık 0'da çoğunlukla 1 farklı cevap; 2'de genellikle 3"
+    - "Sıcaklık 2'de dil karışması ya da anlamsız kelimeler"
+  gecis: |
+    Bugünün sorusuna dönelim.
+
+soruya-donus:
+  soyle: |
+    Sorumuz şuydu: Aynı anlamdaki bir Türkçe cümle İngilizcesinden kaç kat token tutar? Cevap: kullanılan tokenizer'a göre 1,5 ile 2 kat arası.
+    Neden? Tokenizer sıklığa göre bölüyor ve eğitim metninin çoğu İngilizce. Sonuç: Türkçe çalışırken daha yüksek maliyet ve modelin penceresine daha az metin.
+    Bu bilgi gelecek hafta işinize yarayacak. İstem yazarken kısa ve net olmak yalnızca anlaşılırlık için değil; hem ücreti düşürür hem pencerede yer açar.
+  gecis: |
+    Bugünü üç cümlede özetleyelim.
+
+ozet:
+  soyle: |
+    (Maddeleri bir öğrenciye okutun.)
+    Bir arkadaşımız bu üç maddeyi okuyabilir mi?
+    (Okunduktan sonra:) Teşekkürler. Token, vektör ve dikkat modelin içinde olan şeyler; seçim ise sizin de ayarlayabildiğiniz kısım. Gelecek hafta bu ayarları kendi kodumuzdan yapacağız.
+  gecis: |
+    Çıkış kartı.
+
+cikis-karti:
+  soyle: |
+    Küçük kâğıtlarınızı alın. Bir dakika.
+    Bugünün şeridinin beş adımını sırayla yazın. Altına en çok zorlandığınız adımı işaretleyin. İsim gerekmiyor. Çıkarken kapının yanına bırakın.
+  gecis: |
+    Birkaç hatırlatma.
+
+sozluk:
+  soyle: |
+    Bugünün altı terimi: token, tokenizer, token gömme, dikkat, bağlam penceresi, sıcaklık ve top-p.
+    Bunları vizede kendi cümlelerinizle tanımlayabilmeniz gerekiyor. README'deki sözlükte bu terimlerin hepsi var.
+  gecis: |
+    Ödev.
+
+odev:
+  soyle: |
+    Bir: Lab raporunuzu, yani rapor.md dosyasını, GitHub'daki reponuzda hafta-02 klasörüne koyun. Son tarih gelecek haftanın dersi.
+    İki, ve bu çok önemli: openrouter.ai adresinde bir hesap açın. Kredi yüklemeyin. Gelecek hafta derste birlikte API anahtarı oluşturacağız. Hesabı şimdiden açarsanız dersin ilk yarım saati kurulumla geçmez.
+    Üç, isteğe bağlı: 3Blue1Brown'ın transformer ve dikkat videoları. Bugün gördüklerimizin görsel olarak çok güzel bir tekrarı.
+    Gelecek hafta: İstem yazma, OpenRouter API ve düzenli çıktı. Bilgisayarınızda Python kurulu olsun; kurulumda sorun yaşarsanız dersten önce bana yazın.
+  gecis: |
+    Son slayt: kaynaklar.
+
+kaynaklar:
+  soyle: |
+    Bugünün kaynakları burada. Transformer Explainer'ı derste kullandık; evde daha uzun oynamanızı öneririm. BPE ve top-p makalelerinin şimdilik yalnızca özetini okumanız yeterli. Türkçe tokenizasyon üzerine bir makale de ekledim; Türkiye'den bir ekibin çalışması.
+    QR kodu ders reposuna gidiyor.
+    Teşekkürler, gelecek hafta görüşmek üzere.
+
+# ───────── Ders geneli (kılavuzun ilk sayfasına girer; slayt değildir) ─────────
+_ders:
+  hazirlik:
+    - "Hafta 1 çıkış kartlarını okuyun; en sık karışan konuyu belirleyin (slayt {gecen-hafta})."
+    - "Token Laboratuvarı (/h02/token), BPE adım adım (/h02/bpe) ve Lab Defteri (/h02/lab) yayında mı? Sınıf ağından açıp bir metin deneyin."
+    - "Google AI Studio'da Gemma 4 31B hâlâ listede mi ve sıcaklık kaydırıcısı açık mı? Değiştiyse sıcaklık ayarı açık, akıl yürütmesi olmayan başka bir model seçin ve slayt {aistudio}'i güncelleyin."
+    - "Transformer Explainer'ı (slayt {transformer-explainer}) sınıf bilgisayarında ders öncesi bir kez açın: model ~600 MB, inmeden cümle kutusu kapalı kalır; sonraki açılış hızlıdır."
+    - "Türkçe sürümü (slayt {transformer-explainer-tr}) sınıf ağından bir bilgisayarda açın; kutunun altındaki yükleme çubuğu bitip model düğmeleri (“✓ Küçük”) görününce bir Türkçe cümle deneyin. Gösterge kırmızı “Model inmedi” derse ağ Vercel'e ya da huggingface.co'ya erişemiyor olabilir (model dosyaları oradan iner)."
+    - "3B anlatımı (slayt {transformer-gezgini-3b}) sınıf bilgisayarında ders öncesi bir kez açın: ilk açılışta model (~120 MB) iner ve sahne hazırlanır. Kartları ve “Tahmin soruları” kutusunu açık bırakın; 5. adımdaki soruyu bir kez kendiniz deneyin (cevap verilince aynı oturumda soru yeniden sorulmaz; derste sormak için sayfayı yenileyin)."
+    - "Videoların kendiliğinden başladığını kontrol edin (slayt {video-bpe}, {video-gomme}, {video-yakinlik}, {video-dikkat}, {video-baglam}, {video-sicaklik}, {video-topp})."
+    - "Görev B istemini bir kez sıcaklık 0, 1 ve 2'de kendiniz deneyin; sınıfa göstermek için bir örnek seti hazır olsun."
+    - "Çıkış kartı için küçük kâğıtlar."
+  gizli:
+    - "Giriş sorusunun cevabı: 1,5 kat (güncel GPT tokenizer), 2,1 kat (eski). Bölüm 1'deki “Türkçe vergisi” slaytına kadar söylemeyin."
+    - "“öğrencilerimizden” 7 token: cevap slaytına geçmeden söylemeyin."

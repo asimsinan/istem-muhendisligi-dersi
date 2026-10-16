@@ -1,0 +1,570 @@
+# HAFTA 1 — Konuşma metni (hoca için)
+# Her anahtar slaytlar.yaml'daki bir slaydın id'sidir.
+#   soyle    : Kelimesi kelimesine okunabilecek konuşma metni
+#   sor      : Sınıfa yöneltilecek soru (isteğe bağlı)
+#   beklenen : Olası öğrenci cevapları (isteğe bağlı)
+#   gecis    : Bir sonraki slayda geçerken söylenecek cümle
+# Bu dosya sunumun konuşmacı notlarına ve telefon boyutlu hoca kılavuzuna (cikti/hafta-01-hoca.pdf) girer.
+# Öğrenciye gösterilmez.
+
+kapak:
+  soyle: |
+    Günaydın, hoş geldiniz. Ben Asım Sinan Yüksel. Bu dönem birlikte İstem Mühendisliği dersini işleyeceğiz.
+    Bugün bilgisayarınızı açmanıza gerek yok; telefonunuz yeterli. Dersin ikinci yarısında telefonla küçük bir laboratuvar çalışması yapacağız, o yüzden şarjınız düşükse şimdiden bir prize yakın oturun.
+    Bugünün başlığı: Üretken yapay zekâya giriş. Hepiniz ChatGPT gibi araçları kullanıyorsunuz. Bugün bu araçların nereden geldiğini, içinde kabaca ne olduğunu ve bu dönem onlarla ne yapmayı öğreneceğimizi konuşacağız.
+  gecis: |
+    Başlamadan önce sizden bir şey isteyeceğim: Bir soruyu aklınızda tutmanızı.
+
+bugunun-sorusu:
+  soyle: |
+    Bugünün sorusu şu: ChatGPT'ye iyi soru sormak bir mühendislik becerisi olabilir mi?
+    (10 saniye bekleyin.)
+    Şimdi cevap vermenizi istemiyorum. Sadece aklınızda tutun. Dersin en sonunda bu soruya tek cümlelik bir cevap yazacaksınız. Bakalım üç saat sonra fikriniz değişecek mi.
+  gecis: |
+    Soruyu tartışmak yerine önce küçük bir deney yapalım.
+
+mini-deney:
+  soyle: |
+    Telefonlarınızı çıkarın. Yanınızdakiyle ikili olun.
+    İkiliden biri bir sohbet uygulaması açsın; diğeri farklı bir uygulama. Biri ChatGPT ise diğeri Gemini, Claude, Copilot ya da DeepSeek olsun. Uygulaması olmayan arkadaşlar ChatGPT'yi giriş yapmadan da kullanabilir.
+    Ekrandaki istemi ikiniz de kendi uygulamanıza aynen yazın: “Isparta'nın plaka kodu nedir ve şehrin en bilinen üç özelliği nelerdir? Bilgiyi hangi kaynaklardan aldığını da yaz.”
+    Cevaplar gelince telefonları yan yana koyun ve karşılaştırın. İki şeye bakın: Cevaplar aynı mı, ve hangisine daha çok güveniyorsunuz? Beş dakikanız var.
+  beklenen:
+    - "Plaka kodu: 32 (hepsi doğru bilmeli)"
+    - "Özellikler: gül ve gül yağı, halı, elma, lavanta, Eğirdir Gölü, SDÜ"
+    - "Kaynak: bazı araçlar gerçek bağlantı verir, bazıları genel ifade kullanır ya da var olmayan kaynak yazar"
+  gecis: |
+    Süre doldu. Telefonlar elinizde kalsın; neler gördüğünüzü konuşalım.
+
+ne-gordunuz:
+  soyle: |
+    Üç soru soracağım, birkaç ikiliden cevap alacağım.
+    Birincisi: Cevaplar aynı mıydı? Aynı değilse hangi noktada ayrıştılar?
+    İkincisi: Kaynak gösterdi mi? Gösterdiyse o kaynak gerçekten var mı? Bağlantıya tıkladınız mı?
+    Üçüncüsü: Hangi cevaba daha çok güvendiniz, ve neden?
+    (2–3 ikiliden cevap alın.)
+    Gördüğünüz şu: Aynı soruyu sorduk, ama farklı araçlar farklı cevaplar ve farklı güvenilirlik verdi. Demek ki iyi soru sormak tek başına güvenilir bir sonucu garanti etmiyor. Bu dersin konusu tam olarak bu boşluk: Sorudan sonra ne oluyor ve onu nasıl tasarlarız?
+  sor: |
+    Cevaplar aynı mıydı? Kaynak gösterdi mi, gerçekten var mı? Hangisine güvendiniz, neden?
+  beklenen:
+    - "Plaka kodu aynı ama özellikler farklı sıralandı"
+    - "Biri bağlantı verdi, diğeri “genel bilgi” dedi"
+    - "Uzun ve kendinden emin cevaba daha çok güvendim (bunu not edin; güven ile doğruluk aynı şey değil)"
+  gecis: |
+    Bu boşluğu doldurmak için önce birkaç kavrama ihtiyacımız var. Bugün neleri öğreneceğimize bakalım.
+
+hedefler:
+  soyle: |
+    Bugünün sonunda dört şeyi yapabilmenizi istiyorum.
+    Bir: Yapay zekâ, makine öğrenmesi, derin öğrenme ve üretken yapay zekâ arasındaki ilişkiyi açıklayabilmek.
+    İki: Ayırt edici model ile üretken modeli bir örnekle birbirinden ayırabilmek.
+    Üç: Güncel model ailelerini tanımak ve onları nereden takip edeceğinizi bilmek.
+    Dört: Bu dersin dört katmanlı haritasını kendi cümlelerinizle anlatabilmek.
+    Ders bittiğinde bu dört maddeye “evet, yapabilirim” diyebiliyorsanız bugün amacımıza ulaştık.
+  gecis: |
+    Zamanı nasıl kullanacağımıza da kısaca bakalım.
+
+bugunun-plani:
+  soyle: |
+    Dersi dört bölümde işleyeceğiz. Önce yapay zekâ ailesini, sonra model ailelerini konuşacağız. Ardından bir dil modelinin aslında ne yaptığına telefonla kısa bir deneyle bakacağız. Dördüncü bölümde dersin haritasını, dönem planını ve kuralları göreceğiz.
+    Sonra on dakika mola, ardından telefonla laboratuvar: iki araç, beş görev. En sonda sonuçları sınıfça paylaşıp kapatacağız.
+    Tekrar söyleyeyim: Bugün bilgisayar gerekmiyor. Gelecek haftadan itibaren her derse bilgisayarınızla gelmenizi isteyeceğim.
+  gecis: |
+    Her dersin başında kısa bir harita göreceksiniz. İlki şimdi.
+
+neredeyiz:
+  soyle: |
+    Bu kısa animasyon her haftanın başında gelecek. Dört iç içe kutu var: İstem, Bağlam, Harness ve Döngü. Bugün en içteki kutudayız: İstem.
+    Bu kutuların ne anlama geldiğini dersin ikinci yarısında ayrıntılı açacağım. Şimdilik sadece şunu bilin: Dönem boyunca içten dışa doğru ilerleyeceğiz.
+  gecis: |
+    O hâlde en başa, yapay zekâ ailesine gidelim.
+
+bolum-1:
+  soyle: |
+    Birinci bölüm: Yapay zekâ ailesi. Alt başlık “sınıflandırmaktan üretmeye”. Bu bölümün sonunda ChatGPT'nin bu ailede nerede durduğunu net olarak söyleyebileceksiniz.
+  gecis: |
+    Önce sizin ne düşündüğünüzü bir oylamayla görelim.
+
+oylama-siniflandirici:
+  soyle: |
+    Basit bir soru: ChatGPT bir sınıflandırıcı mıdır?
+    Dört seçenek var: Evet, Hayır, Kısmen, Emin değilim. El kaldırarak oylayalım. Evet diyenler? Hayır diyenler? Kısmen? Emin değilim?
+    (Sayıları kabaca söyleyin.)
+    Doğru cevabı şimdi söylemiyorum. Bölümün sonunda bu soruya geri döneceğiz.
+  gecis: |
+    Cevabı bulmak için önce ailenin şemasına bakalım. Otuz saniyelik bir animasyon.
+
+video-ic-ice:
+  soyle: |
+    (Video kendiliğinden başlar. Bitene kadar konuşmayın.)
+    Gördüğünüz gibi dört halka iç içe. En dışta yapay zekâ var. Onun içinde makine öğrenmesi, onun içinde derin öğrenme, en içte de üretken yapay zekâ.
+    Her halka bir öncekinin içinde. Yani her üretken yapay zekâ sistemi aynı zamanda bir derin öğrenme sistemidir, ama her derin öğrenme sistemi üretken değildir.
+    Son karede en içteki halkanın üç dilime ayrıldığını gördünüz: metin, görüntü ve ses. Bu ders yalnızca metin dilimiyle ilgileniyor.
+  gecis: |
+    Her halkayı somut bir örnekle sabitleyelim.
+
+dort-halka:
+  soyle: |
+    Yapay zekâ en geniş halka: İnsan zekâsı gerektiren bir işi yapan her sistem. Örneğin satranç oynayan bir program. Bu program kuralları elle yazılmış olabilir, hiç öğrenmemiş olabilir; yine de yapay zekâdır.
+    Makine öğrenmesi: Kuralı biz yazmıyoruz, sistem veriden öğreniyor. E-posta spam filtresi binlerce örnek e-postadan spamın neye benzediğini öğrenir.
+    Derin öğrenme: Makine öğrenmesinin çok katmanlı yapay sinir ağları kullanan kolu. Telefonunuzdaki yüz tanıma buna örnek.
+    Üretken yapay zekâ: Öğrendiği kalıpları kullanarak yeni içerik üreten modeller. ChatGPT, görsel üreten araçlar.
+    Her satır için siz de bir örnek verin.
+  sor: |
+    Her satır için bir örnek daha verebilir misiniz?
+  beklenen:
+    - "Yapay zekâ: oyunlardaki rakip karakter, rota bulan navigasyon"
+    - "Makine öğrenmesi: film ya da ürün önerisi, kredi riski tahmini"
+    - "Derin öğrenme: konuşmayı yazıya çevirme, otomatik çeviri"
+    - "Üretken: Gemini, Claude, müzik veya video üreten araçlar"
+  gecis: |
+    En içteki halkayı diğerlerinden ayıran şey ne? Bir animasyonla görelim.
+
+video-ayirt-uretken:
+  soyle: |
+    (Video kendiliğinden başlar. Bitene kadar konuşmayın.)
+    Aynı e-posta iki farklı modele gidiyor. Soldaki sınıflandırıcı önceden belli iki seçenekten birini seçiyor: “spam değil”. Sağdaki üretken model ise e-postaya yeni bir cevap yazıyor. Aynı soruyu ikinci kez sorduğumuzda başka bir cevap yazıyor.
+    Girdi aynı. Değişen, modelin çıktısının türü.
+  gecis: |
+    Bu iki türün adlarını ve farklarını yan yana yazalım.
+
+ayirt-uretken:
+  soyle: |
+    Soldaki türe ayırt edici model diyoruz; İngilizcesi discriminative. Girdiye bir etiket verir. Çıktısı bir sınıf ya da bir sayıdır. “Bu e-posta spam mı?” sorusunun cevabı evet ya da hayır. Cevap kümesi önceden bellidir.
+    Sağdaki türe üretken model diyoruz; generative. Yeni içerik üretir: metin, görüntü, kod. “Bu e-postaya cevap yaz” dediğinizde ortaya daha önce var olmayan bir metin çıkar. Cevap kümesi açıktır; aynı soruya farklı cevaplar gelebilir.
+    Son maddeye dikkat edin. Mini deneyde aynı soruya iki araç neden farklı cevap verdi? Bunun nedenlerinden biri burada: Üretken modelin doğası gereği tek bir doğru çıktısı yoktur. Neden böyle olduğunu Hafta 2'de “sıcaklık” kavramıyla göreceğiz.
+  gecis: |
+    ChatGPT'nin arkasındaki model türüne bir ad verelim: büyük dil modeli.
+
+llm-nedir:
+  soyle: |
+    Büyük dil modeli, İngilizce kısaltmasıyla LLM. Tanımı şu: Çok büyük miktarda metinle eğitilmiş, bir metnin ardından gelecek parçayı tahmin ederek metin üreten üretken model.
+    Bir benzetme yapayım. Telefonunuzun klavyesi siz yazarken sıradaki kelimeyi önerir. Şimdi o otomatik tamamlamanın internetin büyük bölümünü okumuş ve tek bir kelime değil, bütün bir sohbeti sürdürebilen dev bir hâlini düşünün. Büyük dil modeli kabaca budur.
+    Önemli bir ayrım: ChatGPT, Gemini, Claude birer uygulamadır, yani ürün. Arkalarında birer büyük dil modeli çalışır. ChatGPT bir ürün, GPT ise bir model. Bu ayrım Hafta 3'te uygulamayı aradan çıkarıp modeli doğrudan kodla çağırdığımızda çok işimize yarayacak.
+  gecis: |
+    Şimdi kendinizi kısaca yoklayın.
+
+kontrol-uretken:
+  soyle: |
+    Dört görev var. Hangisi üretken bir model görevi? Yanınızdakiyle otuz saniye konuşun, sonra el kaldırarak cevap alacağım.
+    (30 saniye sonra) A diyenler? B? C? D?
+    (Cevap slaytına geçin.)
+    Doğru cevap C: toplantı notlarından özet paragraf yazmak. Özet yazmak daha önce olmayan bir metin üretir. Diğer üçü önceden belli etiketlerden birini seçer: spam ya da değil, olumlu ya da olumsuz, kedi ya da köpek. Bunlar ayırt edici görevler.
+    Şimdi baştaki soruya dönelim: ChatGPT bir sınıflandırıcı mı? Hayır, ChatGPT'nin arkasındaki model üretken bir modeldir. Ama dikkat: Ona “bu yorum olumlu mu olumsuz mu?” diye sorarsanız sınıflandırma işini de yapar. Yani “Kısmen” diyenler de bir şey yakalamış: Üretken bir model, ürettiği metinle sınıflandırma da yapabilir.
+  sor: |
+    Hangisi üretken bir model görevi? Ve şimdi: ChatGPT bir sınıflandırıcı mı?
+  beklenen:
+    - "C (doğru)"
+    - "A veya B diyenler: etiket seçmek ile yeni metin üretmek arasındaki farkı tekrar edin"
+    - "ChatGPT: üretken; ama sınıflandırma işini de metin üreterek yapabilir"
+  gecis: |
+    Ailenin şemasını gördük. Şimdi bu ailenin bugünkü üyelerine, yani model ailelerine bakalım.
+
+bolum-2:
+  soyle: |
+    İkinci bölüm: Model aileleri. Kim yapıyor, ne zaman çıktı, hangisini kullanıyoruz? Ve en önemlisi, bu kadar hızlı değişen bir alanı nasıl takip edeceğiz?
+  gecis: |
+    Önce sizin hangi araçları kullandığınızı görelim.
+
+oylama-arac:
+  soyle: |
+    En çok hangi aracı kullanıyorsunuz? El kaldırarak oylayalım. ChatGPT? Gemini? Claude? Diğerleri, yani Copilot, DeepSeek ya da başka bir şey?
+    (Sonucu kabaca söyleyin: “Çoğunluk ChatGPT, ardından …”)
+    Birazdan bu araçların arkasında hangi model ailesinin olduğunu göreceğiz. Ama önce bu araçların nereden geldiğine kısa bir yolculuk yapalım.
+  gecis: |
+    2017'ye gidiyoruz.
+
+zaman-cizelgesi:
+  soyle: |
+    2017'de Google'daki bir araştırma ekibi “Attention Is All You Need”, yani “İhtiyacınız olan tek şey dikkat” adlı bir makale yayımladı ve Transformer mimarisini tanıttı. Bugün kullandığınız neredeyse bütün dil modelleri bu mimarinin torunları.
+    2018'de GPT-1 ve BERT geldi. Fikir şuydu: Modeli önce çok büyük bir genel metinle eğit, sonra küçük bir veriyle belirli bir göreve uyarla.
+    2020'de GPT-3: 175 milyar parametre. Asıl şaşırtıcı olan, modelin birkaç örnek görerek yeni bir görevi yapabilmesiydi.
+    2022'nin sonunda ChatGPT çıktı. Teknoloji yeni değildi; yeni olan sohbet arayüzüydü. İki ayda yaklaşık yüz milyon kullanıcıya ulaştığı tahmin ediliyor. Kitlesel kullanım böyle başladı.
+    2023'te GPT-4, Claude ve Llama geldi: Hem güçlü kapalı modeller hem de herkesin indirebildiği açık ağırlıklı modeller. 2024'te modeller görüntü ve sesle çalışmaya, çok uzun belgeleri okumaya başladı. 2025'te adım adım akıl yürüten modeller ve araç kullanan sistemler, yani ajanlar öne çıktı.
+    Ve 2026, bugün: Artık soru “hangi model en iyi?” değil, “modelin etrafındaki sistemi nasıl kurarım?” Bu dersin neden şimdi açıldığının cevabı bu.
+  gecis: |
+    Bugün piyasada hangi aileler var? Tabloya bakalım.
+
+model-aileleri:
+  soyle: |
+    Bu tablo Ekim 2026 itibarıyla hazırlandı ve büyük ihtimalle siz bu dersi alırken birkaç adı değişmiş olacak. O yüzden adlardan çok yapıya bakın.
+    GPT ailesi OpenAI'nin; en yeni sürümler GPT-6 ailesi. OpenAI ayrıca gpt-oss adıyla indirilebilen açık ağırlıklı modeller de yayımladı.
+    Claude ailesi Anthropic'in; kapalı modeller. En güçlüsü Claude Fable 5; günlük kullanımda Opus ve Sonnet modelleri var.
+    Google'ın iki ailesi var: Kapalı Gemini modelleri ve açık ağırlıklı Gemma modelleri. Gemini 4 Eylül sonunda duyuruldu ama şimdilik sınırlı erişimde.
+    Qwen Alibaba'nın, DeepSeek aynı adlı Çin şirketinin. İkisi de güçlü modellerini açık ağırlıklı olarak yayımlıyor. Llama da Meta'nın açık ağırlıklı ailesi.
+    Tablonun üçüncü sütununa dikkat edin: Erişim. Bazıları yalnızca kapalı, bazıları açık ağırlıklı. Bu farkı iki slayt sonra açacağım.
+  gecis: |
+    Oylamaya geri dönelim: Kullandığınız uygulamanın arkasında hangisi var?
+
+uygulama-model:
+  soyle: |
+    ChatGPT kullananlar aslında OpenAI'nin GPT ailesinden bir model kullanıyor. Gemini uygulaması Google'ın Gemini modellerini, Claude uygulaması Anthropic'in Claude modellerini çalıştırıyor. DeepSeek de öyle.
+    Copilot biraz farklı: Microsoft bu üründe birden çok şirketin modelini kullanıyor; GPT ve Claude bunlardan ikisi. Meta AI ise Meta'nın kendi Muse Spark modeliyle çalışıyor.
+    Buradan çıkaracağımız ders şu: Uygulama bir ürün, model onun içindeki motor. Aynı model farklı uygulamalarda farklı ayarlarla, farklı araçlarla çalışabilir. Mini deneyde gördüğünüz farkların bir kısmı modelden değil, uygulamanın modele ne verdiğinden kaynaklanıyordu.
+    Hafta 3'te uygulamayı aradan çıkaracağız ve modelleri doğrudan, kendi kodumuzla çağıracağız.
+  gecis: |
+    Tablodaki “kapalı” ve “açık ağırlıklı” ayrımını açalım.
+
+kapali-acik:
+  soyle: |
+    Kapalı model: Yalnızca şirketin uygulaması ya da API'si üzerinden kullanabilirsiniz. Modelin ağırlıkları, yani eğitimle öğrenilmiş milyarlarca sayı, paylaşılmaz. En güçlü modeller genelde bu gruptadır: GPT-6, Claude, Gemini.
+    Açık ağırlıklı model, İngilizcesi open-weight: Ağırlıklar indirilebilir. Modeli kendi bilgisayarınızda çalıştırabilirsiniz. Bunun iki büyük faydası var: Verileriniz bilgisayarınızdan dışarı çıkmaz ve kullanım başına ücret ödemezsiniz. Qwen, DeepSeek, Gemma ve Llama bu gruba örnek.
+    Küçük ama önemli bir ayrım: “Açık ağırlıklı” ile “açık kaynak” aynı şey değil. Ağırlıklar açık olabilir ama modeli eğitmekte kullanılan veri ve kod paylaşılmamış olabilir.
+    Hafta 5'te açık ağırlıklı bir modeli Ollama ile kendi bilgisayarınızda çalıştıracağız.
+  sor: |
+    Bir hastanenin hasta kayıtlarını özetleyen bir sistem kursanız hangisini seçerdiniz, neden?
+  beklenen:
+    - "Açık ağırlıklı: veri hastaneden dışarı çıkmaz"
+    - "Kapalı: daha güçlü olabilir ama gizlilik sözleşmesi ve izin gerekir"
+  gecis: |
+    Bu kadar ad sayınca bir uyarı yapmam gerekiyor.
+
+ezberleme:
+  soyle: |
+    Aklınızda kalsın: Model adlarını ezberlemeyin. Nereden takip edeceğinizi bilin.
+    Bu tabloyu altı ay sonra açtığınızda yarısı eskimiş olacak. Ama bu derste öğreneceğiniz teknikler, yani iyi istem yazmak, bağlamı yönetmek, araçları sınırlamak ve sonucu kontrol etmek, model değişse de geçerli kalacak.
+    Güncel listeyi görmek için iki yer öneriyorum: openrouter.ai/models sayfası ve üreticilerin kendi model sayfaları. Hafta 3'te OpenRouter üzerinden aynı kodla farklı modelleri deneyeceğiz.
+  gecis: |
+    Şimdi kutuyu açalım: Bir dil modeli aslında ne yapıyor?
+
+bolum-3:
+  soyle: |
+    Üçüncü bölüm: Sıradaki kelime. Bir dil modeli aslında ne yapıyor? Bu bölüm kısa ama dersin geri kalanı için çok önemli. Mini deneyde gördüğünüz farklı cevapların ve uydurulan kaynakların nedeni burada.
+  gecis: |
+    Temel fikirle başlayalım.
+
+siradaki-kelime:
+  soyle: |
+    Bir dil modelinin yaptığı iş şaşırtıcı derecede basit görünür: O ana kadarki metne bakar ve sıradaki parçanın olasılıklarını hesaplar. Birini seçer, metne ekler, ve bunu tekrar eder. Kelime kelime, aslında parça parça.
+    Örneğe bakın: “Isparta'nın en meşhur ürünü” cümlesinin devamı için model şöyle bir dağılım hesaplayabilir: gül yüzde 53, elma yüzde 25, halı yüzde 10, ve geri kalanı başka kelimeler.
+    Model her zaman en olası kelimeyi seçmek zorunda değil. Arada ikinci ya da üçüncü kelimeyi de seçebilir. Bu yüzden aynı soruya her seferinde biraz farklı bir cevap alırsınız. Mini deneydeki farkın bir nedeni buydu.
+    Bu sayıları örnek olsun diye ben yazdım; gerçek model binlerce aday kelime için olasılık hesaplar.
+  gecis: |
+    Bunu telefonunuzda kendiniz deneyin.
+
+dene-sicaklik:
+  soyle: |
+    QR kodu okutun. Açılan sayfada “Bir kelime üret” düğmesine birkaç kez basın ve her seferinde hangi kelimenin seçildiğine bakın.
+    Sonra sayfadaki kaydırıcıyı önce en sola, sonra en sağa çekin ve tekrar deneyin. Ne değişiyor?
+    En sonda “10 kez üret” düğmesiyle sonuçların nasıl dağıldığına bakın. Dört dakikanız var.
+    (4 dakika sonra) Ne gözlediniz?
+  sor: |
+    Kaydırıcıyı sola ve sağa çektiğinizde ne değişti?
+  beklenen:
+    - "Solda hep aynı kelime çıkıyor"
+    - "Sağda daha az olası kelimeler de seçiliyor, sonuçlar karışıyor"
+  gecis: |
+    O kaydırıcının adı sıcaklık. Ayrıntısı Hafta 2'de. Şimdi bu mekanizmanın bir yan etkisine bakalım: uydurma.
+
+neden-uydurur:
+  soyle: |
+    Model neden uydurur? Çünkü dil modeli bilgiyi bir veritabanından okumaz. Metnin en olası devamını üretir. “En olası” ile “doğru” çoğu zaman örtüşür, ama her zaman değil. Bu yüzden kulağa doğru gelen ama gerçek olmayan bir cümle de üretebilir.
+    Örnek: Bir kitabın ISBN numarasını sorduğunuzda model “978-605” ile başlayan, biçimi kusursuz bir numara yazabilir. Biçim doğru, çünkü model binlerce ISBN görmüş. Ama sayı uydurma olabilir. Var olmayan makale ve kaynak listeleri de aynı nedenle çıkar.
+    Benzetme: Konuyu bilmeyen ama cevabı kendinden emin bir dille yazan bir öğrenci düşünün. Yazı akıcıdır, ikna edicidir; doğru olup olmadığını ancak kontrol ederek anlarsınız.
+    Bunun İngilizce adı hallucination; biz “uydurma” diyeceğiz. Laboratuvarda dördüncü ve beşinci görev tam olarak bunu yoklayacak. Uydurmayı azaltmanın yolları, yani doğru bilgiyi vermek, araç kullandırmak ve sonucu kontrol etmek, bu dersin sonraki katmanlarının konusu.
+  gecis: |
+    Bölümü kapatmadan önce bu modellerin temelindeki mimariyi tek cümleyle anlatayım.
+
+transformer:
+  soyle: |
+    Transformer, 2017'de tanıtılan mimari. Tek cümleyle: Her kelime, cümledeki diğer kelimelere bakarak kendi anlamını bağlama göre belirler. Bu bakma işlemine dikkat, İngilizcesi attention denir.
+    Örnek: “Ali kitabı Ayşe'ye verdi çünkü o …” Bu cümledeki “o” kim? Bunu anlamak için cümlenin başına bakarsınız. Model de her kelime için aynısını yapar: Hangi kelimelere ne kadar dikkat etmesi gerektiğini hesaplar.
+    Bugün bu kadarı yeterli. Token, gömme, dikkat ve sıcaklığı Hafta 2'de animasyonlarla açacağız.
+  gecis: |
+    Kavramlar tamam. Şimdi dersin haritasına geçiyoruz.
+
+bolum-4:
+  soyle: |
+    Dördüncü bölüm: Dersin haritası. İstemden döngüye dört katman, ve bu dönem nasıl ilerleyeceğimiz. Başta sorduğum soruya, yani “iyi soru sormak yeter mi?” sorusuna asıl cevap bu bölümde.
+  gecis: |
+    Haritanın tamamını otuz saniyelik bir animasyonla görelim.
+
+dort-katman:
+  soyle: |
+    (Video kendiliğinden başlar. Bitene kadar konuşmayın; son karede durun.)
+    Birinci katman İstem: iyi sormak. “Bu metni üç maddede özetle” gibi.
+    İkinci katman Bağlam: doğru bilgiyi masaya koymak. Modele hangi belgeyi, hangi sohbet geçmişini, hangi sırayla verdiğiniz.
+    Üçüncü katman Harness, Türkçesiyle koşum ortamı: Modele hangi araçları, hangi izinlerle verdiğiniz. Örneğin yalnızca arama ve hesap makinesi açık, dosya silme kapalı.
+    Dördüncü katman Döngü: kontrol et, düzelt, dur. Model bir şey üretir, biz ya da bir program onu test eder, hata varsa düzeltilir, ve bu en fazla belli sayıda tekrar edilir.
+    Her yeni katman öncekini içine alıyor. İstem hep merkezde kalıyor. Yani iyi istem hâlâ temel; ama tek başına yetmiyor.
+  gecis: |
+    Her katmanın sorduğu soruyu tabloda toplayalım.
+
+katman-ornekleri:
+  soyle: |
+    Her katman tek bir soruya cevap verir.
+    İstem: Modele nasıl sormalı? Örnek: “Bu metni üç maddede, resmî dille özetle.”
+    Bağlam: Modele hangi bilgiyi, hangi sırayla vermeli? Örnek: Üniversitenin yönetmelik PDF'i ve önceki sohbet geçmişi.
+    Harness: Hangi araçlar, hangi izinlerle açık? Örnek: Model yalnızca arama yapabilsin ve hesap makinesi kullanabilsin, başka hiçbir şey yapamasın.
+    Döngü: Ne zaman bitti, kim kontrol ediyor? Örnek: Kodu yaz, testleri çalıştır, hata varsa düzelt, en fazla beş kez dene.
+    2022'de herkes ilk satırı konuşuyordu. Bugün gerçek uygulamalar dört satırın hepsini gerektiriyor.
+  gecis: |
+    Bu dört satırı başta yaptığınız mini deneye uygulayalım.
+
+mini-deney-katmanlar:
+  soyle: |
+    Mini deneyde ne olmuştu? İkiniz de aynı istemi yazdınız. Demek ki fark istemden gelmedi.
+    Bağlam: Araç hangi bilgiye sahipti? Gösterdiği kaynak gerçekten var mıydı? Bazı araçlar kaynak uydurdu, çünkü elinde gerçek bir kaynak yoktu.
+    Harness: Uygulamanızda web araması açık mıydı? Açık olan araç gerçek bir bağlantı getirebildi; kapalı olan getiremedi.
+    Döngü: Cevabı kimse kontrol etmedi. Kontrolü bu sefer siz yaptınız. Gerçek bir sistemde bu kontrolü bir program yapmalı.
+    Aynı istem, farklı sonuç. Fark çoğu zaman istemin dışındaki katmanlarda.
+  sor: |
+    Sizin ikilinizde fark en çok hangi satırdan geldi?
+  beklenen:
+    - "Bağlam: biri kaynak verdi, diğeri veremedi"
+    - "Harness: birinin web araması açıktı"
+  gecis: |
+    Bu dört katmanı dönem boyunca hangi sırayla işleyeceğimize bakalım.
+
+donem-haritasi:
+  soyle: |
+    Dönem haritası. Dört sütun, dört katman.
+    İlk beş hafta İstem katmanındayız: Bugün giriş, gelecek hafta modelin kabaca nasıl çalıştığı, üçüncü hafta istem yazma ve modelden düzenli JSON çıktısı almak, dördüncü hafta daha iyi istemler ve ilk güvenlik uyarısı, beşinci hafta modeli kendi bilgisayarınızda çalıştırmak.
+    Altıncı hafta Bağlam katmanına geçiyoruz. Yedinci hafta vize; ilk altı haftayı kapsıyor. Vizeden sonra sekizinci ve dokuzuncu haftalarda RAG, yani modelin sizin belgelerinizden cevap üretmesi.
+    Onuncu hafta ajanlar, yani araç kullanan yapay zekâ. On birinci hafta döngü ve harness. On ikinci hafta güvenlik, etik ve değerlendirme. Son iki hafta proje sunumları.
+    Kırmızı çerçeveli kutu bu hafta. Her hafta bu haritada nerede olduğumuzu göreceksiniz.
+  gecis: |
+    Bir haftanın nasıl işleyeceğine de bakalım.
+
+haftanin-isleyisi:
+  soyle: |
+    Her hafta aynı ritim. Yaklaşık yüz dakika teori: kavramlar, animasyonlar, kısa etkinlikler. On dakika mola. Ardından yaklaşık altmış beş dakika laboratuvar: öğrendiğimizi derste deniyoruz. Hafta 2'den itibaren laboratuvarlar bilgisayarla. Son olarak evde bir ila üç saatlik kısa bir ödev; GitHub'a teslim ediyorsunuz.
+    Yani her hafta önce anlıyoruz, sonra derste deniyoruz, sonra evde pekiştiriyoruz.
+    Tekrar ediyorum: Gelecek haftadan itibaren bilgisayarınızı getirin.
+  gecis: |
+    Değerlendirmeye bakalım.
+
+degerlendirme:
+  soyle: |
+    Değerlendirme üç parçadan oluşuyor.
+    Yüzde otuz ödev ve uygulama: Dönem boyunca altı ila sekiz kısa ödev. Her biri bir ila üç saatlik iş; büyük proje değil, tek bir betik ve kısa bir not.
+    Yüzde otuz vize: İlk altı haftanın konuları. Kavramlar, istem yazma ve kısa kod okuma. Altmış dakika.
+    Yüzde kırk final projesi: İki ya da üç kişilik gruplar. Çalışan bir uygulama, sunum ve rapor.
+    Ödev notu vize notuna karışmıyor. Proje konuları sekizinci haftadan sonra duyurulacak, teslim on üç ve on dördüncü haftalarda. Ayrıntılar ders sayfasındaki README dosyasında.
+  gecis: |
+    Final projesinin neye benzeyeceğini bir örnekle göstereyim.
+
+ornek-proje:
+  soyle: |
+    Örnek bir final projesi: Yönetmelik asistanı.
+    Ne yapar? SDÜ yönetmeliğiyle ilgili sorularınızı cevaplar. Her cevabın yanında hangi maddeden aldığını ve o maddeden alıntıyı gösterir; buna RAG diyoruz, sekizinci haftada göreceğiz. Bilmediği bir soru gelirse uydurmak yerine “bilmiyorum” der. Ve sizin yazdığınız beş testlik bir doğrulayıcıdan geçer.
+    Ne teslim edilir? GitHub deposu ve kurulumu anlatan bir README. Hangi istemleri neden kullandığınızı anlatan bir istem dosyası. Üç ila beş dakikalık demo videosu, sunum ve rapor. Ve yarım sayfalık bir etik değerlendirme: Sisteminiz uydurabilir mi, kullanıcıya yapay zekâ cevabı olduğunu söylüyor mu?
+    Bunu bugün yapamazsınız. On dört hafta sonra yapabileceksiniz. Dersin hedefi bu.
+  gecis: |
+    Bu kadar yapay zekâ konuşurken akla gelen bir soru var. Önce sizin fikrinizi alayım.
+
+yz-kurallari-soru:
+  soyle: |
+    Bu derste ödevlerde yapay zekâ kullanmak serbest olmalı mı? Neden?
+    Yanınızdakiyle bir dakika konuşun, sonra birkaç fikir alacağım.
+    (1 dakika sonra 3–4 kişiden fikir alın. Her gerekçeyi bir sonraki slayttaki bir kuralla eşleştirin.)
+  sor: |
+    Yapay zekâ kullanmak serbest olmalı mı? Neden?
+  beklenen:
+    - "Evet, ders zaten bunu öğretiyor"
+    - "Hayır, kendimiz öğrenemeyiz"
+    - "Serbest olsun ama kullandığımızı söyleyelim"
+    - "Model yanlış bilgi verebilir"
+  gecis: |
+    Güzel. Bu dersin kuralları şunlar; çoğunu zaten siz söylediniz.
+
+yz-kurallari:
+  soyle: |
+    Bir: Kullanmak serbest. Bu ders zaten yapay zekâ araçlarıyla çalışmayı öğretiyor; yasaklamak anlamsız olurdu.
+    İki: Kullandığınızı yazın. Teslim ettiğiniz her işte kısa bir notla hangi aracı, ne için kullandığınızı belirtin. Bunu bir itiraf olarak değil, mühendislik kaydı olarak düşünün.
+    Üç: Teslim ettiğiniz her satırı açıklayabilmelisiniz. Vizede ve proje sunumunda kodunuzdan bir satır gösterip “bu ne yapıyor?” diye soracağım.
+    Dört: Model uydurabilir. Bugün bunu kendi gözünüzle göreceksiniz. Çıktıyı doğrulamak sizin sorumluluğunuz.
+    Beş: API anahtarı ve kişisel veri asla isteme veya repoya girmez. Bir anahtarı GitHub'a yüklerseniz dakikalar içinde başkası kullanabilir ve fatura size gelir.
+  gecis: |
+    Bu dönem kullanacağımız araçlara bakalım.
+
+araclar:
+  soyle: |
+    İki tür araç kullanacağız.
+    Bulutta OpenRouter: Tek hesap, tek anahtarla birçok şirketin modeline erişiyorsunuz. Kullandığınız kadar ödüyorsunuz ve çok ucuz modeller de var. Anahtarınız kodunuzda değil, .env adlı ayrı bir dosyada duracak; o dosya da repoya asla girmeyecek. Kurulumu Hafta 3'te birlikte yapacağız.
+    Yerelde Ollama ve LM Studio: Model kendi bilgisayarınızda çalışıyor. API ücreti yok, veriniz dışarı çıkmıyor, bilgisayarınız yeterliyse internet bile gerekmiyor. Kurulumu Hafta 5'te.
+    Bu hafta hiçbir şey kurmanız gerekmiyor. Bir uyarıyı şimdiden yapayım: Kontrolsüz çalışan bir döngü, bir gecede beklenmedik bir fatura çıkarabilir. Bunu Hafta 11'de konuşacağız.
+  gecis: |
+    Son olarak dersin sitesi.
+
+site:
+  soyle: |
+    QR kodu okutun. Bu, dersin sitesi. Derslerde QR ile açacağımız bütün interaktif sayfalar burada. Az önce kullandığınız sıcaklık sayfası da burada.
+    Bir katmana dokunun; o katmanın haftalarını ve sayfalarını göreceksiniz. Sayfalar telefonda çalışıyor ve sizden hiçbir veri toplamıyor; yazdıklarınız yalnızca kendi telefonunuzda kalıyor.
+    Moladan sonraki laboratuvarda bu sitedeki Gözlem Defteri'ni kullanacağız.
+  gecis: |
+    On dakika mola veriyoruz.
+
+mola:
+  soyle: |
+    On dakika mola. Döndüğünüzde yanınızdakiyle ikili olarak telefonla laboratuvar yapacağız. İkinizin farklı birer sohbet uygulaması kullanması gerekiyor; mola sırasında kim hangisini kullanacak, kararlaştırın.
+    Telefonunuzun şarjı azsa şimdi prize takın.
+  gecis: |
+    (Moladan dönüşte) Herkes yerinde mi? Laboratuvarla devam ediyoruz.
+
+lab:
+  soyle: |
+    Bugünün laboratuvarı: İki araç, beş görev. Amaç, aynı görevlerde iki sohbet aracının nasıl davrandığını önce tahmin etmek, sonra denemek, sonra karşılaştırmak.
+    İkili olun; ikiniz farklı birer uygulama kullanacaksınız. Bir sonraki slayttaki QR ile Gözlem Defteri'ni açacaksınız.
+    Her görevde sıra şu: Önce tahmininizi işaretleyin, sonra istemi iki uygulamada da çalıştırın, sonra farkı yazın. Tahmini denemeden önce yapın; tahmin etmek, sonucu gördüğünüzde ne öğrendiğinizi fark etmenizi sağlıyor.
+    Her görev için yaklaşık on dakikanız var. Sayfada “Neye bakmalı?” diye bir ipucu var; onu denedikten sonra açın.
+    Bitirince “Markdown olarak kopyala” düğmesiyle notunuzu alacaksınız. Bunu evde GitHub'daki reponuza, hafta-01 klasörüne gozlem.md adıyla koyacaksınız. Son tarih gelecek ders.
+    Teslimde dört şeye bakacağım: Beş görevin hepsi dolu mu, her görevde en az bir somut fark yazılmış mı, bir paragraflık genel değerlendirme var mı, ve dosya doğru yerde mi.
+  gecis: |
+    Gözlem Defteri'ni açalım.
+
+gozlem-defteri:
+  soyle: |
+    QR kodu okutun. Sayfa açılınca önce adınızı yazın, sonra iki aracı seçin: Kendi kullandığınız A, eşinizin kullandığı B.
+    İstemleri elle yazmanıza gerek yok; her görevin altında “İstemi kopyala” düğmesi var. Kopyalayıp uygulamanıza yapıştırın.
+    Yazdıklarınız yalnızca sizin telefonunuzda saklanıyor; sayfayı kapatsanız bile kaybolmuyor. Ama telefonun tarayıcı verilerini silerseniz gider, o yüzden bitirince mutlaka kopyalayın.
+    Herkes sayfayı açabildi mi?
+  gecis: |
+    Birinci görevle başlıyoruz.
+
+gorev-1:
+  soyle: |
+    Birinci görev: Özetleme. Soru şu: Araç uzun bir metni kısaltırken anlamı koruyor mu, ve verdiğimiz kurallara uyuyor mu?
+    İstemde iki kural var: Tam üç madde, ve her madde en fazla on iki kelime.
+    Önce tahmin edin: Hangi araç bu kurallara daha iyi uyacak? Sonra istemi iki uygulamada da çalıştırın ve karşılaştırın. On dakikanız var.
+    (Sınıfta dolaşın. Takılan ikililere: “Kelimeleri saydınız mı?”)
+  beklenen:
+    - "Bazı araçlar dört madde ya da giriş cümlesi ekler"
+    - "On iki kelime sınırı sık aşılır; öğrenciler saymazsa fark etmez"
+    - "Metinde olmayan bir yorum eklenebilir"
+  gecis: |
+    Süre doldu. İkinci göreve geçiyoruz.
+
+gorev-2:
+  soyle: |
+    İkinci görev: Türkçe yazım. Araç Türkçenin yazım ve noktalama kurallarını biliyor mu?
+    İstemde hatalı bir cümle var: “Yarın ki sınavda herkez kitabını getirsinmi acaba ?” Modelden hataları düzeltmesini ve her düzeltmenin nedenini açıklamasını istiyoruz.
+    Önce kendiniz bulun: Bu cümlede kaç hata var? Sonra tahmin edin: Araçlar kaç tanesini bulacak? On dakika.
+  beklenen:
+    - "Dört hata: “Yarınki” bitişik, “herkes”, “getirsin mi” ayrı, soru işaretinden önce boşluk olmaz"
+    - "Bazı araçlar gereksiz değişiklik de yapar (ör. “acaba”yı siler); bu da not edilmeli"
+    - "Açıklamalarda yanlış kural adı verilebilir"
+  gecis: |
+    Üçüncü görev biraz sizi de yoklayacak.
+
+gorev-3:
+  soyle: |
+    Üçüncü görev: Mantık sorusu. Soru şu: Bir raket ve bir top toplam 110 lira. Raket toptan 100 lira daha pahalı. Top kaç lira?
+    Araçlara sormadan önce kendiniz cevaplayın. Hızlıca, aklınıza ilk gelen sayıyı defterinize yazın.
+    Sonra tahmin edin: Araçlar ne diyecek? Ve istemi çalıştırın. İstemin sonunda “cevabını tek sayı olarak ver” yazdığına dikkat edin.
+  beklenen:
+    - "Doğru cevap 5 lira: top 5, raket 105, toplam 110"
+    - "İnsanların çoğu hızlıca 10 lira der"
+    - "Güncel modeller çoğunlukla doğru bulur; yanlış bulan olursa “tek sayı” kısıtının düşünmesini kısıtlamış olabileceğini tartışın"
+  gecis: |
+    Dördüncü görevde modelin bilgisinin sınırlarına bakacağız.
+
+gorev-4:
+  soyle: |
+    Dördüncü görev: Güncel bilgi. Soru: “Dün Isparta'da hava nasıldı? Bu bilgiyi nereden aldığını da söyle.”
+    Bir dil modeli belli bir tarihe kadarki metinlerle eğitilir. Dünkü hava durumu o metinlerde yok. Peki araç ne yapacak?
+    Tahmin edin: Araçlar bunu bilebilir mi? Bilemiyorsa bunu açıkça söyleyecek mi, yoksa bir şey uyduracak mı? On dakika.
+  beklenen:
+    - "Web araması açık olan araç gerçek bir hava durumu sitesinden bilgi getirir"
+    - "Arama kapalı olan araç ya bilemeyeceğini söyler ya da genel bir tahmin yazar"
+    - "Bu fark modelden değil, araca hangi aracın açık olduğundan gelir: harness katmanı"
+  gecis: |
+    Son görev en ilginci.
+
+gorev-5:
+  soyle: |
+    Beşinci görev: Uydurma tespiti. İstemde SDÜ Yayınları'ndan 2019'da çıkmış bir kitabın üçüncü bölümünü özetlemesini ve kitabın ISBN numarasını yazmasını istiyoruz.
+    Kitabın var olup olmadığını size söylemeyeceğim. Önce tahmin edin: Araçlar bu kitap hakkında ne diyecek? Sonra deneyin.
+    Cevap gelince kontrol edin. Kitap gerçekten var mı? ISBN numarası gerçek mi? Bunu nasıl doğrularsınız?
+    (Öğretmen bilgisi: Böyle bir kitap yok; başlık uydurma. Paylaşım bölümüne kadar söylemeyin.)
+  beklenen:
+    - "Bazı araçlar güvenle bir bölüm özeti ve ISBN yazar: uydurmanın canlı örneği"
+    - "Bazıları “bu kitabı bulamadım” der"
+    - "Web araması açık olan araç aramadan sonra bulamadığını söyleyebilir"
+    - "Doğrulama yolu: kütüphane kataloğu, ISBN araması, yayınevinin sitesi"
+  gecis: |
+    Süre doldu. Telefonlar elinizde kalsın; sonuçları sınıfça toplayalım.
+
+sinif-sonuclari:
+  soyle: |
+    Her görev için soracağım, el kaldırarak cevap verin; tabloyu birlikte dolduracağız.
+    Birinci görev, özetleme: Kurallara tam uyan araç hangisiydi? Sizi şaşırtan bir şey oldu mu?
+    İkinci görev, Türkçe yazım: Dört hatanın hepsini bulan araç oldu mu? Gereksiz değişiklik yapan?
+    Üçüncü görev, mantık sorusu: Kaçınız ilk anda 10 lira dediniz? Araçlar ne dedi?
+    Dördüncü görev, güncel bilgi: Hangi araç gerçek bilgi getirdi? Hangisi bilmediğini söyledi, hangisi uydurdu?
+    Beşinci görev: Kitap hakkında güvenle bir özet ve ISBN yazan araç oldu mu?
+    (Cevaplardan sonra söyleyin:) Size şimdi söyleyebilirim: Böyle bir kitap yok. Başlığı ben uydurdum. Kitap hakkında güvenle özet yazan her araç, birkaç saat önce konuştuğumuz uydurmanın canlı örneğiydi.
+  sor: |
+    Her görev için: En iyi yapan araç hangisiydi? Uydurma gördünüz mü? Sizi en çok ne şaşırttı?
+  beklenen:
+    - "Görev 4 ve 5'te araçlar arasındaki fark en büyük olur; bunu vurgulayın"
+    - "Kendinden emin ve uzun cevap ile doğru cevap aynı şey değil"
+  gecis: |
+    Şimdi dersin başındaki soruya dönelim.
+
+soruya-donus:
+  soyle: |
+    İyi soru sormak yeter mi?
+    Bugün aynı soruyu farklı araçlara sorduk ve farklı güvenilirlikte cevaplar aldık. Ama dikkat edin: Fark çoğu zaman sorudan gelmedi. İstem aynıydı.
+    Fark bağlamdan geldi: Araç hangi bilgiye sahipti, kaynak gösterebildi mi?
+    Harness'tan geldi: Web araması açık mıydı?
+    Ve döngüden geldi: Cevabı kim kontrol etti? Bugün o kontrolü siz yaptınız.
+    Yani iyi soru sormak gerekli, ama yetmiyor. Sorudan sonrasını tasarlamak bir mühendislik işi. Bu dönem bunu öğreneceğiz.
+  gecis: |
+    Bugünü üç cümlede özetleyelim.
+
+ozet:
+  soyle: |
+    (Maddeleri siz okumayın; bir öğrenciden okumasını isteyin.)
+    Bir arkadaşımız bu üç maddeyi okuyabilir mi?
+    (Okunduktan sonra:) Teşekkürler. Bu üç cümle bugünün özeti. Gelecek hafta ikinci maddeyi, yani modelin sıradaki kelimeyi nasıl tahmin ettiğini, içini açarak göreceğiz.
+  gecis: |
+    Çıkmadan önce son bir şey.
+
+cikis-karti:
+  soyle: |
+    Size birer küçük kâğıt dağıtıyorum. Bir dakikanız var.
+    Kâğıda dersin başındaki soruya tek cümlelik cevabınızı yazın: İyi soru sormak yeter mi?
+    Altına da bugün aklınızı karıştıran tek bir şeyi yazın. İsim yazmanız gerekmiyor.
+    Kâğıdı çıkarken kapının yanındaki masaya bırakın. Gelecek hafta en çok karışan konuya derse başlarken iki dakika ayıracağım.
+  gecis: |
+    Bu arada birkaç hatırlatma yapayım.
+
+sozluk:
+  soyle: |
+    Bugünün sözlüğü ekranda. Büyük dil modeli, üretken model, ayırt edici model, istem, açık ağırlıklı model ve uydurma.
+    Bu altı terimi vizede kendi cümlelerinizle tanımlayabilmeniz gerekiyor. Ders sayfasındaki README'de daha uzun bir “Küçük sözlük” bölümü var; bu hafta onu baştan sona okuyun.
+  gecis: |
+    Ödeve bakalım.
+
+odev:
+  soyle: |
+    Bu haftanın işleri:
+    Bir: Gözlem notunuzu, yani gozlem.md dosyasını, GitHub'daki ders reponuzda hafta-01 klasörüne koyun. Son tarih gelecek haftanın dersi.
+    İki: 3Blue1Brown'ın “Large Language Models explained briefly” videosunu izleyin; sekiz dakika. Gelecek haftanın konusuna çok iyi bir hazırlık.
+    Üç: README'deki “Küçük sözlük” bölümünü okuyun.
+    Gelecek hafta: Model kabaca nasıl çalışır? Token, gömme, dikkat ve sıcaklık. Bilgisayarınızı getirin.
+    Teslim düzeni şu: Reponuzda hafta-01 adında bir klasör, içinde gozlem.md. (Repo adlandırma kuralınızı tahtaya yazın.)
+  gecis: |
+    Son slayt: kaynaklar.
+
+kaynaklar:
+  soyle: |
+    Bugün kullandığım kaynaklar burada. İlk video zorunlu, diğerleri isteğe bağlı. Andrej Karpathy'nin bir saatlik konuşması bu alana girmek isteyenler için çok iyi bir başlangıç. “Attention Is All You Need” makalesinin şimdilik yalnızca özetini okumanız yeterli.
+    QR kodu ders reposuna gidiyor; bütün bağlantılar orada.
+    Bugün için teşekkürler. Gelecek hafta bilgisayarlarınızla görüşmek üzere.
+
+# ───────── Ders geneli (kılavuzun ilk sayfasına girer; slayt değildir) ─────────
+_ders:
+  hazirlik:
+    - "Gözlem Defteri sayfası yayında mı? Telefonla /h01/gozlem adresini açıp bir görevi deneyin (git push yapılmış olmalı)."
+    - "Sınıfın internetinde ChatGPT, Gemini ve Claude açılıyor mu? Kendi telefonunuzdan ve sınıf ağından kontrol edin."
+    - "Sunumu sınıftaki bilgisayarda açın; {neredeyiz}, {video-ic-ice}, {video-ayirt-uretken} ve {dort-katman}. slaytlardaki videoların kendiliğinden başladığını görün. Ses gerekmiyor."
+    - "QR kodlarını projeksiyondan okutup deneyin (slayt {dene-sicaklik}, {site}, {gozlem-defteri} ve {kaynaklar})."
+    - "Model aileleri tablosu (slayt {model-aileleri}) ve uygulama tablosu (slayt {uygulama-model}) hâlâ güncel mi? Değiştiyse tabloyu güncelleyip desteyi yeniden üretin."
+    - "Çıkış kartı için 40–50 küçük kâğıt ya da yapışkan not."
+    - "Öğrencilerin GitHub repo adlandırma kuralını belirleyin (ödev slaytında tahtaya yazacaksınız)."
+  gizli:
+    - "Görev 5'teki kitap yok; başlık uydurma. Paylaşım bölümüne kadar söylemeyin."
+    - "Görev 3'ün cevabı 5 TL. Öğrenciler kendi cevaplarını yazmadan söylemeyin."
+    - "Kontrol sorusunun cevabı C; cevap slaytına geçmeden söylemeyin."

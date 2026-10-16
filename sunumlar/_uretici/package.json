@@ -1,0 +1,15 @@
+{
+  "name": "istem-sunum-uretici",
+  "version": "1.0.0",
+  "private": true,
+  "description": "İstem Mühendisliği haftalık PPTX üreticisi (pptxgenjs)",
+  "scripts": { "uret": "node build.js" },
+  "dependencies": {
+    "js-yaml": "^4.1.0",
+    "jszip": "^3.10.1",
+    "pptxgenjs": "^4.0.1",
+    "qrcode": "^1.5.4",
+    "sharp": "^0.34.0",
+    "lucide-static": "^0.540.0"
+  }
+}

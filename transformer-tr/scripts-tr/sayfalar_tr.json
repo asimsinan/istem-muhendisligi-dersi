@@ -1,0 +1,82 @@
+{
+ "what-is-transformer": {
+  "title": "Transformer nedir?",
+  "content": "<p><strong>Transformer</strong>, ChatGPT ve Gemini gibi modellerin temelindeki mimaridir; 2017'de tanıtıldı. Bu sayfada YTÜ Cosmos ekibinin Türkçe metinle eğittiği <strong>Türkçe GPT-2</strong> tarayıcınızda çalışıyor (124 milyon parametre). Yazı kutusunun altından orta boya (355 milyon), çok dilli XGLM'ye (564 milyon) ya da Google'ın <strong>Gemma 3</strong>'üne (270 milyon) geçebilirsiniz. Gemma bugünkü modellerin yeni parçalarını taşır; GPT-2'den farkları kırmızı notlarla gösterilir. Hepsi sohbet modellerinden çok küçük, ama temelleri görmek için ideal.</p>"
+ },
+ "how-transformers-work": {
+  "title": "Transformer nasıl çalışır?",
+  "content": "<p>Transformer sihir değildir; metni adım adım, her seferinde şu soruyu sorarak kurar:</p>\n\t<blockquote class=\"question\">\n\t\t\"Bu metnin ardından gelmesi en olası kelime hangisi?\"\n\t</blockquote>\n\t<p>Burada eğitilmiş bir modelin metni nasıl ürettiğini inceliyoruz. Kendi cümlenizi yazın ya da bir örnek seçin, sonra <strong>Üret</strong> düğmesine basın. Model henüz inmediyse başka bir <strong>Örnek</strong> deneyin.</p>"
+ },
+ "transformer-architecture": {
+  "title": "Transformer mimarisi",
+  "content": "<p>Transformer'ın üç ana parçası var:</p><div class=\"numbered-list\"><div class=\"numbered-item\"><span class=\"number-circle\">1</span><div class=\"item-content\"><strong>Gömme</strong> metni sayılara çevirir.</div></div><div class=\"numbered-item\"><span class=\"number-circle\">2</span><div class=\"item-content\"><strong>Transformer blokları</strong> bilgiyi öz dikkatle karıştırır ve MLP ile inceltir.</div></div><div class=\"numbered-item\"><span class=\"number-circle\">3</span><div class=\"item-content\"><strong>Olasılıklar</strong> her olası sıradaki token'ın ne kadar muhtemel olduğunu belirler.</div></div></div>"
+ },
+ "embedding": {
+  "title": "Gömme (embedding)",
+  "content": "<p>Transformer metni kullanmadan önce onu küçük parçalara böler ve her parçayı bir sayı listesiyle (vektör) temsil eder. Bu işleme <strong>gömme</strong> denir; kelime hem işlemi hem de ortaya çıkan vektörü anlatır.</p><p>Bu araçta her vektör bir dikdörtgen olarak görünür; üzerine gelince boyutunu görürsünüz.</p>"
+ },
+ "token-embedding": {
+  "title": "Token gömme",
+  "content": "<p><strong>Tokenizasyon</strong> metni token'lara, yani kelime ya da kelime parçalarına böler. Türkçe GPT-2'nin sözlüğünde 50.257 token var ve her birinin bir numarası (ID) var; \"Isparta\", \"meşhur\" gibi kelimeler çoğu zaman tek parça. (XGLM ve Gemma'nın sözlükleri burada Türkçe ve İngilizce parçalara indirildi: 40 ve 49 bin.)</p><p><strong>Token gömme</strong> adımında her token, büyük bir tablodan 768 sayılık (orta modelde ve XGLM'de 1024, Gemma'da 640) bir vektörle eşleştirilir. Bu vektörler eğitimde öğrenilir. XGLM ve Gemma metnin başına bir başlangıç işareti (<code>&lt;/s&gt;</code>, <code>&lt;bos&gt;</code>) koyar; ilk token olarak onu da görürsünüz.</p>"
+ },
+ "positional-encoding": {
+  "title": "Konum kodlaması",
+  "content": "<p>Dilde kelime sırası önemlidir. <strong>Konum kodlaması</strong> her token'a cümledeki yeri hakkında bilgi ekler.</p><p>GPT-2 bunu, token'ın vektörüne öğrenilmiş bir konum vektörü ekleyerek yapar. XGLM de bir vektör ekler ama bu vektör öğrenilmez, sinüs dalgalarıyla hesaplanır. Yeni modellerin çoğu ise hiç vektör eklemez: <strong>RoPE</strong> (döner konum kodlaması), dikkat adımında Sorgu ve Anahtar vektörlerini token'ın konumuna göre belli bir açıyla döndürür. İki token'ın puanı böylece aralarındaki uzaklığa bağlı olur. Gemma'yı seçerseniz bu sütun boş kalır; konum dikkatte işlenir. Hepsinin amacı modelin metindeki sırayı anlamasına yardım etmek.</p>"
+ },
+ "blocks": {
+  "title": "Tekrarlanan Transformer blokları",
+  "content": "<p><strong>Transformer bloğu</strong> modelin ana işlem birimidir. İki parçası var:</p><ul><li><strong>Çok başlı öz dikkat</strong>: token'ların birbiriyle bilgi paylaşmasını sağlar</li><li><strong>MLP</strong>: her token'ın ayrıntılarını inceltir</li></ul><p>Modeller bu bloklardan çok sayıda üst üste dizer; token temsilleri geçtikçe zenginleşir. Türkçe GPT-2'nin küçük boyunda 12, orta boyunda ve XGLM'de 24 blok var.</p>"
+ },
+ "self-attention": {
+  "title": "Çok başlı öz dikkat",
+  "content": "<p><strong>Öz dikkat</strong>, modelin her token için girdinin hangi kısımlarının en önemli olduğuna karar vermesini sağlar. Böylece birbirinden uzak kelimeler arasındaki anlam ilişkileri bile yakalanır.</p><p><strong>Çok başlı</strong> hâlinde model birkaç dikkat işlemini paralel yürütür; her biri metindeki farklı örüntülere odaklanır.</p>"
+ },
+ "qkv": {
+  "title": "Sorgu, Anahtar, Değer",
+  "content": "<p>Öz dikkat için her token'ın vektörü <span class=\"highlight\">üç yeni vektöre</span> dönüştürülür: <span class=\"blue\">Sorgu (Query)</span>, <span class=\"red\">Anahtar (Key)</span> ve <span class=\"green\">Değer (Value)</span>. Bu dönüşüm her token vektörüne farklı ağırlık ve sapmalar uygulanarak yapılır; bu parametreler eğitimde öğrenilir. (Gemma'da sapma yoktur; Sorgu ve Anahtar ayrıca normalleştirilip RoPE ile döndürülür.)</p>\n<p>Sonra <span class=\"blue\">Sorgular</span> <span class=\"red\">Anahtarlarla</span> karşılaştırılarak ilgi düzeyi ölçülür; bu ilgi, <span class=\"green\">Değerleri</span> ağırlıklandırmak için kullanılır.</p>"
+ },
+ "multi-head": {
+  "title": "Çok başlı yapı",
+  "content": "<p><span class=\"blue\">Q</span>, <span class=\"red\">K</span> ve <span class=\"green\">V</span> vektörleri oluşturulduktan sonra model bunları birkaç <strong>başa</strong> böler (küçük modelde 12, orta modelde ve XGLM'de 16, Gemma'da 4). Her baş kendi küçük <span class=\"blue\">Q</span>/<span class=\"red\">K</span>/<span class=\"green\">V</span> takımıyla çalışır ve metindeki farklı örüntülere odaklanır: dilbilgisi, anlam ya da uzak kelimeler arası bağlar gibi.</p><p>Birden çok baş, modelin pek çok ilişki türünü paralel öğrenmesini sağlar.</p><p>Gemma'da 4 sorgu başı tek bir <span class=\"red\">K</span>/<span class=\"green\">V</span> başını ortak kullanır (<strong>GQA</strong>, gruplanmış sorgu dikkati). Böylece uzun metinlerde bellekte tutulan anahtar ve değerler azalır; yeni modellerin çoğu böyle çalışır.</p>"
+ },
+ "masked-self-attention": {
+  "title": "Maskeli öz dikkat",
+  "content": "<p>Her başta model, her token'ın diğerlerine ne kadar odaklanacağına karar verir:</p><ul><li><strong>Nokta çarpım</strong>: <span class=\"blue\">Sorgu</span> ve <span class=\"red\">Anahtar</span> vektörlerindeki karşılıklı sayılar çarpılıp toplanır; sonuç <span class=\"purple\">dikkat puanlarıdır</span>.</li><li><strong>Maske</strong>: Sonraki token'lar gizlenir; model ileriye bakıp kopya çekemez.</li><li><strong>Softmax</strong>: Puanlar olasılığa çevrilir; her satırın toplamı 1 olur ve önceki token'lara ne kadar odaklanıldığını gösterir.</li></ul>"
+ },
+ "output-concatenation": {
+  "title": "Dikkat çıktısı ve birleştirme",
+  "content": "<p>Her baş <span class=\"highlight\"><span class=\"purple\">dikkat puanlarını</span> <span class=\"green\">Değer</span> vektörleriyle çarparak kendi dikkat çıktısını üretir</span>: bağlamı hesaba katmış, inceltilmiş bir token temsili.</p><p>Küçük modelde 12 (orta modelde ve XGLM'de 16) böyle çıktı var; bunlar yan yana eklenerek yeniden orijinal boyutta (küçükte 768, ortada ve XGLM'de 1024 sayı) tek bir vektör oluşturur.</p>"
+ },
+ "mlp": {
+  "title": "MLP (çok katmanlı algılayıcı)",
+  "content": "<p>Dikkat çıktısı token temsillerini inceltmek için bir <strong>MLP</strong>'den geçer. Doğrusal bir katman, öğrenilmiş ağırlık ve sapmalarla vektörün değerlerini ve boyutunu değiştirir; ardından doğrusal olmayan bir aktivasyon her değerin ne kadar geçeceğine karar verir.</p><p>Birçok aktivasyon türü var; GPT-2 <strong>GELU</strong> kullanır. GELU küçük değerleri kısmen, büyük değerleri tamamen geçirir; böylece hem ince hem güçlü örüntüler yakalanır.</p><p>Gemma'nın MLP'si <strong>kapılıdır</strong> (GeGLU): vektör iki ayrı katmanla 2048 boyuta genişletilir, biri GELU'dan geçip diğeriyle çarpılır. Kapı, hangi bilginin geçeceğini daha ince ayarlar.</p>"
+ },
+ "output-logit": {
+  "title": "Çıktı logit'leri",
+  "content": "<p>Tüm Transformer bloklarından sonra, önceki bütün token'ların bağlamıyla zenginleşmiş son token'ın vektörü, son bir katmanda öğrenilmiş ağırlıklarla çarpılır.</p><p>Sonuç <strong>logit</strong> denen ve sözlükteki her token için bir tane olan sayılardır (Türkçe GPT-2'de 50.257). Her biri o token'ın sırada gelme ihtimalini gösteren ham bir puandır.</p>"
+ },
+ "output-probabilities": {
+  "title": "Olasılıklar",
+  "content": "<p>Logit'ler yalnızca ham puanlardır. Yorumlamayı kolaylaştırmak için 0 ile 1 arasında, toplamı 1 olan <strong>olasılıklara</strong> çevrilir. Böylece her token'ın sıradaki kelime olma ihtimali görülür.</p><p>Her zaman en olası token'ı seçmek yerine, üretilen metinde güvenlik ile yaratıcılık arasında denge kurmak için farklı seçim stratejileri kullanılabilir.</p>"
+ },
+ "temperature": {
+  "title": "Sıcaklık",
+  "content": "<p><strong>Sıcaklık</strong>, logit'leri olasılığa çevirmeden önce ölçekler. <strong>Düşük sıcaklık</strong> (ör. 0,2) büyük logit'leri daha da büyütüp küçükleri küçültür; en yüksek puanlı token'lar öne çıkar ve seçimler <strong>daha tahmin edilebilir</strong> olur. <strong>Yüksek sıcaklık</strong> (ör. 1,0 ve üstü) farkları düzleştirir; daha az olası token'lar da yarışa girer ve çıktı <strong>daha yaratıcı</strong> olur.</p>"
+ },
+ "sampling": {
+  "title": "Seçim stratejisi",
+  "content": "<p>Son olarak sıradaki token'ı seçmek için bir strateji gerekir. Yaygın olanlar: Açgözlü arama hep en olasıyı seçer. <strong>Top-k</strong> yalnızca en olası k token'ı tutar. <strong>Top-p</strong> toplam olasılığı en az p olan en küçük kümeyi tutar ve olası olmayanları baştan eler.</p><p>Ardından softmax kalan logit'leri olasılığa çevirir ve izin verilen kümeden rastgele bir token seçilir.</p>"
+ },
+ "residual": {
+  "title": "Artık bağlantı",
+  "content": "<p>Transformer'lar performansı artıran yardımcı özelliklere sahiptir. Örneğin <strong>artık bağlantı</strong> (residual connection), bir katmanın girdisini çıktısına ekler; böylece bilgi birçok blok boyunca kaybolmaz. GPT-2'de her blokta iki kez kullanılır ve derin yığınların iyi eğitilmesini sağlar. Gemma da aynısını yapar, ama eklemeden önce dikkat ve MLP çıktısını bir kez daha normalleştirir.</p>"
+ },
+ "layer-normalization": {
+  "title": "Katman normalizasyonu",
+  "content": "<p><strong>Katman normalizasyonu</strong>, girdideki sayıların ortalamasını ve varyansını dengede tutarak hem eğitimi hem kullanımı kararlı hâle getirir. Bu, modeli başlangıç ağırlıklarına daha az duyarlı yapar ve daha iyi öğrenmesine yardım eder. GPT-2'de öz dikkatten önce, MLP'den önce ve son çıktıdan önce bir kez daha uygulanır.</p><p>Gemma daha basit bir türünü kullanır: <strong>RMSNorm</strong>. Ortalamayı çıkarmaz, yalnızca sayıların büyüklüğünü (karelerinin ortalamasının kökünü) bire ölçekler. Gemma bunu her alt katmanın hem önünde hem arkasında uygular.</p>"
+ },
+ "dropout": {
+  "title": "Dropout",
+  "content": "<p>Eğitim sırasında <strong>dropout</strong>, sayılar arasındaki bazı bağlantıları rastgele kapatır; böylece model belirli örüntüleri ezberlemez (aşırı öğrenme) ve daha genellenebilir özellikler öğrenir. GPT-2 bunu kullanır; yeni büyük modeller çok büyük veriyle eğitildikleri için çoğu zaman kullanmaz. Kullanım (çıkarım) sırasında dropout kapalıdır.</p>"
+ }
+}

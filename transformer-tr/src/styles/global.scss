@@ -1,0 +1,76 @@
+svg {
+	overflow: visible;
+}
+
+[role='button'],
+button {
+	svg:focus {
+		outline: none;
+	}
+}
+
+*:focus {
+	outline: none;
+}
+:root {
+	font-size: 17px;
+}
+
+@media (min-width: 2560px) {
+	:root {
+		font-size: 18px;
+	}
+}
+
+/* TR: Gemma uyarlaması — mimari farklarını gösteren küçük notlar */
+.gemma-yok {
+	font-size: 0.68rem;
+	font-weight: 600;
+	color: #b91c1c;
+	background: #fee2e2;
+	border-radius: 0.25rem;
+	padding: 0 0.3rem;
+	margin-left: 0.25rem;
+}
+.gemma-not {
+	margin: 0.75rem 1rem 0.25rem;
+	white-space: normal;
+	max-width: 46rem;
+	padding: 0.5rem 0.75rem;
+	font-size: 0.8rem;
+	line-height: 1.4;
+	color: #7f1d1d;
+	background: #fef2f2;
+	border-left: 3px solid #dc2626;
+	border-radius: 0.25rem;
+}
+.gemma-rozet {
+	display: block;
+	width: max-content;
+	margin: 0.15rem auto 0;
+	font-size: 0.62rem;
+	font-weight: 600;
+	line-height: 1.2;
+	color: #b91c1c;
+	background: #fee2e2;
+	border-radius: 0.25rem;
+	padding: 0 0.3rem;
+}
+/* Gemma: gömmede konum vektörü yok (RoPE dikkatte) — boş, kesik çizgili yer tutucu */
+.rope-bos {
+	width: 12px;
+	height: var(--vector-height);
+	flex-shrink: 0;
+	border: 1.5px dashed #f87171;
+	border-radius: 0.2rem;
+	background: repeating-linear-gradient(-45deg, transparent 0 3px, #fee2e2 3px 5px);
+}
+.gemma-rozet.satir {
+	/* başlığın sağında, başlık satırında dursun; alttaki token etiketlerinin üstüne binmesin */
+	position: absolute;
+	left: 100%;
+	top: 50%;
+	transform: translateY(-50%);
+	margin: 0 0 0 0.35rem;
+	white-space: nowrap;
+}

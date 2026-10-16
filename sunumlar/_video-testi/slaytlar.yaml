@@ -1,0 +1,35 @@
+# VİDEO OTOMATİK BAŞLATMA TESTİ — 2. tur. Zamanlama artık PowerPoint'in "ana sıra" (mainSeq) yapısıyla yazılıyor.
+deste:
+  ad: video-otomatik-testi-2
+  hafta: 1
+  katman: 0
+  baslik: "Video otomatik başlatma testi (2. tur)"
+
+slaytlar:
+  - id: giris
+    tur: ifade
+    etiket: "Video testi · 2. tur"
+    metin: "Sonraki iki slaytta hiçbir yere tıklamadan bekleyin. Video kendiliğinden başlıyor mu?"
+    alt: "Slaytlar arasında → tuşuyla geçin. Videolar 7 saniye sürer."
+
+  - id: varyant-1
+    tur: video
+    baslik: "Varyant 1 — otomatik başla + tıklayınca duraklat"
+    dosya: ../../animasyonlar/render/h01-m1.3k-dort-katman-kisa.mp4
+    kapak: ../../animasyonlar/render/h01-m1.3k-dort-katman-kisa-kapak.png
+    oynat: otomatik
+    ipucu: "Kendiliğinden başladı mı? Başladıysa videoya tıklayın: duruyor mu?"
+
+  - id: varyant-2
+    tur: video
+    baslik: "Varyant 2 — yalnızca otomatik başla"
+    dosya: ../../animasyonlar/render/h01-m1.3k-dort-katman-kisa.mp4
+    kapak: ../../animasyonlar/render/h01-m1.3k-dort-katman-kisa-kapak.png
+    oynat: otomatik
+    duraklatma: false
+    ipucu: "Kendiliğinden başladı mı?"
+
+  - id: son
+    tur: ifade
+    etiket: "Sonuç"
+    metin: "Hangi varyant başladı? Varyant 1'de tıklayınca video durdu mu?"

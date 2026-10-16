@@ -1,0 +1,11 @@
+{
+ "tokenizer_class": "GemmaTokenizer",
+ "add_bos_token": true,
+ "add_eos_token": false,
+ "bos_token": "<bos>",
+ "eos_token": "<eos>",
+ "pad_token": "<pad>",
+ "unk_token": "<unk>",
+ "model_max_length": 1024,
+ "clean_up_tokenization_spaces": false
+}

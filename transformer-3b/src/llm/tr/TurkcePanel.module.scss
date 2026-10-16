@@ -1,0 +1,69 @@
+// TR: Ders sitesinin kırmızı-beyaz paleti
+$kirmizi: #c8102e;
+$kirmizi-acik: #fdecee;
+$metin: #1d1d1f;
+$ikincil: #5f6368;
+$cizgi: #e5e5ea;
+
+.panel {
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    width: min(19rem, calc(100% - 1.5rem));
+    background: #fff;
+    border: 1px solid $cizgi;
+    border-radius: 0.75rem;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+    padding: 0.6rem 0.75rem;
+    font-family: Inter, 'Segoe UI', Roboto, sans-serif;
+    color: $metin;
+    z-index: 5;
+}
+.ust { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+.baslik { font-size: 0.8rem; font-weight: 600; color: $ikincil; }
+.kapat { border: 0; background: none; font-size: 1.1rem; line-height: 1; color: $ikincil; cursor: pointer; padding: 0 0.25rem; }
+.satir { display: flex; gap: 0.4rem; }
+.girdi {
+    flex: 1; min-width: 0; font-size: 0.95rem; padding: 0.45rem 0.6rem; border: 1px solid $cizgi; border-radius: 0.5rem;
+    &:focus { outline: 2px solid $kirmizi; outline-offset: 0; border-color: transparent; }
+}
+.dugme {
+    background: $kirmizi; color: #fff; border: 0; border-radius: 0.5rem; padding: 0.45rem 0.8rem; font-weight: 600; cursor: pointer;
+    &:disabled { opacity: 0.45; cursor: not-allowed; }
+}
+.kucukDugme { border: 1px solid $cizgi; background: #fff; border-radius: 0.5rem; padding: 0.3rem 0.6rem; cursor: pointer; font-size: 0.85rem; }
+.aciklama { font-size: 0.75rem; color: $ikincil; margin-top: 0.3rem; }
+.hata { font-size: 0.85rem; color: $kirmizi; }
+.durum { display: flex; flex-direction: column; gap: 0.35rem; }
+.rozet { font-size: 0.85rem; font-weight: 600; color: #8a5a00; }
+.cubuk {
+    display: block; height: 0.35rem; background: $cizgi; border-radius: 1rem; overflow: hidden;
+    span { display: block; height: 100%; background: $kirmizi; transition: width 0.3s; }
+}
+.tokenler { display: flex; flex-wrap: wrap; gap: 0.25rem; margin-top: 0.55rem; }
+.token { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.78rem; background: $kirmizi-acik; border: 1px solid #f5c6cd; border-radius: 0.3rem; padding: 0.05rem 0.3rem; white-space: pre; }
+.tahminler { margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.2rem; }
+.altBaslik { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: $ikincil; }
+.tahmin {
+    display: grid; grid-template-columns: 6.5rem 1fr 3.2rem; align-items: center; gap: 0.4rem;
+    border: 0; background: none; padding: 0.15rem 0.2rem; border-radius: 0.35rem; cursor: pointer; text-align: left;
+    &:hover:not(:disabled) { background: $kirmizi-acik; }
+    &:disabled { cursor: default; }
+}
+.tahminMetin { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.8rem; white-space: pre; overflow: hidden; text-overflow: ellipsis; }
+.tahminCubuk { height: 0.4rem; background: $cizgi; border-radius: 1rem; overflow: hidden; span { display: block; height: 100%; background: $kirmizi; } }
+.yuzde { font-size: 0.75rem; color: $ikincil; text-align: right; font-variant-numeric: tabular-nums; }
+
+.bilgi { font-size: 0.75rem; margin-top: 0.4rem; padding: 0.3rem 0.45rem; border-radius: 0.4rem; background: #f5f5f7; color: $metin; }
+.tamam { background: #e8f5ec; color: #1e6b3a; animation: belir 0.4s ease-out; }
+.parla .token { animation: parla 1.2s ease-out; }
+@keyframes belir { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: none; } }
+@keyframes parla { 0% { background: $kirmizi; color: #fff; } 100% { background: $kirmizi-acik; color: $metin; } }
+
+.gorunum { display: flex; align-items: center; gap: 0.25rem; margin-bottom: 0.5rem; font-size: 0.75rem; }
+.secenek {
+    border: 1px solid $cizgi; border-radius: 999px; padding: 0.12rem 0.55rem; color: $ikincil; text-decoration: none; cursor: pointer;
+    &:hover { border-color: $kirmizi; color: $kirmizi; }
+}
+.secili { background: $kirmizi; border-color: $kirmizi; color: #fff; cursor: default; &:hover { color: #fff; } }
+.gorunumNot { color: $ikincil; margin-left: 0.2rem; }

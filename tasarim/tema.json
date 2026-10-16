@@ -1,0 +1,75 @@
+{
+  "_aciklama": "İstem Mühendisliği dersinin tek tasarım kaynağı. PPTX üreticisi, Manim stil modülü ve Vercel sitesi renkleri buradan okur. Renk elle başka yere yazılmaz.",
+  "surum": "2.1",
+  "_ilkeler": [
+    "Kırmızı yalnızca vurgudur; geniş kırmızı zemin kullanılmaz (projeksiyonda parlar, gözü yorar).",
+    "Açık zemin = içerik, koyu zemin = geçiş (kapak, bölüm, mola). Ritim gözü dinlendirir.",
+    "Gövde metni en az 24 pt, ikincil metin en az 18 pt, kaynak/altbilgi en az 12 pt.",
+    "Slayt başına en fazla ~40 kelime; tek fikir.",
+    "Metin kontrastı en az 4.5:1; koyu zeminde kırmızı yerine parlak kırmızı (kirmiziParlak) kullanılır.",
+    "Zemin, kartlar ve griler tonsuzdur (nötr); kırmızı paletteki tek renktir. Vurgu kartları açık kırmızı değil nötr açık gridir (notrKart)."
+  ],
+  "renk": {
+    "kirmizi": "C8102E",
+    "kirmiziKoyu": "9B0D24",
+    "kirmiziAcik": "FBEAEC",
+    "kirmiziParlak": "F04A5C",
+    "zemin": "F7F7F6",
+    "kart": "FFFFFF",
+    "notrKart": "EFEFED",
+    "metin": "1D1D1F",
+    "metinIkincil": "5E5E62",
+    "cizgi": "E4E4E2",
+    "karsit": "2F3A45",
+    "karsitAcik": "E9EDF1",
+    "pasif": "B4B4B6",
+    "koyuZemin": "1C1C1E",
+    "koyuKart": "2A2A2D",
+    "koyuMetin": "F2F2F0",
+    "koyuIkincil": "ADADB2",
+    "kodZemin": "221E1F",
+    "kodMetin": "F4EFEF",
+    "kodAnahtar": "FF7A88",
+    "kodYorum": "A39A9C",
+    "kodDize": "F2C27B"
+  },
+  "font": {
+    "baslik": "Inter Display",
+    "govde": "Inter",
+    "kod": "JetBrains Mono",
+    "yedekGovde": "Arial",
+    "yedekKod": "Consolas"
+  },
+  "pt": {
+    "kapakBaslik": 54,
+    "bolumBaslik": 48,
+    "ifade": 40,
+    "baslik": 34,
+    "altBaslik": 22,
+    "govde": 24,
+    "ikincil": 18,
+    "kucuk": 14,
+    "kod": 16,
+    "altbilgi": 12
+  },
+  "slayt": {
+    "genislik": 13.333,
+    "yukseklik": 7.5,
+    "kenar": 0.7,
+    "baslikUst": 0.5,
+    "icerikUst": 1.6,
+    "altbilgiY": 7.0
+  },
+  "katmanlar": [
+    "İstem",
+    "Bağlam",
+    "Harness",
+    "Döngü"
+  ],
+  "video": {
+    "genislik": 1920,
+    "yukseklik": 1080,
+    "fps": 30,
+    "kodek": "H.264 (yuv420p), MP4"
+  }
+}

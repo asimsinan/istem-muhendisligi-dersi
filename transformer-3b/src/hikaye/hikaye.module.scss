@@ -1,0 +1,311 @@
+// TR: Sinematik 3B anlatım: koyu sahne, ders sitesinin kırmızısıyla vurgulanan cam paneller
+$kirmizi: #e11d48;
+$kirmizi-koyu: #c8102e;
+$zemin: #070b17;
+$cam: rgba(14, 20, 42, 0.78);
+$cizgi: rgba(140, 160, 255, 0.18);
+$yazi: #e8ecff;
+$ikincil: #9aa6d6;
+$mono: 'JetBrains Mono', ui-monospace, monospace;
+
+.alan {
+    position: relative; flex: 1; min-height: 0; overflow: hidden; background: $zemin; color: $yazi;
+    font-family: Inter, 'Segoe UI', Roboto, sans-serif;
+    canvas { display: block; }
+}
+
+.sahneKap { position: absolute; inset: 0; z-index: 0; isolation: isolate; }
+
+%cam {
+    background: $cam; border: 1px solid $cizgi; border-radius: 0.9rem;
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
+}
+
+// ---------- adımlar ----------
+.adimlar {
+    position: absolute; top: 0.8rem; left: 50%; transform: translateX(-50%); display: flex; gap: 0.3rem; padding: 0.3rem;
+    @extend %cam; border-radius: 999px; max-width: calc(100% - 1.6rem); overflow-x: auto; z-index: 3;
+    scrollbar-width: none;
+}
+.adimDugme {
+    display: flex; align-items: center; gap: 0.35rem; border: 0; background: transparent; color: $ikincil; cursor: pointer;
+    padding: 0.32rem 0.7rem 0.32rem 0.35rem; border-radius: 999px; font: inherit; font-size: 0.8rem; white-space: nowrap;
+    transition: background 0.2s, color 0.2s;
+    &:hover { background: rgba(255, 255, 255, 0.06); color: $yazi; }
+}
+.adimNo {
+    width: 1.35rem; height: 1.35rem; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.72rem; font-weight: 700; background: rgba(255, 255, 255, 0.07); color: $ikincil;
+}
+.adimGecti .adimNo { background: rgba(225, 29, 72, 0.25); color: #ffc2cf; }
+.adimSecili { background: rgba(225, 29, 72, 0.16); color: #fff;
+    .adimNo { background: $kirmizi; color: #fff; box-shadow: 0 0 12px rgba(225, 29, 72, 0.8); }
+}
+.adimAd { font-weight: 600; }
+@media (max-width: 1100px) { .adimDugme:not(.adimSecili) .adimAd { display: none; } }
+
+// ---------- dikkat seçici ----------
+.secici {
+    position: absolute; top: 4.4rem; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 0.7rem;
+    padding: 0.4rem 0.8rem; @extend %cam; border-radius: 999px; font-size: 0.82rem; z-index: 3;
+    select { margin-left: 0.3rem; background: rgba(255, 255, 255, 0.08); color: $yazi; border: 1px solid $cizgi; border-radius: 0.4rem; padding: 0.1rem 0.3rem; font: inherit; }
+    option { background: #111833; }
+}
+.seciciBaslik { font-weight: 700; color: #ffd38a; }
+.kucukDugme { background: rgba(255, 181, 71, 0.15); color: #ffd38a; border: 1px solid rgba(255, 181, 71, 0.4); border-radius: 999px; padding: 0.15rem 0.6rem; cursor: pointer; font: inherit; font-size: 0.78rem; }
+
+// ---------- cümle paneli ----------
+.panel { position: absolute; top: 4.4rem; right: 0.9rem; width: min(17.5rem, calc(100% - 1.8rem)); padding: 0.7rem 0.8rem; @extend %cam; z-index: 4; }
+.panelKapali { width: auto; }
+.panelUst { display: flex; justify-content: space-between; align-items: center; gap: 0.6rem; }
+.panelBaslik { font-size: 0.78rem; font-weight: 600; color: $ikincil; }
+.kapat { border: 0; background: none; color: $ikincil; font-size: 1.1rem; line-height: 1; cursor: pointer; }
+.satir { display: flex; gap: 0.4rem; margin-top: 0.55rem; }
+.girdi {
+    flex: 1; min-width: 0; font: inherit; font-size: 0.92rem; color: $yazi; background: rgba(255, 255, 255, 0.06);
+    border: 1px solid $cizgi; border-radius: 0.55rem; padding: 0.45rem 0.6rem;
+    &:focus { outline: 2px solid $kirmizi; border-color: transparent; }
+}
+.dugme {
+    background: $kirmizi; color: #fff; border: 0; border-radius: 0.55rem; padding: 0.45rem 0.85rem; font: inherit; font-weight: 700; cursor: pointer;
+    box-shadow: 0 0 18px rgba(225, 29, 72, 0.45);
+    &:disabled { opacity: 0.45; cursor: not-allowed; box-shadow: none; }
+}
+.not { font-size: 0.74rem; color: $ikincil; margin-top: 0.35rem; }
+.tahminler { margin-top: 0.6rem; display: flex; flex-direction: column; gap: 0.15rem; }
+.altBaslik { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: $ikincil; margin-bottom: 0.15rem; }
+.tahmin {
+    display: grid; grid-template-columns: 5.4rem 1fr 3rem; gap: 0.45rem; align-items: center; border: 0; background: none; color: $yazi;
+    padding: 0.2rem 0.3rem; border-radius: 0.4rem; cursor: pointer; text-align: left; font: inherit;
+    &:hover:not(:disabled) { background: rgba(225, 29, 72, 0.14); }
+}
+.tahminMetin { font-family: $mono; font-size: 0.8rem; white-space: pre; overflow: hidden; text-overflow: ellipsis; }
+.tahminCubuk { height: 0.38rem; background: rgba(255, 255, 255, 0.08); border-radius: 1rem; overflow: hidden;
+    span { display: block; height: 100%; background: linear-gradient(90deg, #ff3b5c, #ff8a5c); }
+}
+.yuzde { font-size: 0.74rem; color: $ikincil; text-align: right; font-variant-numeric: tabular-nums; }
+
+// ---------- altyazı + oynatıcı ----------
+.alt { position: absolute; left: calc(var(--sol, 0px) + (100% - var(--sol, 0px)) / 2); bottom: 1rem; transform: translateX(-50%); width: min(54rem, calc(100% - var(--sol, 0px) - 1.8rem));
+    transition: left 0.3s ease, width 0.3s ease; z-index: 3; display: flex; flex-direction: column; gap: 0.5rem; align-items: stretch; }
+.altyazi {
+    @extend %cam; padding: 0.75rem 1.1rem; font-size: 1.08rem; line-height: 1.5; text-align: center; color: #f4f6ff;
+    animation: belir 0.45s ease-out;
+    > span { display: block; }
+}
+.altyaziAdim { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #ff8fa3; margin-bottom: 0.2rem; }
+@keyframes belir { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+
+.oynatici { display: flex; align-items: center; gap: 0.45rem; @extend %cam; border-radius: 999px; padding: 0.35rem 0.6rem; }
+.yuvarlak {
+    width: 2.1rem; height: 2.1rem; flex-shrink: 0; border-radius: 50%; border: 1px solid $cizgi; background: rgba(255, 255, 255, 0.05); color: $yazi; cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center;
+    svg { width: 1.05rem; height: 1.05rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+    &:hover { background: rgba(225, 29, 72, 0.2); border-color: rgba(225, 29, 72, 0.6); }
+}
+.ana { width: 2.6rem; height: 2.6rem; background: $kirmizi; border-color: $kirmizi; box-shadow: 0 0 20px rgba(225, 29, 72, 0.55);
+    svg { fill: currentColor; } &:hover { background: #f43f5e; }
+}
+.ilerlemeCubuk { flex: 1; min-width: 3rem; height: 0.3rem; background: rgba(255, 255, 255, 0.1); border-radius: 1rem; overflow: hidden;
+    span { display: block; height: 100%; background: linear-gradient(90deg, #ff3b5c, #ffb547); transition: width 0.1s linear; }
+}
+.hizlar { display: flex; gap: 0.15rem; }
+.hiz { border: 0; background: none; color: $ikincil; font: inherit; font-size: 0.75rem; font-weight: 600; padding: 0.2rem 0.35rem; border-radius: 0.4rem; cursor: pointer;
+    &:hover { color: $yazi; }
+}
+.hizSecili { background: rgba(255, 255, 255, 0.1); color: #fff; }
+.otomatik { font-size: 0.75rem; color: $ikincil; display: flex; align-items: center; gap: 0.25rem; white-space: nowrap; cursor: pointer;
+    input { accent-color: $kirmizi; margin: 0; }
+}
+.devam { align-self: center; font-size: 0.78rem; color: $ikincil; animation: belir 0.4s ease-out;
+    kbd { font-family: $mono; font-size: 0.72rem; background: rgba(255, 255, 255, 0.08); border: 1px solid $cizgi; border-bottom-width: 2px; border-radius: 0.3rem; padding: 0 0.3rem; color: $yazi; }
+}
+
+// ---------- renk anahtarı ----------
+.anahtar { position: absolute; left: 0.9rem; top: 4.4rem; display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.72rem; color: $ikincil; z-index: 2; pointer-events: none;
+    span { display: flex; align-items: center; gap: 0.3rem; }
+    i { width: 0.65rem; height: 0.65rem; border-radius: 0.15rem; display: inline-block; box-shadow: 0 0 6px currentColor; }
+}
+.ipucu { margin-top: 0.3rem; opacity: 0.75; }
+
+// ---------- yükleme ----------
+.yukleme { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; z-index: 5;
+    background: radial-gradient(ellipse at center, #121a3a 0%, $zemin 70%);
+}
+.yuklemeKutu { @extend %cam; padding: 1.2rem 1.4rem; width: min(24rem, calc(100% - 2rem)); text-align: center; p { margin: 0 0 0.8rem; line-height: 1.5; } }
+.yuklemeBaslik { font-weight: 700; margin-bottom: 0.7rem; }
+.yuklemeCubuk { height: 0.4rem; background: rgba(255, 255, 255, 0.1); border-radius: 1rem; overflow: hidden;
+    span { display: block; height: 100%; background: linear-gradient(90deg, #ff3b5c, #ffb547); transition: width 0.3s; }
+}
+.hata { @extend %cam; padding: 1rem 1.2rem; color: #ff9cad; max-width: 30rem; }
+
+@media (max-width: 760px) {
+    .anahtar { display: none; }
+    .panel { top: auto; bottom: 9.5rem; }
+    .altyazi { font-size: 0.92rem; padding: 0.55rem 0.8rem; }
+    .hizlar, .otomatik { display: none; }
+}
+
+// ---------- ayrıntılı görünüm ----------
+.sicaklikDeger { font-family: $mono; font-weight: 700; color: #ffd38a; min-width: 2.6rem; }
+.secici input[type=range] { accent-color: $kirmizi; width: 10rem; }
+.ipucu2 {
+    position: fixed; z-index: 20; pointer-events: none; max-width: 22rem; padding: 0.35rem 0.6rem; border-radius: 0.5rem;
+    background: rgba(5, 8, 20, 0.92); border: 1px solid rgba(255, 209, 102, 0.5); color: #fff; font-family: $mono; font-size: 0.78rem;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+}
+
+// ---------- mimari haritası ----------
+.mimari {
+    position: absolute; left: 0.9rem; top: 4.4rem; width: clamp(16rem, 22vw, 20rem); max-height: calc(100% - 5.4rem); overflow-y: auto; z-index: 3;
+    @extend %cam; padding: 0.45rem 0.55rem 0.55rem; scrollbar-width: thin;
+}
+.mimariKapali { width: auto; padding-bottom: 0.45rem; }
+.mimariUst {
+    display: flex; justify-content: space-between; gap: 0.8rem; width: 100%; border: 0; background: none; color: $ikincil; cursor: pointer;
+    font: inherit; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; padding: 0.1rem 0.1rem 0.35rem;
+}
+.mimariSvg { display: block; width: 100%; height: auto; overflow: visible; font-family: inherit; }
+.svgTik { cursor: pointer; outline: none;
+    &:hover > rect, &:hover > circle, &:focus-visible > rect { stroke: #ff7a93; stroke-opacity: 1; }
+    &:hover text { fill: #fff; }
+}
+.akis { display: flex; flex-direction: column; gap: 0.16rem; position: relative; }
+.dugum {
+    display: block; width: 100%; text-align: left; font: inherit; font-size: 0.74rem; color: #c9d2f5; cursor: pointer;
+    background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(140, 160, 255, 0.16); border-radius: 0.45rem; padding: 0.2rem 0.5rem;
+    transition: background 0.25s, border-color 0.25s, color 0.25s, box-shadow 0.25s;
+    &:hover:not(:disabled) { border-color: rgba(225, 29, 72, 0.6); color: #fff; }
+    &:disabled { cursor: default; opacity: 0.7; }
+}
+.dugumKucuk { font-size: 0.7rem; padding: 0.12rem 0.45rem; }
+.dugumYanan {
+    background: rgba(225, 29, 72, 0.22); border-color: #ff3b5c; color: #fff; font-weight: 600;
+    box-shadow: 0 0 14px rgba(255, 59, 92, 0.55), inset 0 0 8px rgba(255, 59, 92, 0.25);
+}
+.grup {
+    border: 1px dashed rgba(140, 160, 255, 0.35); border-radius: 0.6rem; padding: 0.25rem 0.3rem 0.3rem; display: flex; flex-direction: column; gap: 0.16rem;
+    cursor: pointer; transition: border-color 0.25s, box-shadow 0.25s;
+}
+.altGrup { border: 1px dashed rgba(255, 181, 71, 0.35); border-radius: 0.5rem; padding: 0.2rem 0.28rem 0.26rem; display: flex; flex-direction: column; gap: 0.13rem; }
+.grupYanan { border-style: solid; border-color: #ff3b5c; box-shadow: 0 0 16px rgba(255, 59, 92, 0.4); }
+.grupBaslik { display: flex; justify-content: space-between; align-items: baseline; font-size: 0.72rem; font-weight: 700; color: #e8ecff; padding: 0 0.15rem 0.1rem; pointer-events: none; }
+.carpi { font-family: $mono; font-size: 0.68rem; color: #ffd38a; font-weight: 700; }
+.mimariAnahtar { margin-top: 0.6rem; padding-top: 0.5rem; border-top: 1px solid $cizgi; display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.68rem; color: $ikincil;
+    span { display: flex; align-items: center; gap: 0.3rem; }
+    i { width: 0.6rem; height: 0.6rem; border-radius: 0.15rem; display: inline-block; }
+}
+.yuvarlakSecili { background: rgba(225, 29, 72, 0.35); border-color: #ff3b5c; }
+.alan:fullscreen, .alan:-webkit-full-screen { width: 100vw; height: 100vh; }
+@media (max-width: 760px) { .mimari { display: none; } }
+
+// ---------- bilgi kartı (kitap) ----------
+.kartPerde {
+    position: absolute; inset: 0; z-index: 8; display: flex; align-items: center; justify-content: center;
+    padding: 4.6rem 1rem 1rem calc(var(--sol, 0px) + 1rem); background: rgba(3, 6, 16, 0.5);
+    backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); animation: belir 0.3s ease-out;
+}
+.kitap {
+    display: grid; grid-template-columns: 1fr 16px 1.08fr; width: min(62rem, 100%); max-height: 100%; overflow: auto;
+    border-radius: 0.9rem; border: 1px solid rgba(140, 160, 255, 0.28);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 0 6px rgba(42, 53, 119, 0.35);
+    animation: kitapAc 0.5s cubic-bezier(0.2, 0.8, 0.2, 1); transform-origin: 50% 60%;
+}
+@keyframes kitapAc { from { opacity: 0; transform: perspective(1200px) rotateX(8deg) scale(0.94); } to { opacity: 1; transform: none; } }
+%sayfa { padding: 1.3rem 1.5rem 1.2rem; min-width: 0; }
+.sayfaSol { @extend %sayfa; background: linear-gradient(90deg, #111936 0%, #151f44 85%, #0f1631 100%); border-radius: 0.9rem 0 0 0.9rem; }
+.sayfaSag { @extend %sayfa; background: linear-gradient(90deg, #0f1631 0%, #151f44 15%, #121a3a 100%); border-radius: 0 0.9rem 0.9rem 0; display: flex; flex-direction: column; gap: 0.45rem; }
+.sirt { background: linear-gradient(90deg, #0a0f24, #1d2858 50%, #0a0f24); }
+.kartUst { display: flex; align-items: baseline; gap: 0.6rem; margin-bottom: 0.9rem;
+    h2 { margin: 0; font-size: 1.45rem; font-weight: 700; color: #fff; letter-spacing: -0.01em; }
+}
+.kartNo { font-family: $mono; font-size: 0.78rem; font-weight: 700; color: #ff8fa3; background: rgba(225, 29, 72, 0.16); border-radius: 999px; padding: 0.1rem 0.5rem; }
+.anlatici { display: flex; gap: 0.9rem; align-items: flex-start; }
+.gezginKutu { flex: none; display: flex; flex-direction: column; align-items: center; gap: 0.15rem; }
+.gezginAd { font-family: $mono; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.18em; color: #fff; background: rgba(225, 29, 72, 0.85);
+    border-radius: 999px; padding: 0.05rem 0.6rem 0.05rem 0.78rem; box-shadow: 0 0 12px rgba(255, 59, 92, 0.45); }
+.gezgin { flex: none; filter: drop-shadow(0 6px 18px rgba(108, 140, 255, 0.35)); }
+.gezginGoz { transform-box: fill-box; transform-origin: center; animation: kirp 4.5s infinite; }
+.gezginAnten { animation: nabiz 1.8s ease-in-out infinite; }
+@keyframes kirp { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(0.1); } }
+@keyframes nabiz { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+.balon {
+    position: relative; margin: 0.4rem 0 0; padding: 0.85rem 1rem; border-radius: 0.9rem; background: rgba(108, 140, 255, 0.13);
+    border: 1px solid rgba(108, 140, 255, 0.35); font-size: 1.04rem; line-height: 1.62; color: #f1f4ff;
+    &::before { content: ''; position: absolute; left: -9px; top: 1.4rem; border: 8px solid transparent; border-right-color: rgba(108, 140, 255, 0.45); border-left: 0; }
+}
+.ornekBaslik { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #ffd38a; margin-top: 0.2rem; }
+.ornek {
+    margin: 0; padding: 0.7rem 0.85rem; border-radius: 0.55rem; background: #090e22; border-left: 3px solid #ffd38a;
+    font-family: $mono; font-size: 0.84rem; line-height: 1.6; color: #e8ecff; white-space: pre; overflow-x: auto;
+}
+.ornekNot { margin: 0; font-size: 0.8rem; color: $ikincil; line-height: 1.45; }
+.ekranda { margin: 0; font-size: 0.92rem; line-height: 1.5; color: #e8ecff; }
+.terimler { margin: 0; display: flex; flex-direction: column; gap: 0.3rem; font-size: 0.82rem; line-height: 1.4;
+    div { display: grid; grid-template-columns: 7.5rem 1fr; gap: 0.5rem; }
+    dt { font-weight: 700; color: #33e0b0; }
+    dd { margin: 0; color: #c9d2f5; }
+}
+.kartAlt { margin-top: auto; padding-top: 0.8rem; display: flex; align-items: center; justify-content: space-between; gap: 0.8rem; flex-wrap: wrap; }
+.kartSecenek { font-size: 0.78rem; color: $ikincil; display: flex; align-items: center; gap: 0.3rem; cursor: pointer; }
+@media (max-width: 860px) {
+    .kartPerde { padding: 4rem 0.6rem 0.6rem; }
+    .kitap { grid-template-columns: 1fr; }
+    .sirt { display: none; }
+    .sayfaSol { border-radius: 0.9rem 0.9rem 0 0; }
+    .sayfaSag { border-radius: 0 0 0.9rem 0.9rem; }
+    .gezgin { width: 70px; height: 84px; }
+}
+
+// ---------- altyazıdaki terimler ----------
+.terim {
+    position: relative; border-bottom: 1.5px dotted #ffd38a; cursor: help; outline: none;
+    &:hover .terimKutu, &:focus .terimKutu { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+}
+.terimKutu {
+    position: absolute; bottom: calc(100% + 0.5rem); left: 50%; transform: translate(-50%, 4px); width: max-content; max-width: 19rem;
+    padding: 0.5rem 0.7rem; border-radius: 0.55rem; background: rgba(5, 8, 20, 0.96); border: 1px solid rgba(255, 211, 138, 0.5);
+    font-size: 0.82rem; line-height: 1.45; text-align: left; color: #e8ecff; white-space: normal; z-index: 9;
+    opacity: 0; visibility: hidden; transition: opacity 0.15s, transform 0.15s; pointer-events: none; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    b { color: #ffd38a; margin-right: 0.25rem; }
+}
+
+// ---------- anlatım düzeyi + tahmin soruları ----------
+.altUst { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+.duzeySecici { display: inline-flex; @extend %cam; border-radius: 999px; padding: 0.15rem; gap: 0.1rem; }
+.duzeyDugme {
+    border: 0; background: none; color: $ikincil; font: inherit; font-size: 0.74rem; font-weight: 700; padding: 0.22rem 0.7rem;
+    border-radius: 999px; cursor: pointer; transition: background 0.2s, color 0.2s;
+    &:hover { color: #fff; }
+}
+.duzeySecili { background: rgba(108, 140, 255, 0.28); color: #fff; box-shadow: inset 0 0 0 1px rgba(108, 140, 255, 0.6); }
+.soruAnahtar { margin-left: auto; font-size: 0.74rem; color: $ikincil; display: flex; align-items: center; gap: 0.3rem; cursor: pointer;
+    @extend %cam; border-radius: 999px; padding: 0.22rem 0.7rem; }
+.formul {
+    margin-top: 0.4rem; font-family: $mono; font-size: 0.86rem; color: #ffd38a; letter-spacing: 0.01em;
+    padding-top: 0.35rem; border-top: 1px dashed rgba(255, 211, 138, 0.3);
+}
+.soruKutu {
+    width: min(40rem, 100%); max-height: 100%; overflow: auto; padding: 1.2rem 1.4rem 1rem; border-radius: 0.9rem;
+    background: linear-gradient(160deg, #151f44, #101733); border: 1px solid rgba(140, 160, 255, 0.3);
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6); animation: kitapAc 0.45s cubic-bezier(0.2, 0.8, 0.2, 1);
+    h2 { margin: 0.15rem 0 0.3rem; font-size: 1.25rem; line-height: 1.35; color: #fff; }
+}
+.soruUst { display: flex; gap: 1rem; align-items: flex-start; }
+.soruEtiket { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #ffd38a; }
+.soruSecenekler { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0 0.4rem; }
+.soruSecenek {
+    display: inline-flex; align-items: center; gap: 0.45rem; font: inherit; font-size: 1rem; font-weight: 600; color: #fff; cursor: pointer;
+    background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(140, 160, 255, 0.35); border-radius: 0.6rem; padding: 0.45rem 0.85rem;
+    transition: background 0.2s, border-color 0.2s, transform 0.15s;
+    &:hover, &:focus-visible { background: rgba(225, 29, 72, 0.22); border-color: #ff3b5c; transform: translateY(-1px); outline: none; }
+    kbd { font-family: $mono; font-size: 0.7rem; color: $ikincil; border: 1px solid $cizgi; border-radius: 0.3rem; padding: 0 0.3rem; }
+}
+.soruSonuc { font-size: 0.8rem; font-weight: 600; border-radius: 999px; padding: 0.25rem 0.8rem; animation: belir 0.4s ease-out; }
+.soruDogru { background: rgba(51, 224, 176, 0.16); color: #7ff0cc; border: 1px solid rgba(51, 224, 176, 0.5); }
+.soruYanlis { background: rgba(255, 179, 71, 0.14); color: #ffd38a; border: 1px solid rgba(255, 179, 71, 0.45); }
+@media (max-width: 760px) { .soruAnahtar { display: none; } .duzeyDugme { padding: 0.2rem 0.5rem; } }
+
+.sahneYukleniyor { position: absolute; left: calc(var(--sol, 0px) + (100% - var(--sol, 0px)) / 2); top: 42%; transform: translate(-50%, -50%); z-index: 2;
+    @extend %cam; padding: 0.6rem 1.1rem; font-size: 0.9rem; color: $ikincil; animation: nabiz 1.6s ease-in-out infinite; }

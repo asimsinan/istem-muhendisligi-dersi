@@ -6,7 +6,7 @@
 
 ### İstemden Bağlam ve Döngü Mühendisliğine
 
-**Versiyon:** 3.5 · **Son güncelleme:** Temmuz 2026  
+**Versiyon:** 3.6 · **Son güncelleme:** Ekim 2026  
 **Durum:** Taslak — yeni gelişmelere göre güncellenir.
 
 Yapay zekâ araçları artık yalnızca merak konusu değil, pek çok mesleğin günlük iş akışının parçası hâline geldi. Ancak bu araçlarla verimli çalışmak, onlara "iyi soru sormak"tan çok daha fazlasını gerektiriyor: modele hangi bilginin verileceğini, hangi araçların kullanılacağını ve sürecin ne zaman duracağını sistematik biçimde tasarlamak bir mühendislik becerisidir. Bu ders, söz konusu beceriyi sıfırdan ve uygulamalı olarak kazandırmak amacıyla hazırlanmıştır.
@@ -14,6 +14,8 @@ Yapay zekâ araçları artık yalnızca merak konusu değil, pek çok mesleğin 
 ![İstem Mühendisliği yol haritası](infografik.png)
 
 ---
+
+
 
 ## Bu ders kime hitap ediyor?
 
@@ -24,11 +26,13 @@ Programlama deneyiminiz olmasa bile haftalık konuların kavramsal kısımların
 ### Bu derse başlamadan ne bilmek iyi olur?
 
 
-| Seviye                                  | Ne beklenir?                                                                              |
-| --------------------------------------- | ----------------------------------------------------------------------------------------- |
-| **Yeterli**                             | ChatGPT veya Claude gibi bir aracı en az bir kez denemiş olmak                            |
-| **Ders için ideal**                     | Temel Python bilgisi (değişken, fonksiyon, dosya okuma) ve komut satırına aşinalık        |
-| **Zorunlu değil ama faydalı**           | Makine öğrenmesi veya derin öğrenme dersi; yazılım mühendisliği (test yazma, Git kullanımı) |
+| Seviye                        | Ne beklenir?                                                                                |
+| ----------------------------- | ------------------------------------------------------------------------------------------- |
+| **Yeterli**                   | ChatGPT veya Claude gibi bir aracı en az bir kez denemiş olmak                              |
+| **Ders için ideal**           | Temel Python bilgisi (değişken, fonksiyon, dosya okuma) ve komut satırına aşinalık          |
+| **Zorunlu değil ama faydalı** | Makine öğrenmesi veya derin öğrenme dersi; yazılım mühendisliği (test yazma, Git kullanımı) |
+
+
 
 
 ### API ve maliyet
@@ -36,10 +40,12 @@ Programlama deneyiminiz olmasa bile haftalık konuların kavramsal kısımların
 Derste bulut tabanlı model erişimi için öncelikli olarak [OpenRouter](https://openrouter.ai) platformunu kullanacağız. Bu tercihin iki temel gerekçesi vardır: tek bir hesap ve tek bir API anahtarıyla birçok modele (OpenAI, Anthropic Claude, Google Gemini ve açık kaynak modeller) erişebilirsiniz; böylece ayrı ayrı abonelik oluşturup çift fatura ödemenize gerek kalmaz.
 
 
-| Yol                             | Ne zaman?                                          | Maliyet                                                                        |
-| ------------------------------- | -------------------------------------------------- | ------------------------------------------------------------------------------ |
-| **OpenRouter** (önerilen bulut) | Ders laboratuvarları, ajan, yapılandırılmış çıktı   | Tek cüzdan; kullandığınız kadar ödersiniz. Düşük maliyetli modeller seçilebilir |
-| **Ollama / LM Studio** (yerel) | Gizlilik, ücretsiz deneme, internetsiz çalışma      | API ücreti yoktur; yalnızca bilgisayar kaynağı gerekir                          |
+| Yol                             | Ne zaman?                                         | Maliyet                                                                         |
+| ------------------------------- | ------------------------------------------------- | ------------------------------------------------------------------------------- |
+| **OpenRouter** (önerilen bulut) | Ders laboratuvarları, ajan, yapılandırılmış çıktı | Tek cüzdan; kullandığınız kadar ödersiniz. Düşük maliyetli modeller seçilebilir |
+| **Ollama / LM Studio** (yerel)  | Gizlilik, ücretsiz deneme, internetsiz çalışma    | API ücreti yoktur; yalnızca bilgisayar kaynağı gerekir                          |
+
+
 
 
 #### Maliyet yönetimi ve güvenlik
@@ -52,6 +58,8 @@ API anahtarlarınızı kaynak koduna veya GitHub deposuna dahil etmemeniz güven
 
 ---
 
+
+
 ## Bu ders ne hakkında?
 
 ChatGPT gibi araçlarla etkili biçimde çalışabilmek, iyi **istem (prompt)** yazabilmekle başlar. Ancak gerçek dünya uygulamalarında yalnızca iyi soru sormak yeterli değildir; modele *hangi bilgilerin*, *hangi sırayla* ve *hangi araçlarla* verileceğini, işin *ne zaman bittiğini* ve *hangi kurallarla* çalışacağını tasarlamak gerekir. Bu tasarım süreci bir mühendislik disiplinidir.
@@ -60,65 +68,71 @@ Bu ders, iyi istem yazma becerisini temel alır; ardından bu beceriyi **bağlam
 
 ---
 
+
+
 ## Nasıl okunmalı?
 
 Müfredattaki her konu üç seviyede ele alınmıştır. Aşağıdaki tablo, her seviyenin sizden ne beklediğini özetler:
 
 
-| Etiket               | Anlamı                                                                  |
-| -------------------- | ----------------------------------------------------------------------- |
-| **Zorunlu (uygula)** | Derste yapılır veya ödev olarak teslim edilir                            |
+| Etiket               | Anlamı                                                                    |
+| -------------------- | ------------------------------------------------------------------------- |
+| **Zorunlu (uygula)** | Derste yapılır veya ödev olarak teslim edilir                             |
 | **Kavramsal (tanı)** | Kavramı anlamanız yeterlidir; kod yazmanız beklenmez (kısa demo olabilir) |
-| **İleri okuma**      | Meraklılar ve proje yapmak isteyenler için sunulmuştur; zorunlu değildir |
+| **İleri okuma**      | Meraklılar ve proje yapmak isteyenler için sunulmuştur; zorunlu değildir  |
 
 
 ---
+
+
 
 ## Küçük sözlük
 
 Yapay zekâ alanında İngilizce terminoloji hâkimdir. Aşağıdaki tabloda derste sıklıkla karşılaşacağınız kavramları Türkçe karşılıklarıyla birlikte sunuyoruz; böylece hem Türkçe hem İngilizce kaynaklarda rahatlıkla gezinebilirsiniz. Terimler **Türkçe ad (English)** biçiminde yazılmıştır.
 
 
-| Terim                                         | Kısa tanım                                                                                       | Örnek                                                                          |
-| --------------------------------------------- | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
-| **Büyük dil modeli (LLM)**                    | Metinden metin üreten yapay zekâ modeli                                                          | ChatGPT, Claude veya OpenRouter'daki bir model                                 |
-| **Token**                                     | Modelin işlediği küçük metin birimi                                                              | Bir cümlenin 12–20 token'a bölünmesi; sayı ≈ maliyet                           |
-| **BPE (Byte Pair Encoding)**                  | Sık geçen parçaları birleştirerek token sözlüğü kuran yaygın tokenizasyon yöntemi                | Nadir veya uzun kelimenin birkaç token'a bölünmesi                             |
-| **Token gömme (token embedding)**             | Her token'ı LLM *içinde* sayı vektörüne çeviren katman (cevap üretmek için)                      | Attention'ın üzerinde çalıştığı vektörler; Hafta 2                             |
-| **İstem (prompt)**                            | Modele yazdığınız soru veya talimat                                                              | "Bu e-postayı resmi bir dille yeniden yaz."                                    |
-| **Bağlam (context)**                          | Modelin o cevap için gördüğü tüm metin: sistem kuralları, sohbet geçmişi, belgeler, araç listesi | Sohbete yapıştırdığınız PDF parçası                                            |
-| **Bağlam penceresi (context window)**         | Bir istekte modele sığdırabileceğiniz en fazla metin (token ile ölçülür)                         | 128K pencere ile uzun belge gönderebilmek; yine de her şeyi göndermek gerekmez |
-| **Dikkat bütçesi (attention budget)**         | Modelin bağlamdaki her kelimeye aynı kalitede odaklanamaması                                     | 50 sayfalık metnin ortasındaki bir cümleyi kaçırması                           |
-| **Bağlam çürümesi (context rot)**             | Bağlam uzadıkça erken verilen önemli bilginin zayıflaması                                        | 40 mesaj sonra "adım 1'deki kuralı" uygulamaması                               |
-| **Yapılandırılmış çıktı (structured output)** | Serbest paragraf yerine sabit alanlı cevap (çoğunlukla JSON)                                     | `{"duygu":"olumlu","güven":0.9}`                                               |
-| **Erişim artırımlı üretim (RAG)**             | Önce sizin dosyalarınızdan ilgili parçayı bulup modele ekleyerek cevap üretmek                   | "Bütünleme var mı?" → yönetmelik PDF'inden maddeyi bul → modele ver → cevapla  |
-| **Arama gömmesi (embedding, RAG)**            | Metni "anlamca yakın mı?" diye *aramak* için sayıya çevirmek (çoğunlukla ayrı model)             | "tatil izni" ≈ "yıllık izin"; Hafta 8 — token embedding'den farklı amaç        |
-| **Örtüşme (overlap)**                         | Ardışık parçaların biraz üst üste binmesi                                                        | %15 overlap ile cümle ortasında kopmayı azaltmak                               |
-| **Hibrit arama (hybrid search)**              | Vektör (anlam) ve anahtar kelime (BM25) aramayı birlikte kullanmak                               | Madde numarası veya ürün kodunu kaçırmamak                                     |
-| **Yeniden sıralama (rerank)**                 | İlk aday listesini ikinci bir modelle yeniden sıralamak                                          | 30 parça bul → en iyi 5'i modele ver                                           |
-| **Bağlamsal erişim (contextual retrieval)**   | Parçaya belgedeki yerini anlatan kısa özet ekleyip gömmek                                        | "Bu parça X yönetmeliğinin izin bölümündendir" + parça metni                   |
-| **Geç parçalama (late chunking)**             | Önce uzun metni gömüp sonra parça sınırlarını ayırma fikri                                       | Referans yoğun metinlerde sınır kaybını azaltmak                               |
-| **Model yönlendirme (model routing)**         | Basit işi ucuz ve hızlı modele, zor işi güçlü modele yönlendirmek                                | "Merhaba" → küçük model; uzun analiz → büyük model                             |
-| **Gözlemlenebilirlik (observability)**        | Her çağrıda model, token, süre, maliyet ve araç adımlarını kaydetmek                             | Log satırı: model=… tokens=… latency_ms=… cost≈…                               |
-| **Korkuluk / koruma (guardrails)**            | İstek veya cevabı güvenlik ve politika kurallarına göre otomatik süzmek                           | PII maskeleme; enjeksiyon şüphesinde reddetme                                  |
-| **Parçalama (chunking)**                      | Uzun belgeyi arama için küçük parçalara bölmek                                                   | 80 sayfalık PDF'i ~500–1000 kelimelik bölümlere ayırmak                        |
-| **Ajan (agent)**                              | Gerektiğinde tanımlı araçları çağırarak iş ilerletebilen sistem                                  | "Bugünün kurunu al, TL'ye çevir" → önce kur API'si, sonra cevap                |
-| **Araç çağırma (function / tool calling)**    | Modelin "şu fonksiyonu şu parametrelerle çalıştır" demesi; kodunuz çalıştırır                    | `get_weather(city="Isparta")`                                                  |
-| **ReAct (Reason + Act)**                      | Düşün → araç kullan → sonucu oku → gerekirse tekrar et                                           | Önce arama yapar, sonucu görünce ikinci adımı atar                             |
-| **Model Bağlam Protokolü (MCP)**              | Araç ve veri kaynaklarını modele bağlamak için ortak bağlantı standardı                          | Aynı takvim aracını farklı sohbet uygulamalarına benzer şekilde bağlamak       |
-| **A2A (Agent-to-Agent Protocol)**             | Farklı ajanların birbirleriyle standart biçimde iletişim kurmasını sağlayan protokol             | MCP araçlara bağlanır; A2A ajanları birbirine bağlar                           |
-| **Beceri paketi (skill)**                     | "Bu iş şöyle yapılır" diye yazılmış talimat dosyası (`SKILL.md`); araç değildir                  | "Pull request özeti nasıl yazılır?" adımlarını içeren kılavuz                  |
-| **Döngü (loop)**                              | İş bitene veya limit dolana kadar tekrarlayan otomatik çevrim                                    | Kod yaz → test çalıştır → hata varsa düzelt → en fazla 5 kez                   |
-| **Doğrulayıcı (verifier)**                    | "Bu çıktı kabul edilebilir mi?" diye konulan otomatik kontrol                                    | Geçerli JSON mu? Cevapta `06` var mı? Testler yeşil mi?                        |
-| **Ajan koşum ortamı (harness)**               | Döngüyü saran kurallar: açık araçlar, adım limiti, log, doğrulayıcı                              | Yalnızca `search` ve `calculator` açık; `delete_file` kapalı                   |
-| **Araç izin listesi (tool allowlist)**        | Ajanın kullanmasına izin verilen araçların kapalı listesi                                        | İzinli: `search`, `get_weather` · Yasak: e-posta gönderme                      |
-| **Bağlam sıkıştırma (compaction)**            | Uzun sohbeti özetleyip özetle devam etmek                                                        | 30 mesajı 1 paragrafa indirip yeni oturuma yapıştırmak                         |
-| **Kademeli açma (progressive disclosure)**    | Tüm belgeyi başta vermemek; ihtiyaç oldukça ilgili kısmı okutmak                                 | Önce dosya adları; "3. bölümü oku" deyince yalnızca onu eklemek                |
-| **Bağlam zehirlenmesi (context poisoning)**   | Bağlama yanlış veya kötü niyetli metin girince modelin bozulması                                 | Kullanıcı metninde "önceki kuralları yok say" yazması                          |
-| **Ajan belleği (agent memory)**               | Kısa süreli (oturum içi) ve uzun süreli (oturumlar arası) bilgi saklama katmanı                  | Kullanıcı tercihlerini oturumlar arası hatırlama; Mem0, Zep                    |
-| **En küçük çalışır ürün (MVP)**               | Dar kapsamlı ama gerçekten çalışan ilk sürüm                                                     | Önce 3 PDF'lik RAG; tüm üniversite arşivi değil                                |
-| **OWASP**                                     | Yazılım ve LLM uygulamalarında sık görülen güvenlik risklerini listeleyen kuruluş                | Bu derste LLM Top 10 (2025) listesi                                            |
-| **RAGAS**                                     | RAG sistemlerinin kalitesini ölçen değerlendirme çerçevesi (faithfulness, relevance, context precision) | Golden set cevaplarını sadakat ve alaka açısından puanlamak               |
+| Terim                                             | Kısa tanım                                                                                              | Örnek                                                                          |
+| ------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| **Büyük dil modeli (LLM)**                        | Metinden metin üreten yapay zekâ modeli                                                                 | ChatGPT, Claude veya OpenRouter'daki bir model                                 |
+| **Belirteç (Token)**                              | Modelin işlediği küçük metin birimi                                                                     | Bir cümlenin 12–20 token'a bölünmesi; sayı ≈ maliyet                           |
+| **Bayt Çifti Kodlaması (Byte Pair Encoding-BPE)** | Sık geçen parçaları birleştirerek token sözlüğü kuran yaygın tokenizasyon yöntemi                       | Nadir veya uzun kelimenin birkaç token'a bölünmesi                             |
+| **Belirteç gömme (token embedding)**              | Her token'ı LLM *içinde* sayı vektörüne çeviren katman (cevap üretmek için)                             | Attention'ın üzerinde çalıştığı vektörler; Hafta 2                             |
+| **İstem (prompt)**                                | Modele yazdığınız soru veya talimat                                                                     | "Bu e-postayı resmi bir dille yeniden yaz."                                    |
+| **Bağlam (context)**                              | Modelin o cevap için gördüğü tüm metin: sistem kuralları, sohbet geçmişi, belgeler, araç listesi        | Sohbete yapıştırdığınız PDF parçası                                            |
+| **Bağlam penceresi (context window)**             | Bir istekte modele sığdırabileceğiniz en fazla metin (token ile ölçülür)                                | 128K pencere ile uzun belge gönderebilmek; yine de her şeyi göndermek gerekmez |
+| **Dikkat bütçesi (attention budget)**             | Modelin bağlamdaki her kelimeye aynı kalitede odaklanamaması                                            | 50 sayfalık metnin ortasındaki bir cümleyi kaçırması                           |
+| **Bağlam çürümesi (context rot)**                 | Bağlam uzadıkça erken verilen önemli bilginin zayıflaması                                               | 40 mesaj sonra "adım 1'deki kuralı" uygulamaması                               |
+| **Yapılandırılmış çıktı (structured output)**     | Serbest paragraf yerine sabit alanlı cevap (çoğunlukla JSON)                                            | `{"duygu":"olumlu","güven":0.9}`                                               |
+| **Erişim artırımlı üretim (RAG)**                 | Önce sizin dosyalarınızdan ilgili parçayı bulup modele ekleyerek cevap üretmek                          | "Bütünleme var mı?" → yönetmelik PDF'inden maddeyi bul → modele ver → cevapla  |
+| **Arama gömmesi (embedding, RAG)**                | Metni "anlamca yakın mı?" diye *aramak* için sayıya çevirmek (çoğunlukla ayrı model)                    | "tatil izni" ≈ "yıllık izin"; Hafta 8 — token embedding'den farklı amaç        |
+| **Örtüşme (overlap)**                             | Ardışık parçaların biraz üst üste binmesi                                                               | %15 overlap ile cümle ortasında kopmayı azaltmak                               |
+| **Hibrit arama (hybrid search)**                  | Vektör (anlam) ve anahtar kelime (BM25) aramayı birlikte kullanmak                                      | Madde numarası veya ürün kodunu kaçırmamak                                     |
+| **Yeniden sıralama (rerank)**                     | İlk aday listesini ikinci bir modelle yeniden sıralamak                                                 | 30 parça bul → en iyi 5'i modele ver                                           |
+| **Bağlamsal erişim (contextual retrieval)**       | Parçaya belgedeki yerini anlatan kısa özet ekleyip gömmek                                               | "Bu parça X yönetmeliğinin izin bölümündendir" + parça metni                   |
+| **Geç parçalama (late chunking)**                 | Önce uzun metni gömüp sonra parça sınırlarını ayırma fikri                                              | Referans yoğun metinlerde sınır kaybını azaltmak                               |
+| **Model yönlendirme (model routing)**             | Basit işi ucuz ve hızlı modele, zor işi güçlü modele yönlendirmek                                       | "Merhaba" → küçük model; uzun analiz → büyük model                             |
+| **Gözlemlenebilirlik (observability)**            | Her çağrıda model, token, süre, maliyet ve araç adımlarını kaydetmek                                    | Log satırı: model=… tokens=… latency_ms=… cost≈…                               |
+| **Korkuluk / koruma (guardrails)**                | İstek veya cevabı güvenlik ve politika kurallarına göre otomatik süzmek                                 | PII maskeleme; enjeksiyon şüphesinde reddetme                                  |
+| **Parçalama (chunking)**                          | Uzun belgeyi arama için küçük parçalara bölmek                                                          | 80 sayfalık PDF'i ~500–1000 kelimelik bölümlere ayırmak                        |
+| **Ajan (agent)**                                  | Gerektiğinde tanımlı araçları çağırarak iş ilerletebilen sistem                                         | "Bugünün kurunu al, TL'ye çevir" → önce kur API'si, sonra cevap                |
+| **Araç çağırma (function / tool calling)**        | Modelin "şu fonksiyonu şu parametrelerle çalıştır" demesi; kodunuz çalıştırır                           | `get_weather(city="Isparta")`                                                  |
+| **ReAct (Reason + Act)**                          | Düşün → araç kullan → sonucu oku → gerekirse tekrar et                                                  | Önce arama yapar, sonucu görünce ikinci adımı atar                             |
+| **Model Bağlam Protokolü (MCP)**                  | Araç ve veri kaynaklarını modele bağlamak için ortak bağlantı standardı                                 | Aynı takvim aracını farklı sohbet uygulamalarına benzer şekilde bağlamak       |
+| **A2A (Agent-to-Agent Protocol)**                 | Farklı ajanların birbirleriyle standart biçimde iletişim kurmasını sağlayan protokol                    | MCP araçlara bağlanır; A2A ajanları birbirine bağlar                           |
+| **Beceri paketi (skill)**                         | "Bu iş şöyle yapılır" diye yazılmış talimat dosyası (`SKILL.md`); araç değildir                         | "Pull request özeti nasıl yazılır?" adımlarını içeren kılavuz                  |
+| **Döngü (loop)**                                  | İş bitene veya limit dolana kadar tekrarlayan otomatik çevrim                                           | Kod yaz → test çalıştır → hata varsa düzelt → en fazla 5 kez                   |
+| **Doğrulayıcı (verifier)**                        | "Bu çıktı kabul edilebilir mi?" diye konulan otomatik kontrol                                           | Geçerli JSON mu? Cevapta `06` var mı? Testler yeşil mi?                        |
+| **Ajan koşum ortamı (harness)**                   | Döngüyü saran kurallar: açık araçlar, adım limiti, log, doğrulayıcı                                     | Yalnızca `search` ve `calculator` açık; `delete_file` kapalı                   |
+| **Araç izin listesi (tool allowlist)**            | Ajanın kullanmasına izin verilen araçların kapalı listesi                                               | İzinli: `search`, `get_weather` · Yasak: e-posta gönderme                      |
+| **Bağlam sıkıştırma (compaction)**                | Uzun sohbeti özetleyip özetle devam etmek                                                               | 30 mesajı 1 paragrafa indirip yeni oturuma yapıştırmak                         |
+| **Kademeli açma (progressive disclosure)**        | Tüm belgeyi başta vermemek; ihtiyaç oldukça ilgili kısmı okutmak                                        | Önce dosya adları; "3. bölümü oku" deyince yalnızca onu eklemek                |
+| **Bağlam zehirlenmesi (context poisoning)**       | Bağlama yanlış veya kötü niyetli metin girince modelin bozulması                                        | Kullanıcı metninde "önceki kuralları yok say" yazması                          |
+| **Ajan belleği (agent memory)**                   | Kısa süreli (oturum içi) ve uzun süreli (oturumlar arası) bilgi saklama katmanı                         | Kullanıcı tercihlerini oturumlar arası hatırlama; Mem0, Zep                    |
+| **En küçük çalışır ürün (MVP)**                   | Dar kapsamlı ama gerçekten çalışan ilk sürüm                                                            | Önce 3 PDF'lik RAG; tüm üniversite arşivi değil                                |
+| **OWASP**                                         | Yazılım ve LLM uygulamalarında sık görülen güvenlik risklerini listeleyen kuruluş                       | Bu derste LLM Top 10 (2025) listesi                                            |
+| **RAGAS**                                         | RAG sistemlerinin kalitesini ölçen değerlendirme çerçevesi (faithfulness, relevance, context precision) | Golden set cevaplarını sadakat ve alaka açısından puanlamak                    |
+
+
 
 
 ### Üç kardeş kavram
@@ -129,21 +143,25 @@ Aşağıdaki üç kavram birbiriyle sık karıştırılır; aralarındaki farkı
 2. **Model Bağlam Protokolü (MCP):** Bu tür araçların *standart bir biçimde* bağlanmasını sağlayan protokoldür (derste çoğunlukla tanıtım düzeyinde ele alınacaktır).
 3. **Beceri paketi (skill):** Bir araç değil; belirli bir işin *nasıl yapılacağını* anlatan talimat paketidir.
 
+
+
 ### ReAct, döngü ve harness — üç katman
 
 Bu üç kavram, ajan mimarisinin farklı sorularına cevap verir. Aşağıdaki tablo, aralarındaki ilişkiyi özetler:
 
 
-| Katman                                | Yanıtladığı soru                                                    | Bu derste                                 |
-| ------------------------------------- | ------------------------------------------------------------------- | ----------------------------------------- |
-| **ReAct (Hafta 10)**                  | Model bir adımda ne düşünüp hangi aracı çağırmalı?                  | Ajanın *iç* davranışını tanımlar          |
-| **Döngü / loop (Hafta 11)**           | Kaç kez denenecek, ne zaman durulacak, hangi test "tamam" diyecek?  | Tekrarlayan çevrim ve doğrulayıcı         |
-| **Koşum ortamı / harness (Hafta 11)** | Hangi araçlar açık, log tutuluyor mu, izinler sınırlı mı?           | Döngünün dışındaki kurallar ve kontroller |
+| Katman                                | Yanıtladığı soru                                                   | Bu derste                                 |
+| ------------------------------------- | ------------------------------------------------------------------ | ----------------------------------------- |
+| **ReAct (Hafta 10)**                  | Model bir adımda ne düşünüp hangi aracı çağırmalı?                 | Ajanın *iç* davranışını tanımlar          |
+| **Döngü / loop (Hafta 11)**           | Kaç kez denenecek, ne zaman durulacak, hangi test "tamam" diyecek? | Tekrarlayan çevrim ve doğrulayıcı         |
+| **Koşum ortamı / harness (Hafta 11)** | Hangi araçlar açık, log tutuluyor mu, izinler sınırlı mı?          | Döngünün dışındaki kurallar ve kontroller |
 
 
 Kısaca özetlemek gerekirse: ReAct bir adımda ne yapılacağını belirler, döngü ne zaman bitileceğini tanımlar, harness ise tüm sürecin hangi izin ve kontrollerle çalışacağını düzenler.
 
 ---
+
+
 
 ## Alanın evrimi (2022–2026) — örneklerle
 
@@ -159,6 +177,8 @@ Kısaca özetlemek gerekirse: ReAct bir adımda ne yapılacağını belirler, d�
 İstem yazma becerisi bu yapının temelidir ve önemini korumaya devam etmektedir; ancak gerçek dünya uygulamalarında tek başına yeterli değildir. Bu ders, dört katmanı da kademeli olarak ele alır.
 
 ---
+
+
 
 ## Dersin amacı
 
@@ -178,19 +198,31 @@ MCP, A2A, GraphRAG, ince ayar (fine-tuning) laboratuvarı, DSPy ve gelişmiş be
 
 ---
 
+
+
 ## Değerlendirme
 
 Değerlendirme üç temel bileşenden oluşur. Her bileşen, farklı bir beceri setini ölçmeyi amaçlar: haftalık ödevler düzenli pratik yapmanızı, ara sınav kavramsal altyapınızı, final projesi ise bütünlüklü bir uygulama geliştirme becerinizi değerlendirir.
 
 
-| Bileşen              | Ağırlık | Ne beklenir?                                                                                 |
-| -------------------- | ------- | -------------------------------------------------------------------------------------------- |
-| **Ödev ve uygulama** | %30     | 6–8 kısa ödev (her biri yaklaşık 1–3 saat). Büyük proje değil; tek script ve kısa not        |
-| **Ara sınav (vize)** | %30     | Hafta 1–6 konuları: kavramlar, istem yazma ve kısa kod okuma (60 dakika)                      |
-| **Final projesi**    | %40     | 2–3 kişilik grup çalışması: çalışan uygulama, sunum ve rapor                                 |
+| Bileşen              | Ağırlık | Ne beklenir?                                                                          |
+| -------------------- | ------- | ------------------------------------------------------------------------------------- |
+| **Ödev ve uygulama** | %30     | 6–8 kısa ödev (her biri yaklaşık 1–3 saat). Büyük proje değil; tek script ve kısa not |
+| **Ara sınav (vize)** | %30     | Hafta 1–6 konuları: kavramlar, istem yazma ve kısa kod okuma (60 dakika)              |
+| **Final projesi**    | %40     | 2–3 kişilik grup çalışması: çalışan uygulama, sunum ve rapor                          |
 
 
 Ödev notu vize notuna karışmaz. Ödev örnekleri arasında "üç farklı istemi karşılaştırmak", "3 PDF ile soru-cevap sistemi kurmak" ve "en fazla 5 adımlı ajan ile 5 test yazmak" gibi uygulamalar bulunur.
+
+### Yapay zekâ kullanım kuralları
+
+Bu ders yapay zekâ araçlarıyla çalışmayı öğrettiği için ödevlerde ve projede bu araçları kullanmak serbesttir. Kurallar şunlardır:
+
+1. **Kullanmak serbesttir;** bu ders zaten bunu öğretiyor.
+2. **Kullandığınızı yazın:** Hangi aracı, ne için kullandığınızı teslimdeki kısa notta belirtin.
+3. **Teslim ettiğiniz her satırı açıklayabilmelisiniz.** Vize ve proje sunumunda bu sorgulanır.
+4. **Model uydurabilir;** çıktıyı doğrulamak sizin sorumluluğunuzdur.
+5. **API anahtarı ve kişisel veri** asla isteme veya repoya girmez.
 
 ### Final projesi (MVP) — kurallar
 
@@ -200,10 +232,10 @@ Final projesi duyurusu **Hafta 8'den sonra** yapılacak, teslim tarihi **Hafta 1
 2. Hangi istemlerin neden kullanıldığını açıklayan kısa bir belge (**istem dosyası veya sürüm notu**).
 3. **Ya** belge tabanlı soru-cevap sistemi (RAG) **ya** araç kullanan bir ajan geliştirmek (ikisini birden derinlemesine yapmanız beklenmez).
 4. **Doğrulayıcı:** En az **5 kontrol** (golden set) içermelidir. Örnek kontroller:
-   - Çıktı gerçekten geçerli bir JSON mu?
-   - "Ankara'nın plakası?" sorusunda cevapta `06` geçiyor mu?
-   - Ajan yasak bir aracı çağırmaya çalışmıyor mu?
-   - İşlem en fazla N adımda tamamlanıyor mu?
+  - Çıktı gerçekten geçerli bir JSON mu?
+  - "Ankara'nın plakası?" sorusunda cevapta `06` geçiyor mu?
+  - Ajan yasak bir aracı çağırmaya çalışmıyor mu?
+  - İşlem en fazla N adımda tamamlanıyor mu?
 5. RAG seçtiyseniz cevaplarda **kaynak ve alıntı** göstermeniz, ajan seçtiyseniz **token ve süre log'u** tutmanız gerekir.
 6. **Kısa etik değerlendirme notu** (½ sayfa): Projenizde model uydurma riski var mı? Önyargı riski var mı? Kullanıcıya yapay zekâ cevabı olduğu bildiriliyor mu?
 
@@ -213,7 +245,11 @@ Final projesi duyurusu **Hafta 8'den sonra** yapılacak, teslim tarihi **Hafta 1
 
 ---
 
+
+
 ## Haftalık plan (14 hafta)
+
+
 
 ### Hafta 1 — Üretken yapay zekâya giriş
 
@@ -221,13 +257,15 @@ Final projesi duyurusu **Hafta 8'den sonra** yapılacak, teslim tarihi **Hafta 1
 
 - Yapay zekâ, makine öğrenmesi ve üretken yapay zekâ arasındaki ilişki ele alınacaktır (bu derste odak: **metin**).
 - Ayırt edici model (sınıflandırır) ile üretken model (yeni içerik üretir) arasındaki fark incelenecektir.
-- GPT, Claude, Gemini ve LLaMA gibi güncel model aileleri tanıtılacaktır.
+- Güncel model aileleri tanıtılacaktır: GPT (OpenAI), Claude (Anthropic), Gemini ve açık ağırlıklı Gemma (Google), Qwen (Alibaba), DeepSeek ve Llama (Meta). Kapalı ve açık ağırlıklı (open-weight) modeller arasındaki fark ele alınacaktır. *(Ekim 2026 itibarıyla örnekler: GPT-6, Claude Fable 5 ve Opus/Sonnet 5.5, Gemini 4, Gemma 4, Qwen 3.8, DeepSeek V4, Llama 4. Model adları birkaç ayda bir değişir; güncel liste için [OpenRouter modelleri](https://openrouter.ai/models).)*
 - Transformer mimarisine çok kısa bir giriş yapılacaktır.
 - **Kavramsal:** İstem → Bağlam → Harness → Döngü haritası, yukarıdaki örneklerle birlikte sunulacaktır.
 
-**Zorunlu:** İki farklı sohbet aracıyla 5 görev deneyip gözlemlerinizi kısa bir not olarak yazmanız beklenmektedir.
+**Zorunlu:** Derste telefonla ve ikili olarak iki farklı sohbet aracında 5 görev denenir; her görevde önce tahmin edilir, sonra denenir, sonra karşılaştırılır. Gözlemler [Gözlem Defteri](https://istem-muhendisligi-dersi.vercel.app/h01/gozlem) sayfasına yazılır ve `gozlem.md` olarak GitHub'daki ders reponuzun `hafta-01/` klasörüne bir sonraki derse kadar teslim edilir.
 
 ---
+
+
 
 ### Hafta 2 — Model kabaca nasıl çalışır?
 
@@ -243,12 +281,16 @@ Metin → token'lara böl (örn. BPE)
      → temperature / top-p ile cevap üretilir
 ```
 
+
+
 #### 1) Tokenizasyon
 
 - **Token**, modelin işlediği küçük metin birimidir (kelime, alt kelime veya karakter parçası olabilir).
 - **BPE (Byte Pair Encoding)**, sık geçen karakter ve alt kelime çiftlerini birleştirerek sözlük oluşturan yaygın bir yöntemdir. Örneğin "yapayzekâ" gibi birleşik yazımlar veya nadir kelimeler birkaç token'a bölünebilir.
 - Token sayısı neden önemlidir? Token sayısı, hem maliyeti hem de bağlam penceresi tüketimini doğrudan etkiler; aynı cümle farklı modellerde farklı sayıda token'a bölünebilir.
 - **Lab fikri:** Aynı Türkçe cümleyi bir tokenizer ile parçalayıp token listesini ve sayısını gözlemlemek.
+
+
 
 #### 2) Token gömme (token embedding) — LLM'nin temeli
 
@@ -257,6 +299,8 @@ Metin → token'lara böl (örn. BPE)
 - **Bu ders için kritik bir ayrım:**
   - **Buradaki embedding**, LLM'nin iç katmanıdır ve cevap üretmek için kullanılır.
   - **Hafta 8'deki embedding** ise belge aramak için kullanılan ayrı (veya benzer) bir gömme modelidir. İkisi de "vektör" kavramını kullanır, ancak amaçları farklıdır.
+
+
 
 #### 3) Dikkat mekanizması ve üretim
 
@@ -271,27 +315,42 @@ Metin → token'lara böl (örn. BPE)
 1. Aynı cümleyi farklı sıcaklık değerleriyle üretip farkı raporlamak.
 2. Kısa tokenizer deneyi: bir cümlenin token'lara nasıl bölündüğünü gözlemlemek ve yaklaşık token sayısını belirlemek (BPE fikrini kavramak yeterlidir).
 
+Gözlemler [Lab Defteri](https://istem-muhendisligi-dersi.vercel.app/h02/lab) sayfasına yazılır; indirilen `rapor.md` GitHub reponuzda `hafta-02/` klasörüne konur.
+
+**Bu haftanın sayfaları:** [Türkçe Token Laboratuvarı](https://istem-muhendisligi-dersi.vercel.app/h02/token) · [BPE adım adım](https://istem-muhendisligi-dersi.vercel.app/h02/bpe) · [Sıcaklık, top-k ve top-p](https://istem-muhendisligi-dersi.vercel.app/h02/sicaklik) · [Transformer Gezgini](https://istem-muhendisligi-dersi.vercel.app/transformer/) (Türkçe GPT-2 tarayıcıda; 2B ve [3B adım adım anlatım](https://istem-muhendisligi-dersi.vercel.app/transformer-3b/)) · İsteğe bağlı: [Transformer Explainer](https://poloclub.github.io/transformer-explainer/) (Polo Club, İngilizce GPT-2).
+
 ---
+
+
 
 ### Hafta 3 — İstem yazma, OpenRouter API ve düzenli çıktı
 
 **Bu hafta ne öğreneceksiniz?** Sistem ve kullanıcı mesajı ayrımını, örnek vererek öğretmeyi, cevabı JSON formatına sokmayı ve **tek bir OpenRouter anahtarı** ile Python'dan model çağırmayı öğreneceksiniz.
 
+- **İstemin altı parçası:** Rol · Görev · Bağlam · Örnekler · Çıktı biçimi · Kısıtlar ve üslup (büyük sağlayıcıların rehberlerindeki ortak çekirdek). Sabit parçalar sistem mesajına, her istekte değişen görev ve girdi kullanıcı mesajına gider.
+- **Ayırıcılar:** Bölümleri Markdown başlıklarıyla (`# Rol`), değişken girdiyi XML etiketleriyle (`<yorum>…</yorum>`) ayırmak (ayrıntısı Hafta 4'te).
+- **API hafızasızdır:** Model önceki istekleri hatırlamaz; sohbet geçmişi her istekte yeniden gönderilir ve token her turda büyür.
 - **Zero-shot:** Hiç örnek vermeden doğrudan soru sormaktır.
 - **Few-shot:** Birkaç örnek vererek modele istenilen kalıbı göstermektir.
 - **Chain-of-Thought:** Modelden "adım adım düşünmesini" istemektir.
-- **Yapılandırılmış çıktı:** Serbest paragraf yerine `{ "duygu": "olumlu" }` gibi sabit alanlara sahip bir cevap formatı oluşturmaktır.
-- **OpenRouter kurulumu:** Hesap oluşturma → API anahtarı alma → `.env` dosyasına kaydetme (`OPENROUTER_API_KEY`).
+- **Yapılandırılmış çıktı:** Serbest paragraf yerine `{ "duygu": "olumlu" }` gibi sabit alanlara sahip bir cevap formatı oluşturmaktır. `response_format` ile JSON şeması (`strict`) gönderildiğinde model şemaya uymayan token'ları seçemez (kısıtlı çözümleme); cevap Python'da Pydantic ile doğrulanır. Şema biçimi garanti eder, doğruluğu değil.
+- **OpenRouter kurulumu:** Hesap oluşturma → API anahtarı alma → Colab'da **Secrets** paneline `OPENROUTER_API_KEY` adıyla kaydetme (kendi projelerinizde `.env` + `.gitignore`). Anahtar asla kodda, not defterinde ya da repoda yazılı durmaz; sızan anahtar OpenRouter'da hemen iptal edilir.
 - OpenAI uyumlu istemci kullanımı: `base_url="https://openrouter.ai/api/v1"` ayarıyla aynı SDK kalıbıyla farklı modelleri çağırabilirsiniz.
 - Aynı kod iskeletiyle farklı modelleri denemek (ucuz ve güçlü model karşılaştırması).
 - **Model yönlendirme (routing) fikri:** Basit sınıflandırma görevlerini ucuz modele, zor akıl yürütme görevlerini güçlü modele yönlendirmek (**kavramsal düzeyde anlatılacak; ödevde iki model karşılaştırılacaktır**).
 - **İstem sürümleme:** İstemleri koddan ayırıp dosyada tutmak (`prompts/v1.txt`) ve değişiklikleri Git'te takip etmektir.
-- İstek limiti (rate limit) ve token tüketimi kavramları tanıtılacaktır.
+- İstek limiti (rate limit) ve token tüketimi kavramları tanıtılacaktır. Ücretsiz (`:free`) modellerde dakikada 20 istek; günde 50 istek (en az 10 $ kredi alınmışsa 1.000). Lab bu sınırların altında kalacak şekilde tasarlandı; kredi yüklemek zorunlu değildir.
 - **Kavramsal:** Cevabın parça parça gelmesi (streaming) ve tekrarlayan sistem istemlerinde maliyet düşürme (prompt/prefix caching) konuları tanıtılacaktır.
 
 **Zorunlu:** OpenRouter kurulumu, few-shot ve JSON çıktı ödevi (en az iki farklı model adıyla kısa karşılaştırma) ile istemin ayrı dosyada tutulması.
 
+Lab Google Colab'da yapılır: [hafta-03/lab.ipynb](hafta-03/lab.ipynb) ([Colab'da aç](https://colab.research.google.com/github/asimsinan/istem-muhendisligi-dersi/blob/main/hafta-03/lab.ipynb)). 8 Türkçe ürün yorumu zero-shot ve few-shot istemle, şemasız ve şemalı olarak, iki ücretsiz modelle puanlatılır. Not defteri (`lab.ipynb`), `prompts/v1.txt`, `prompts/v2.txt` ve `sonuclar.md` GitHub reponuzda `hafta-03/` klasörüne konur. Ödev: istemde tek bir değişiklik (`prompts/v3.txt`), aynı 8 yorumla ölçüm ve Git'e işleme.
+
+**Bu haftanın sayfaları:** [İstem Atölyesi](https://istem-muhendisligi-dersi.vercel.app/h03/atolye) · [JSON Şema Denetçisi](https://istem-muhendisligi-dersi.vercel.app/h03/json) · [Yönlendirme Hesaplayıcı](https://istem-muhendisligi-dersi.vercel.app/h03/yonlendirme).
+
 ---
+
+
 
 ### Hafta 4 — Daha iyi istemler ve ilk güvenlik uyarısı
 
@@ -309,6 +368,8 @@ Metin → token'lara böl (örn. BPE)
 
 ---
 
+
+
 ### Hafta 5 — Bilgisayarınızda model çalıştırmak
 
 **Bu hafta ne öğreneceksiniz?** İnternete veri göndermeden kendi bilgisayarınızda model çalıştırmayı deneyeceksiniz. **Ollama** (komut satırı arayüzü) ile uygulamalı çalışacak, **LM Studio** (görsel arayüz) ile de alternatif bir deneyim edineceksiniz; böylece maliyet ve gizlilik avantajlarını bizzat gözlemleyeceksiniz.
@@ -322,6 +383,8 @@ Metin → token'lara böl (örn. BPE)
 **Zorunlu:** Ollama'da bir model kurup aynı istemle kısa bir görev testi yapmak; ardından "OpenRouter ve Ollama" arasındaki gözlemlerinizi kısa bir not olarak yazmak. LM Studio'yu da kurup denemeniz önerilir ancak derinlemesine incelemeniz beklenmez.
 
 ---
+
+
 
 ### Hafta 6 — Bağlam mühendisliği
 
@@ -342,12 +405,14 @@ Alıştırma: Bir sohbet ekran görüntüsünde veya log'da "hangi satır hangi 
 #### 2) Bağlam neden bozulur? (hata türleri)
 
 
-| Sorun                    | Ne olur?                                  | Basit çare                                       |
-| ------------------------ | ----------------------------------------- | ------------------------------------------------ |
-| **Context rot**          | Metin uzadıkça önemli bilgi kaybolur      | Özetle (compaction) veya gereksiz kısımları çıkar |
-| **Lost-in-the-middle**   | Ortadaki bilgi daha az dikkat çeker       | Önemli bilgiyi başa veya sona yerleştir; kısalt   |
-| **Gürültü / fazla araç** | Çok fazla seçenek modelin kararını bozar  | Az ve net araç tanımla; kademeli açma uygula      |
-| **Context poisoning**    | Yanlış veya zararlı metin bağlama sızar   | Kaynak kontrolü ve ayırıcılar kullan (Hafta 12)   |
+| Sorun                    | Ne olur?                                 | Basit çare                                        |
+| ------------------------ | ---------------------------------------- | ------------------------------------------------- |
+| **Context rot**          | Metin uzadıkça önemli bilgi kaybolur     | Özetle (compaction) veya gereksiz kısımları çıkar |
+| **Lost-in-the-middle**   | Ortadaki bilgi daha az dikkat çeker      | Önemli bilgiyi başa veya sona yerleştir; kısalt   |
+| **Gürültü / fazla araç** | Çok fazla seçenek modelin kararını bozar | Az ve net araç tanımla; kademeli açma uygula      |
+| **Context poisoning**    | Yanlış veya zararlı metin bağlama sızar  | Kaynak kontrolü ve ayırıcılar kullan (Hafta 12)   |
+
+
 
 
 #### 3) Üç temel strateji
@@ -368,6 +433,8 @@ Alıştırma: Bir sohbet ekran görüntüsünde veya log'da "hangi satır hangi 
 
 ---
 
+
+
 ### Hafta 7 — Ara sınav (vize)
 
 İlk altı haftada ele aldığımız konuları bu sınavla değerlendireceğiz: kavramlar, istem tasarımı, yapılandırılmış çıktı, yerel model kullanımı, bağlam anatomisi ve bağlam stratejileri.
@@ -377,6 +444,8 @@ Alıştırma: Bir sohbet ekran görüntüsünde veya log'da "hangi satır hangi 
 Sınavdan sonra dersin odağı değişecektir: ilk yarıda edindiğiniz kavramsal temeli, ikinci yarıda uygulamaya dönüştüreceğiz. Belgelerden cevap üretme (RAG), ajan geliştirme ve otomatik döngü tasarımı gibi konular, öğrendiklerinizi gerçek dünya problemlerine taşımanızı sağlayacaktır.
 
 ---
+
+
 
 ### Hafta 8 — RAG: Belgelerinizden cevap üretmek
 
@@ -389,22 +458,26 @@ Belgeler → parçala (chunking) → göm (embedding) → sakla (vektör DB)
        → sorguya yakın parçaları bul → modele ekle → cevap üret
 ```
 
+
+
 #### RAG neden gereklidir?
 
 - Modelin bilgi kesiti eski veya genel kalabilir.
 - Uydurma (hallucination) riskini somut belgelere dayandırarak azaltmak mümkündür.
 - Kurum, ders veya şirket belgelerine dayalı güvenilir cevaplar üretmek gerektiğinde vazgeçilmezdir.
 
+
+
 #### Parçalama (chunking) — bu haftanın omurgası
 
 
-| Strateji                          | Ne yapar?                                                   | Ne zaman kullanılır?                                  |
-| --------------------------------- | ----------------------------------------------------------- | ----------------------------------------------------- |
-| **Sabit boyut**                   | Örneğin 500 veya 1000 token'lık dilimler oluşturur          | Hızlı başlangıç (laboratuvarda zorunlu)               |
-| **Örtüşme (overlap)**            | Dilimler biraz üst üste biner (örn. %10–20)                 | Cümle veya konu sınırında bilgi kopmasını azaltmak için |
-| **Yapıya duyarlı / özyinelemeli** | Önce başlık, paragraf ve cümle sınırlarına göre bölmeye çalışır | Markdown, rapor ve yönetmelik gibi yapılandırılmış metinler |
-| **Anlamsal (semantic)**           | Konu değiştiğinde yeni bir parça başlatır (**kavramsal**)    | Konu karışık uzun metinler                            |
-| **Metadata**                      | Kaynak dosya, sayfa ve başlık bilgisini parçayla birlikte saklar | Cevapta alıntı ve filtreleme için                  |
+| Strateji                          | Ne yapar?                                                        | Ne zaman kullanılır?                                        |
+| --------------------------------- | ---------------------------------------------------------------- | ----------------------------------------------------------- |
+| **Sabit boyut**                   | Örneğin 500 veya 1000 token'lık dilimler oluşturur               | Hızlı başlangıç (laboratuvarda zorunlu)                     |
+| **Örtüşme (overlap)**             | Dilimler biraz üst üste biner (örn. %10–20)                      | Cümle veya konu sınırında bilgi kopmasını azaltmak için     |
+| **Yapıya duyarlı / özyinelemeli** | Önce başlık, paragraf ve cümle sınırlarına göre bölmeye çalışır  | Markdown, rapor ve yönetmelik gibi yapılandırılmış metinler |
+| **Anlamsal (semantic)**           | Konu değiştiğinde yeni bir parça başlatır (**kavramsal**)        | Konu karışık uzun metinler                                  |
+| **Metadata**                      | Kaynak dosya, sayfa ve başlık bilgisini parçayla birlikte saklar | Cevapta alıntı ve filtreleme için                           |
 
 
 **Dikkat:** Parça çok küçükse bağlam eksik kalır; çok büyükse arama gürültülü olur ve token maliyeti artar. Laboratuvarda bu dengeyi ölçmeniz beklenmektedir.
@@ -415,6 +488,8 @@ Belgeler → parçala (chunking) → göm (embedding) → sakla (vektör DB)
 - Benzerlik fikri: yakın vektörler yakın anlama işaret eder (cosine benzerliği; formül ezberi beklenmez).
 - Pratik seçim: OpenRouter veya yerel küçük bir embedding modeli kullanılabilir; sorgu ve belgeler **aynı** embedding ailesiyle gömülmelidir.
 - Tuzaklar: dil uyumsuzluğu, çok kısa veya çok uzun parçalar ve "yalnızca vektör" ile kod veya madde numarası gibi kesin eşleşmelerin kaçırılması (Hafta 9'da hibrit arama ile ele alınacaktır).
+
+
 
 #### Diğer bileşenler
 
@@ -430,15 +505,17 @@ Belgeler → parçala (chunking) → göm (embedding) → sakla (vektör DB)
 #### Ne zaman ne? (karar tablosu — kavramsal)
 
 
-| İhtiyaç                                          | Genelde tercih edilen yaklaşım                                                             |
-| ------------------------------------------------ | ------------------------------------------------------------------------------------------ |
-| Davranış, format veya rol tanımlama              | İstem ve yapılandırılmış çıktı                                                             |
-| Güncel veya kurumsal belgelere dayandırma         | RAG                                                                                        |
-| Modelin üslubunu veya alanını kalıcı değiştirmek  | İnce ayar (fine-tuning) — **bu derste lab yoktur**; ne zaman düşünüleceğini bilmek yeterlidir |
-| Çok adımlı araç kullanımı                        | Ajan, döngü ve harness                                                                     |
+| İhtiyaç                                          | Genelde tercih edilen yaklaşım                                                                |
+| ------------------------------------------------ | --------------------------------------------------------------------------------------------- |
+| Davranış, format veya rol tanımlama              | İstem ve yapılandırılmış çıktı                                                                |
+| Güncel veya kurumsal belgelere dayandırma        | RAG                                                                                           |
+| Modelin üslubunu veya alanını kalıcı değiştirmek | İnce ayar (fine-tuning) — **bu derste lab yoktur**; ne zaman düşünüleceğini bilmek yeterlidir |
+| Çok adımlı araç kullanımı                        | Ajan, döngü ve harness                                                                        |
 
 
 ---
+
+
 
 ### Hafta 9 — Modern RAG iyileştirmeleri
 
@@ -459,25 +536,27 @@ Parçala (iyi chunking)
 #### Zorunlu konular (uygulama — **birini** laboratuvarda kodlayın)
 
 
-| Teknik                               | Kısa tanım                                            | Neden gündemde?                                      |
-| ------------------------------------ | ----------------------------------------------------- | ---------------------------------------------------- |
+| Teknik                               | Kısa tanım                                              | Neden gündemde?                                             |
+| ------------------------------------ | ------------------------------------------------------- | ----------------------------------------------------------- |
 | **Hibrit arama (hybrid)**            | Vektör ve anahtar kelime (BM25) aramayı birlikte yapmak | Kod, isim ve madde numarası gibi tam eşleşmeleri kaçırmamak |
-| **Yeniden sıralama (rerank)**        | Bulunan adayları ikinci bir modelle yeniden sıralamak   | Üstteki 3–5 parçanın kalitesini belirgin biçimde artırır   |
-| **Sorgu yeniden yazma / genişletme** | Kullanıcı sorusunu aramaya daha uygun hâle getirmek     | Kısa veya muğlak sorularda hatırlamayı iyileştirir        |
-| **HyDE**                             | "İdeal cevap metni" üretip o metinle aramak             | Soru ile belge dili çok farklıysa etkili olabilir         |
+| **Yeniden sıralama (rerank)**        | Bulunan adayları ikinci bir modelle yeniden sıralamak   | Üstteki 3–5 parçanın kalitesini belirgin biçimde artırır    |
+| **Sorgu yeniden yazma / genişletme** | Kullanıcı sorusunu aramaya daha uygun hâle getirmek     | Kısa veya muğlak sorularda hatırlamayı iyileştirir          |
+| **HyDE**                             | "İdeal cevap metni" üretip o metinle aramak             | Soru ile belge dili çok farklıysa etkili olabilir           |
+
+
 
 
 #### Kavramsal konular (tanıma düzeyi — kod zorunlu değildir; 20–25 dk)
 
 
-| Teknik                                      | Ne işe yarar?                                                                                                              |
-| ------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| Teknik                                      | Ne işe yarar?                                                                                                                              |
+| ------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Bağlamsal erişim (contextual retrieval)** | Her parçaya, belgedeki yerini anlatan kısa bir özet ekleyip *sonra* gömmektir (Anthropic yaklaşımı; yüksek kazanç, indeks maliyeti vardır) |
-| **Geç parçalama (late chunking)**           | Önce uzun metni gömüp sonra parça sınırlarını ayırmaktır; sınırda anlam kaybını azaltma fikridir                           |
-| **Ajan tabanlı / uyarlanabilir RAG**        | Model "aramamalı mıyım, sorguyu değiştirmeli miyim, yeter mi?" diye karar verir (Hafta 10–11 ile bağlantılı)               |
-| **GraphRAG**                                | "Kim kiminle ilişkili?" tipinde çok atlamalı sorular için tasarlanmıştır                                                   |
-| **Hafıza (memory) ve RAG farkı**            | RAG belgelere dayanır; hafıza ise kullanıcı ve oturum tercihlerini tutar (Mem0, Letta)                                     |
-| **ACE**                                     | Bağlamı zamanla iyileşen bir "oyun kitabı" gibi tutma yaklaşımıdır                                                        |
+| **Geç parçalama (late chunking)**           | Önce uzun metni gömüp sonra parça sınırlarını ayırmaktır; sınırda anlam kaybını azaltma fikridir                                           |
+| **Ajan tabanlı / uyarlanabilir RAG**        | Model "aramamalı mıyım, sorguyu değiştirmeli miyim, yeter mi?" diye karar verir (Hafta 10–11 ile bağlantılı)                               |
+| **GraphRAG**                                | "Kim kiminle ilişkili?" tipinde çok atlamalı sorular için tasarlanmıştır                                                                   |
+| **Hafıza (memory) ve RAG farkı**            | RAG belgelere dayanır; hafıza ise kullanıcı ve oturum tercihlerini tutar (Mem0, Letta)                                                     |
+| **ACE**                                     | Bağlamı zamanla iyileşen bir "oyun kitabı" gibi tutma yaklaşımıdır                                                                         |
 
 
 **RAG değerlendirmesi — RAGAS metrikleri (kavramsal + kısa lab):**
@@ -496,6 +575,8 @@ RAG çıktılarını sistematik biçimde değerlendirmek için sektörde **RAGAS
 
 ---
 
+
+
 ### Hafta 10 — Ajanlar: Araç kullanan yapay zekâ
 
 **Bu hafta ne öğreneceksiniz?** Modelin yalnızca yazı yazması değil; hesap makinesi, arama motoru veya sizin yazdığınız bir fonksiyon gibi araçları çağırabilmesini sağlayacaksınız. Araç tanımlarının da *bağlamın bir parçası* olduğunu bizzat gözlemleyeceksiniz.
@@ -510,6 +591,8 @@ RAG çıktılarını sistematik biçimde değerlendirmek için sektörde **RAGAS
 - LangChain ve CrewAI: var olduklarını bilmeniz yeterlidir; bu derste zorunlu bir framework değildir.
 - **Hafta 11'e köprü:** Bir ajanı sınırsız çalıştırmak tehlikeli olabilir; bu nedenle döngü ve harness kavramlarına ihtiyaç duyarız.
 
+
+
 #### Ajan belleği (memory) — kavramsal
 
 Ajanlar, tek bir oturum içindeki bağlam penceresinin ötesinde bilgi tutmaya ihtiyaç duyabilir. Bu ihtiyaç, "ajan belleği" kavramını doğurmuştur:
@@ -522,6 +605,8 @@ Ajanlar, tek bir oturum içindeki bağlam penceresinin ötesinde bilgi tutmaya i
 **Zorunlu:** 2–3 araçlı küçük bir ajan geliştirmek ve bir `SKILL.md` dosyası yazmak.
 
 ---
+
+
 
 ### Hafta 11 — Döngü ve harness: "Ne zaman bitti? Hangi kurallarla?"
 
@@ -542,19 +627,21 @@ hedef ver → ajan bir adım atsın → doğrulayıcı geçti mi?
 - **Hata ve yeniden deneme:** Araç veya API hata verdiğinde panik yapmamak; 1–2 kez denemek, başarısız olursa durmak veya kullanıcıya sormak.
 - **Yedek plan (fallback):** Birincil model veya araç kullanılamadığında yedek modele geçmek ya da "cevaplayamıyorum" mesajı döndürmek.
 
+
+
 #### Mini koşum ortamı (harness)
 
 Harness, döngüyü saran bir kabuk olarak düşünülebilir. Üretim ortamında (production) kullanılan Claude Code veya Codex düzeyinde bir sistem kurmamız beklenmiyor; ancak aşağıdaki **kontrol listesini** kodlamanız gerekiyor:
 
 
-| Bileşen                          | Öğrenci uygulaması                                                                         |
-| -------------------------------- | ------------------------------------------------------------------------------------------ |
-| Araç izin listesi (allowlist)    | Yalnızca izinli 2–3 fonksiyonun çağrılabilmesi                                             |
-| Adım limiti (`max_steps`)        | Örneğin 5 adım                                                                             |
-| Doğrulayıcı                      | En az 5 assert veya test case                                                               |
-| **Gözlem log'u**                 | Her adımda: model adı, çağrılan araç, özet sonuç, **token sayısı**, **süre (ms)** ve yaklaşık **maliyet** |
-| Hata davranışı                   | Araç hata verirse kaydedip yeniden denemek veya durmak                                      |
-| HITL (isteğe bağlı)              | Silme veya gönderim gibi riskli işlemlerde insan onayı istemek                              |
+| Bileşen                       | Öğrenci uygulaması                                                                                        |
+| ----------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Araç izin listesi (allowlist) | Yalnızca izinli 2–3 fonksiyonun çağrılabilmesi                                                            |
+| Adım limiti (`max_steps`)     | Örneğin 5 adım                                                                                            |
+| Doğrulayıcı                   | En az 5 assert veya test case                                                                             |
+| **Gözlem log'u**              | Her adımda: model adı, çağrılan araç, özet sonuç, **token sayısı**, **süre (ms)** ve yaklaşık **maliyet** |
+| Hata davranışı                | Araç hata verirse kaydedip yeniden denemek veya durmak                                                    |
+| HITL (isteğe bağlı)           | Silme veya gönderim gibi riskli işlemlerde insan onayı istemek                                            |
 
 
 **Kavramsal (kod yazılmayacak):** Sandbox, worktree, hook'lar ve çok ajanlı orkestrasyon gibi ileri kavramlar tanıtılacaktır; bu derste uygulanmayacaktır.
@@ -564,6 +651,8 @@ Araç izin listesi (allowlist), `max_steps`, doğrulayıcı (verifier) ve **toke
 
 ---
 
+
+
 ### Hafta 12 — Güvenlik, etik ve "iyi çalışıyor mu?" kontrolü
 
 **Bu hafta ne öğreneceksiniz?** Başlıca güvenlik risklerini — özellikle istem enjeksiyonu, aşırı yetkili ajan ve sınırsız tüketim — ele alacak, etik sorumlulukları tartışacak ve küçük bir değerlendirme seti oluşturacaksınız. Bu hafta, Hafta 11'deki harness kavramını güvenlikle birleştirir: araç izin listesi, aşırı yetki riskine (Excessive Agency) karşı pratik bir savunma aracıdır.
@@ -571,18 +660,18 @@ Araç izin listesi (allowlist), `max_steps`, doğrulayıcı (verifier) ve **toke
 **OWASP LLM Top 10 (2025) — özet liste:**
 
 
-| Kod   | Risk (anlaşılır dil)                                          |
-| ----- | ------------------------------------------------------------- |
-| LLM01 | İstem enjeksiyonu — kullanıcı metni sistem kurallarını ezer   |
-| LLM02 | Hassas bilgi sızdırma                                         |
-| LLM03 | Tedarik zinciri riski (kütüphane veya model kaynağı)          |
-| LLM04 | Veri veya model zehirleme                                     |
-| LLM05 | Model çıktısını güvenmeden çalıştırmak (kod veya komut)       |
+| Kod   | Risk (anlaşılır dil)                                              |
+| ----- | ----------------------------------------------------------------- |
+| LLM01 | İstem enjeksiyonu — kullanıcı metni sistem kurallarını ezer       |
+| LLM02 | Hassas bilgi sızdırma                                             |
+| LLM03 | Tedarik zinciri riski (kütüphane veya model kaynağı)              |
+| LLM04 | Veri veya model zehirleme                                         |
+| LLM05 | Model çıktısını güvenmeden çalıştırmak (kod veya komut)           |
 | LLM06 | Aşırı yetki — ajanın gereğinden fazla araç veya izne sahip olması |
-| LLM07 | Sistem isteminin sızması                                      |
-| LLM08 | Vektör ve embedding zayıflıkları (RAG tarafı)                 |
-| LLM09 | Yanlış bilgi üretme (hallucination)                           |
-| LLM10 | Sınırsız tüketim — kontrolsüz maliyet veya istek             |
+| LLM07 | Sistem isteminin sızması                                          |
+| LLM08 | Vektör ve embedding zayıflıkları (RAG tarafı)                     |
+| LLM09 | Yanlış bilgi üretme (hallucination)                               |
+| LLM10 | Sınırsız tüketim — kontrolsüz maliyet veya istek                  |
 
 
 **Lab odağı:** LLM01, LLM06 ve LLM10.
@@ -592,6 +681,8 @@ Araç izin listesi (allowlist), `max_steps`, doğrulayıcı (verifier) ve **toke
 - **Girdi tarafı:** Enjeksiyon kalıpları ve aşırı uzun girdi tespiti.
 - **Çıktı tarafı:** Şema doğrulama (önceki haftalarda ele alındı); PII (ad, telefon, TC kimlik no) sızdırma farkındalığı — basit bir regex veya maskeleme denemesi yeterlidir.
 - Model cevabını doğrudan `exec` veya shell'e aktarmamak (LLM05).
+
+
 
 #### Etik ve sorumlu yapay zekâ (kavramsal tartışma, ~15 dk)
 
@@ -613,6 +704,8 @@ Güvenlik risklerinin yanı sıra, yapay zekâ uygulamalarının etik boyutunu d
 
 ---
 
+
+
 ### Hafta 13–14 — Proje sunumları ve kapanış
 
 Son iki hafta proje sunumlarına ayrılmıştır. Her gruba 15–20 dakika süre verilecektir; canlı demo zorunludur.
@@ -620,6 +713,8 @@ Son iki hafta proje sunumlarına ayrılmıştır. Her gruba 15–20 dakika süre
 Dönemin genel bir özeti yapılacaktır: bağlam yönetimi, döngü ve mini koşum ortamı bir bütün olarak ele alınacak, bu becerilerin kariyer yollarındaki karşılıkları tartışılacaktır. Sektörde unvanlar hızla değişiyor (Context Engineer, Agent Engineer, Harness Engineer gibi); ancak temel beceri değişmiyor: **istem, bağlam ve doğrulayıcılı döngü**.
 
 ---
+
+
 
 ## Proje teslim listesi
 
@@ -631,6 +726,8 @@ Final projenizde aşağıdaki bileşenlerin eksiksiz teslim edilmesi beklenmekte
 4. **Sunum:** PDF formatında sunum dosyası.
 5. **Rapor:** 5–10 sayfa arasında yazılı rapor.
 6. **Etik değerlendirme notu:** ½ sayfalık kısa bir değerlendirme (uydurma riski, önyargı riski ve kullanıcıya bildirim).
+
+
 
 ### Konu örnekleri
 
@@ -645,7 +742,11 @@ Aşağıdaki örnekler size fikir vermesi içindir; farklı bir konu da önerebi
 
 ---
 
+
+
 ## Araçlar
+
+
 
 ### Derste fiilen kullanacağımız araçlar
 
@@ -658,13 +759,19 @@ Aşağıdaki araç ve kütüphaneler, hem endüstri pratiğine uygunluk hem de �
 - **LM Studio** (alternatif yerel GUI)
 - Chroma (vektör veritabanı)
 
+
+
 ### İsim olarak tanıyacağımız araçlar
 
 MCP, A2A, Agent Skills, LangChain, CrewAI, DSPy, RAGAS, Mem0; OpenAI ve Anthropic SDK'ları (doğrudan hesap açmak zorunlu değildir).
 
 ---
 
+
+
 ## Kaynaklar
+
+
 
 ### Kısa ve öncelikli
 
@@ -676,6 +783,8 @@ MCP, A2A, Agent Skills, LangChain, CrewAI, DSPy, RAGAS, Mem0; OpenAI ve Anthropi
 6. [ReAct: Reasoning and Acting](https://arxiv.org/abs/2210.03629) (Yao et al., 2023) — **özet** okumak yeterlidir
 7. [Retrieval-Augmented Generation](https://arxiv.org/abs/2005.11401) (Lewis et al., 2020) — **özet** okumak yeterlidir
 
+
+
 ### İleri kaynaklar (zorunlu değildir)
 
 1. [Context Engineering survey](https://arxiv.org/abs/2507.13334)
@@ -685,6 +794,8 @@ MCP, A2A, Agent Skills, LangChain, CrewAI, DSPy, RAGAS, Mem0; OpenAI ve Anthropi
 5. [Google A2A Protocol](https://google.github.io/A2A/)
 6. [DSPy — Programming, not Prompting](https://dspy.ai)
 7. [LangChain — The Anatomy of an Agent Harness](https://www.langchain.com/blog/the-anatomy-of-an-agent-harness) (kavramsal okuma)
+
+
 
 ### Öğretici siteler
 
@@ -698,6 +809,8 @@ MCP, A2A, Agent Skills, LangChain, CrewAI, DSPy, RAGAS, Mem0; OpenAI ve Anthropi
 - [LM Studio](https://lmstudio.ai)
 
 ---
+
+
 
 ## Dönem sonu çıktıları (kontrol listesi)
 
@@ -719,6 +832,8 @@ Bu listeyi dönem sonunda kendinize sorun; her maddeye güvenle "evet" diyebiliy
 - [ ] MVP düzeyinde çalışan bir uygulama teslim edebiliyorum.
 
 ---
+
+
 
 ## Son söz
 
