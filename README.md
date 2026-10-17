@@ -354,17 +354,23 @@ Lab Google Colab'da yapılır: [hafta-03/lab.ipynb](hafta-03/lab.ipynb) ([Colab'
 
 ### Hafta 4 — Daha iyi istemler ve ilk güvenlik uyarısı
 
-**Bu hafta ne öğreneceksiniz?** Net talimat vermeyi, bölüm ayırıcılarını kullanmayı, "uzman gibi davran" (persona) tekniğini ve kötü niyetli istemlerle kuralları delme riskini kavrayacaksınız.
+**Bu hafta ne öğreneceksiniz?** İstemi daha net ve gerekçeli yazmayı, uzun girdileri etiketlerle düzenlemeyi, "uzman gibi davran" (persona) tekniğinin neyi değiştirip neyi değiştirmediğini ve kötü niyetli metinlerin modelin kurallarını nasıl delebildiğini öğreneceksiniz.
 
-- Açık ve spesifik yazmak, iyi bir istemin temel koşuludur.
-- Metni `###` veya XML etiketleri ile bölmek, modelin bilgiyi karıştırma olasılığını azaltır.
-- **Doğru yükseklik (right altitude):** Ne aşırı katı kural yığını ne de "iyi ol" kadar muğlak bir talimat verilmelidir; denge önemlidir.
-- **Talimat hiyerarşisi (instruction hierarchy):** Sistem kuralları > geliştirici talimatı > kullanıcı metni şeklinde bir öncelik sıralaması vardır. Kullanıcı "önceki kuralları yok say" diyerek sistem talimatını ezememeli — bu konu **kavramsal** düzeyde ele alınacak ve Hafta 12 ile bağlantılıdır.
-- **Kavramsal:** Birden fazla yol deneme (Self-Consistency) ve ağaç gibi düşünme (Tree of Thoughts) yaklaşımları tanıtılacaktır; uygulamanız beklenmez.
-- **Kavramsal:** DSPy — istem metnini elle düzenlemek yerine, programın mantığını (modüller) ve bir başarı metriğini tanımlayıp istem optimizasyonunu otomatikleştiren yaklaşım. "İstem mühendisliğinin otomasyonu" olarak düşünülebilir. Bu derste uygulanmaz ama alanın gelecek yönelimini temsil eder.
-- İstem enjeksiyonu ve jailbreak kavramlarına kısa bir giriş yapılacaktır (asıl laboratuvar çalışması Hafta 12'dedir).
+- **Açık yazmak:** İstemi işi bilmeyen bir meslektaşa verdiğinizi düşünün. "Ne yapma" yerine "ne yap" yazın, kuralın gerekçesini verin. Güncel modellerde büyük harfli "KESİNLİKLE", "MUTLAKA" gereksizdir; aşırı tetiklemeye yol açar.
+- **Doğru yükseklik (right altitude):** Ne aşırı katı kural yığını ne de "iyi ol" kadar muğlak bir talimat: beklenen davranışı tam tarif eden en küçük bilgi.
+- **Persona:** Üslubu, odağı ve kitleyi değiştirir; araştırmalara göre olgusal doğruluğu artırmaz.
+- **Ayırıcılar (ayrıntı):** İç içe XML etiketleri ve öznitelikler (`<belge sira="1" kaynak="…">`), uzun belge başa ve soru sona, önce alıntı sonra cevap. Etiket ilk adımdır ama saldırgan onu taklit edebilir.
+- **Talimat hiyerarşisi:** OpenAI Model Spec'teki yetki sırası (Root > System > Developer > User > Guideline). Araç çıktısı, dosya, web sayfası, alıntı ve asistanın eski cevapları yetkisizdir; içlerindeki talimatlar bilgi olarak okunur. Bu sıra eğitimle öğretilir, garanti değildir.
+- **İstem enjeksiyonu (OWASP LLM01:2026):** Doğrudan ve dolaylı enjeksiyon; neden tam önlenemediği (talimat ile veri aynı token akışında); katmanlı savunma (istem → ayırıcı + uyarı → şema + kodda doğrulama → en az yetki → insan onayı); ölümcül üçlü (özel veri + güvenilmeyen içerik + dışarı iletişim). Ayrıntılı laboratuvar Hafta 12'de.
+- **Kavramsal:** Self-Consistency (çok yol + oylama), Tree of Thoughts (dallan, değerlendir, buda) ve DSPy (istemi örnekler ve bir metrikle otomatik iyileştirmek); uygulamanız beklenmez.
 
-**Zorunlu:** Bir meslek için persona istemi yazmak ve küçük bir enjeksiyon denemesi gerçekleştirmek.
+**Kural:** Saldırıyı yalnızca kendi kurduğunuz sisteme ve bunun için yapılmış oyunlara yaparsınız.
+
+**Zorunlu:** Lab teslimi; S1/S2 istemine karşı 2 yeni saldırı ve tek bir savunma değişikliği (`prompts/v5.txt`); [Lakera Agent Breaker](https://play.lakera.ai/agent-breaker)'da istediğiniz bir uygulamada 75+ puan (ekran görüntüsü ve saldırı türü). Klasik Gandalf kaldırıldı; eski adres Agent Breaker'a yönleniyor.
+
+Lab Google Colab'da yapılır ve Hafta 3'ün devamıdır (aynı anahtar, aynı modeller): [hafta-04/lab.ipynb](hafta-04/lab.ipynb) ([Colab'da aç](https://colab.research.google.com/github/asimsinan/istem-muhendisligi-dersi/blob/main/hafta-04/lab.ipynb)). Önce persona etkisi ölçülür; sonra Hafta 3'teki yorum puanlayıcıya içine talimat gizlenmiş 6 yorum gönderilir ve üç savunma düzeyiyle (S0: Hafta 3 istemi, S1: gerekçeli uyarı + görev hatırlatması, S2: + strict şema ve kodda temizlik) saldırı başarısı ölçülür. Yaklaşık 25 istek; ücretsiz sınırın içinde. `lab.ipynb`, `prompts/v4.txt` ve `sonuclar.md` GitHub reponuzda `hafta-04/` klasörüne konur.
+
+**Bu haftanın sayfaları:** [Enjeksiyon Arenası](https://istem-muhendisligi-dersi.vercel.app/h04/arena) · [Kim yetkili?](https://istem-muhendisligi-dersi.vercel.app/h04/yetki).
 
 ---
 
