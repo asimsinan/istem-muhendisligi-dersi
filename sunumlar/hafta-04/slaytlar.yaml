@@ -46,7 +46,8 @@ slaytlar:
     tur: ifade
     etiket: "Canlı deneme"
     metin: "H3'teki v2 istemiyle bu yorumu bir kez gönderelim."
-    alt: "Demo not defteri, ilk hücre: istem-muhendisligi-dersi.vercel.app/demo/4. Sonuç ne olursa olsun: Bir kez tutması, her zaman tutacağı anlamına gelmez."
+    alt: "Demo not defteri, ilk hücre. Sonuç ne olursa olsun: Bir kez tutması, her zaman tutacağı anlamına gelmez."
+    link: { url: "https://istem-muhendisligi-dersi.vercel.app/demo/4", metin: "istem-muhendisligi-dersi.vercel.app/demo/4" }
     not: |
       [4] hafta-04/demo.ipynb, H4·4 hücresi (H3 istemi, tek istek). Sonucu tahtaya yazın. Model doğru cevap verdiyse: "Bu sefer tuttu; lab'da 6 farklı saldırıyla ölçeceğiz." Yanlış verdiyse: "İşte bugünün konusu."
 

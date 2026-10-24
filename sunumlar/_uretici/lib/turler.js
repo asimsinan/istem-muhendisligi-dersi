@@ -164,8 +164,13 @@ TURLER.ifade = async (pres, k) => {
   if (k.etiket) etiket(s, k.etiket, x, 1.55, w);
   s.addText(k.metin, tb({ x, y: 2.0, w, h: 2.8, fontFace: B, fontSize: PT.ifade, bold: true, valign: "middle", lineSpacingMultiple: 1.05 }));
   if (k.alt) s.addText(k.alt, tb({ x, y: 5.05, w, h: 0.9, fontSize: PT.altBaslik, color: R.metinIkincil }));
+  // İsteğe bağlı tıklanabilir bağlantı: link: { url, metin }
+  if (k.link) {
+    const metin = k.link.metin || k.link.url.replace(/^https?:\/\//, "");
+    s.addText(`${metin} →`, tb({ x, y: 6.0, w, h: 0.45, fontSize: PT.altBaslik, bold: true, color: R.kirmizi, underline: { style: "sng" }, hyperlink: { url: k.link.url } }));
+  }
   kaynakSatiri(s, k.kaynak);
-  notlar(s, k);
+  notlar(s, k, k.link ? `(Link: ${k.link.url})` : undefined);
   return [s];
 };
 
