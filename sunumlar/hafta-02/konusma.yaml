@@ -570,7 +570,7 @@ _ders:
     - "Türkçe sürümü (slayt {transformer-explainer-tr}) sınıf ağından bir bilgisayarda açın; kutunun altındaki yükleme çubuğu bitip model düğmeleri (“✓ Küçük”) görününce bir Türkçe cümle deneyin. Gösterge kırmızı “Model inmedi” derse ağ Vercel'e ya da huggingface.co'ya erişemiyor olabilir (model dosyaları oradan iner)."
     - "3B anlatımı (slayt {transformer-gezgini-3b}) sınıf bilgisayarında ders öncesi bir kez açın: ilk açılışta model (~120 MB) iner ve sahne hazırlanır. Kartları ve “Tahmin soruları” kutusunu açık bırakın; 5. adımdaki soruyu bir kez kendiniz deneyin (cevap verilince aynı oturumda soru yeniden sorulmaz; derste sormak için sayfayı yenileyin)."
     - "Videoların kendiliğinden başladığını kontrol edin (slayt {video-bpe}, {video-gomme}, {video-yakinlik}, {video-dikkat}, {video-baglam}, {video-sicaklik}, {video-topp})."
-    - "Görev B istemini bir kez sıcaklık 0, 1 ve 2'de kendiniz deneyin; sınıfa göstermek için bir örnek seti hazır olsun."
+    - "hafta-02/demo.ipynb'yi Colab'da çalıştırın: token sayımı anahtarsız; sıcaklık bölümü sizin OpenRouter anahtarınızla 10 istek. Çıktı, Görev B için sınıfa göstereceğiniz örnek set (slayt {gorev-b})."
     - "Çıkış kartı için küçük kâğıtlar."
   gizli:
     - "Giriş sorusunun cevabı: 1,5 kat (güncel GPT tokenizer), 2,1 kat (eski). Bölüm 1'deki “Türkçe vergisi” slaytına kadar söylemeyin."

@@ -357,7 +357,7 @@ Lab Google Colab'da yapılır: [hafta-03/lab.ipynb](hafta-03/lab.ipynb) ([Colab'
 **Bu hafta ne öğreneceksiniz?** İstemi daha net ve gerekçeli yazmayı, uzun girdileri etiketlerle düzenlemeyi, "uzman gibi davran" (persona) tekniğinin neyi değiştirip neyi değiştirmediğini ve kötü niyetli metinlerin modelin kurallarını nasıl delebildiğini öğreneceksiniz.
 
 - **Açık yazmak:** İstemi işi bilmeyen bir meslektaşa verdiğinizi düşünün. "Ne yapma" yerine "ne yap" yazın, kuralın gerekçesini verin. Güncel modellerde büyük harfli "KESİNLİKLE", "MUTLAKA" gereksizdir; aşırı tetiklemeye yol açar.
-- **Doğru yükseklik (right altitude):** Ne aşırı katı kural yığını ne de "iyi ol" kadar muğlak bir talimat: beklenen davranışı tam tarif eden en küçük bilgi.
+- **Doğru ayrıntı düzeyi (İng. right altitude, “doğru irtifa”):** Ne aşırı katı kural yığını ne de "iyi ol" kadar muğlak bir talimat: beklenen davranışı tam tarif eden en küçük bilgi.
 - **Persona:** Üslubu, odağı ve kitleyi değiştirir; araştırmalara göre olgusal doğruluğu artırmaz.
 - **Ayırıcılar (ayrıntı):** İç içe XML etiketleri ve öznitelikler (`<belge sira="1" kaynak="…">`), uzun belge başa ve soru sona, önce alıntı sonra cevap. Etiket ilk adımdır ama saldırgan onu taklit edebilir.
 - **Talimat hiyerarşisi:** OpenAI Model Spec'teki yetki sırası (Root > System > Developer > User > Guideline). Araç çıktısı, dosya, web sayfası, alıntı ve asistanın eski cevapları yetkisizdir; içlerindeki talimatlar bilgi olarak okunur. Bu sıra eğitimle öğretilir, garanti değildir.

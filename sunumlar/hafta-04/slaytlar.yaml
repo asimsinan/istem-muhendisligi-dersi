@@ -46,9 +46,9 @@ slaytlar:
     tur: ifade
     etiket: "Canlı deneme"
     metin: "H3'teki v2 istemiyle bu yorumu bir kez gönderelim."
-    alt: "Colab'da H3 not defteri, tek hücre. Sonuç ne olursa olsun: Bir kez tutması, her zaman tutacağı anlamına gelmez."
+    alt: "Demo not defteri, ilk hücre: istem-muhendisligi-dersi.vercel.app/demo/4. Sonuç ne olursa olsun: Bir kez tutması, her zaman tutacağı anlamına gelmez."
     not: |
-      [4] Ders öncesi H3 not defterinde puanla() yerine tek istek hücresi hazırlayın (mesajlar(sistem, yorum) + iste()). Sonucu tahtaya yazın. Model doğru cevap verdiyse: "Bu sefer tuttu; lab'da 6 farklı saldırıyla ölçeceğiz." Yanlış verdiyse: "İşte bugünün konusu."
+      [4] hafta-04/demo.ipynb, H4·4 hücresi (H3 istemi, tek istek). Sonucu tahtaya yazın. Model doğru cevap verdiyse: "Bu sefer tuttu; lab'da 6 farklı saldırıyla ölçeceğiz." Yanlış verdiyse: "İşte bugünün konusu."
 
   - id: neredeyiz
     tur: video
@@ -64,7 +64,7 @@ slaytlar:
     numarali: true
     baslik: "Bu hafta neler öğreneceğiz?"
     maddeler:
-      - "Bir istemi net, gerekçeli ve doğru yükseklikte yeniden yazmak; personanın neyi değiştirdiğini açıklamak"
+      - "Bir istemi net, gerekçeli ve doğru ayrıntı düzeyinde yeniden yazmak; personanın neyi değiştirdiğini açıklamak"
       - "Değişken girdiyi ve uzun belgeleri XML etiketleriyle düzenlemek"
       - "Talimat hiyerarşisini, doğrudan ve dolaylı istem enjeksiyonunu açıklamak"
       - "Bir saldırının başarısını ölçmek ve katmanlı savunma önermek"
@@ -77,7 +77,7 @@ slaytlar:
     basliklar: ["Bölüm", "Süre", "Ne yapacağız?"]
     genislikler: [3.8, 1.4, 6.9]
     satirlar:
-      - ["1 · İstemi inceltmek", "25 dk", "Açık yazmak, gerekçe, doğru yükseklik, persona"]
+      - ["1 · İstemi inceltmek", "25 dk", "Açık yazmak, gerekçe, ayrıntı düzeyi, persona"]
       - ["2 · Ayırıcılar", "15 dk", "İç içe etiketler, uzun belge, etiket kaçışı"]
       - ["3 · Talimat hiyerarşisi", "15 dk", "Kim kimden üstün? Kim yetkili?"]
       - ["4 · İstem enjeksiyonu", "20 dk", "Doğrudan, dolaylı, katmanlı savunma, Arena"]
@@ -152,13 +152,13 @@ slaytlar:
 
   - id: dogru-yukseklik
     tur: tablo
-    baslik: "Doğru yükseklik"
-    basliklar: ["Çok katı", "Doğru yükseklik", "Çok muğlak"]
+    baslik: "Doğru ayrıntı düzeyi"
+    basliklar: ["Çok katı", "Doğru düzey", "Çok muğlak"]
     genislikler: [4.0, 4.1, 4.0]
     satirlar:
       - ["“‘berbat’ geçerse 1 ver…”", "“Duyguyu bütüne göre değerlendir; ironiye dikkat et.”", "“Yorumları iyi puanla.”"]
       - ["Yeni ifadede çöker", "Gereken en küçük bilgi", "Bağlam varsayar"]
-    alt: "Minimal, kısa demek değildir: Gerekeni eksiksiz, fazlasını vermeyin."
+    alt: "Minimal, kısa demek değildir: Gerekeni eksiksiz, fazlasını vermeyin. (İng. right altitude: doğru irtifa)"
     kaynak: "Anthropic, “Effective context engineering for AI agents” (29.09.2025)"
     not: |
       [19] Belgedeki ifade: "the minimal set of information that fully outlines your expected behavior". Bir uçta sabit kodlanmış kırılgan mantık, öbür uçta somut sinyal vermeyen genel öğütler.
@@ -179,7 +179,7 @@ slaytlar:
         - "Ölçek ve alanlar tanımlı; strict şema"
         - "Kuralların gerekçesi; yorum <yorum> içinde"
     not: |
-      [21] Canlı gösterin: İki istemi aynı ironik yorumla (ör. "Mükemmel! Kutuyu açar açmaz ekran çatladı.") Colab'da çalıştırın, çıktıları yan yana koyun. Ders öncesi bir kez deneyin; çıktıyı slayta yazmıyoruz çünkü model sürümüyle değişiyor.
+      [21] Canlı: hafta-04/demo.ipynb, H4·14 bölümü. İki istem, 3 ironik yorum, çıktılar yan yana tablo. Ders öncesi bir kez deneyin; çıktıyı slayta yazmıyoruz çünkü model sürümüyle değişiyor.
 
   - id: atolye-tekrar
     tur: interaktif
@@ -236,7 +236,7 @@ slaytlar:
   - id: kontrol-incelt
     tur: kontrol
     cevap_slayti: true
-    soru: "Hangisi “doğru yükseklikte” bir talimattır?"
+    soru: "Hangisi “doğru ayrıntı düzeyinde” bir talimattır?"
     secenekler:
       - "“Yorumları iyi puanla.”"
       - "“‘Berbat’ geçerse 1 ver, ‘süper’ geçerse 5 ver.”"
@@ -325,7 +325,7 @@ slaytlar:
       - "Ama saldırgan etiketi taklit edebilir: yorumun içine </yorum> yazmak."
       - "Lab'daki 3. saldırı bu. Kod tarafında < > işaretlerini değiştirmek bu oyunu bozar (S2)."
     not: |
-      [42] OWASP LLM01:2026 da "dış içeriği ayrı ve etiketli kanaldan vermek" önlemini sayıyor ama ekliyor: işaretleme düzenini bilen saldırgan onu taklit edebilir.
+      [42] OWASP LLM01:2026 da "dış içeriği ayrı ve etiketli kanaldan vermek" önlemini sayıyor ama ekliyor: işaretleme düzenini bilen saldırgan onu taklit edebilir. Canlı: hafta-04/demo.ipynb, H4·25 bölümü (S0 ve S2, modele giden mesajla).
 
   - id: kontrol-ayirici
     tur: kontrol
@@ -648,10 +648,10 @@ slaytlar:
   - id: colab-ac
     tur: interaktif
     baslik: "Not defterini Colab'da açın"
-    url: "https://colab.research.google.com/github/asimsinan/istem-muhendisligi-dersi/blob/main/hafta-04/lab.ipynb"
-    kisa_url: "github.com/asimsinan/istem-muhendisligi-dersi"
+    url: "https://istem-muhendisligi-dersi.vercel.app/lab/4"
+    kisa_url: "istem-muhendisligi-dersi.vercel.app/lab/4"
     adimlar:
-      - "QR ya da repodaki hafta-04/lab.ipynb → “Open in Colab”."
+      - "QR'ı okutun ya da linke tıklayın: Colab'da açılır."
       - "Dosya → Drive'a kopya kaydet."
       - "Anahtar Secrets'ta duruyor mu? Notebook access açık mı?"
     sure: "2 dakika"
@@ -757,7 +757,7 @@ slaytlar:
   - id: sozluk
     tur: sozluk
     terimler:
-      - { tr: "Doğru yükseklik", en: "right altitude", tanim: "Beklenen davranışı tam tarif eden en küçük bilgi." }
+      - { tr: "Doğru ayrıntı düzeyi", en: "right altitude", tanim: "Beklenen davranışı tam tarif eden en küçük bilgi." }
       - { tr: "Persona", en: "role prompting", tanim: "Modele bir kimlik vermek; üslubu ve odağı değiştirir, bilgiyi değil." }
       - { tr: "Talimat hiyerarşisi", en: "instruction hierarchy", tanim: "Çakışan talimatlarda hangi kaynağın üstün geldiği sıra." }
       - { tr: "İstem enjeksiyonu", en: "prompt injection", tanim: "Modele giren metnin, geliştiricinin istemediği biçimde davranışı değiştirmesi." }

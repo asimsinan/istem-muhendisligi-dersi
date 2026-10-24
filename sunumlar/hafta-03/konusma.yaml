@@ -398,7 +398,7 @@ lab:
 
 colab-ac:
   soyle: |
-    QR'ı okutun ya da repodaki “Open in Colab” bağlantısına tıklayın. Önce Drive'a bir kopya kaydedin; yoksa değişiklikleriniz kaybolabilir.
+    QR'ı okutun ya da alttaki kısa adrese gidin: istem-muhendisligi-dersi.vercel.app/lab/3. Not defteri doğrudan Colab'da açılır; ders sitesinde Hafta 3'ün altında da bağlantısı var. Önce Drive'a bir kopya kaydedin; yoksa değişiklikleriniz kaybolabilir.
     Colab bir uyarı gösterecek: “Bu not defteri Google tarafından yazılmadı.” Yine de çalıştır deyin.
   gecis: |
     Adım bir: kurulum.
@@ -487,6 +487,8 @@ _ders:
     - "Limit tablosunu doğrulayın (openrouter.ai/docs/api/reference/limits); değiştiyse slayt {limitler}."
     - "hafta-03/lab.ipynb'yi ücretsiz bir anahtarla Colab'da baştan sona çalıştırın; istek sayısını ölçün. “GitHub'a kopya kaydet” adımını bir kez deneyin."
     - "Canlı deneme için sohbet uygulamasını açık tutun (slayt {canli-deneme})."
+    - "Kısa adres istem-muhendisligi-dersi.vercel.app/lab/3 Colab'da not defterini açıyor mu? (interaktif push edilmiş olmalı; slayt {colab-ac})"
+    - "hafta-03/demo.ipynb'yi Colab'da açın, kurulum hücrelerini çalıştırın ve bir kez baştan sona deneyin (~12 istek). Kod slaytlarını bununla canlı gösterirsiniz: {istek-kodu}, {cevap-anatomisi}, {hafizasiz}, {json-ver}, {sema-istek}, {soruya-donus}."
     - "İstem Atölyesi (/h03/atolye), JSON Şema Denetçisi (/h03/json) ve Yönlendirme Hesaplayıcı (/h03/yonlendirme) yayında mı? V3.3 fiyat tablosunu güncelleyin."
     - "Videoların kendiliğinden başladığını kontrol edin (slayt {video-yolculuk}, {video-fewshot}, {video-kisitli}, {video-onbellek})."
     - "Çıkış kartı yok bu hafta; sınıf sonuçları tablosu için tahta kalemi."

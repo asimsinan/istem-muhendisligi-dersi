@@ -39,7 +39,7 @@ slaytlar:
     metin: "Aynı anlamdaki bir Türkçe cümle, İngilizcesinden kaç kat token tutar?"
     alt: "“Öğrencilerimizden gelen soruları cevaplayabilecek bir yapay zekâ asistanı geliştirmek istiyoruz.” · “We want to build an AI assistant that can answer the questions coming from our students.”"
     not: |
-      [3] "Token" kelimesini henüz tanımlamayın; "modelin okuduğu parça" demeniz yeterli.
+      [3] "Token" kelimesini henüz tanımlamayın; "modelin okuduğu parça" demeniz yeterli. Cevabı canlı saymak için: hafta-02/demo.ipynb, H2·3 hücresi (anahtar gerekmez).
 
   - id: oylama-kac-kat
     tur: kontrol
@@ -639,7 +639,7 @@ slaytlar:
     istem_not: "İstem Lab Defteri'nde hazır"
     istem: "Isparta'da açılacak bir kafe için tek satırlık, akılda kalıcı bir slogan yaz. Yalnızca sloganı yaz."
     not: |
-      [110] Beklenen: 0'da üç cevap aynı ya da çok benzer; 1'de farklı ama makul; 2'de bazen tuhaf kelimeler, anlamsızlaşma. Top-p düşükken sıcaklık yüksek olsa bile cevaplar toparlanır.
+      [110] Beklenen: 0'da üç cevap aynı ya da çok benzer; 1'de farklı ama makul; 2'de bazen tuhaf kelimeler, anlamsızlaşma. Top-p düşükken sıcaklık yüksek olsa bile cevaplar toparlanır. Hazır örnek seti: hafta-02/demo.ipynb, H2·61 bölümü (ders öncesi çalıştırın).
 
   # ───────────────────────── KAPANIŞ (15 dk) ─────────────────────────
 

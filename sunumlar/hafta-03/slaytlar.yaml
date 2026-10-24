@@ -48,7 +48,7 @@ slaytlar:
     metin: "“Bu yorumu 1 ile 5 arasında puanla: Telefon harika ama şarj aleti iki günde bozuldu.”"
     alt: "Sohbet uygulamasına yazıyoruz. Cevap kaç satır geldi? Bir programa bu cevabı nasıl okuturdunuz?"
     not: |
-      [4] Projeksiyonda ChatGPT, Gemini ya da Claude'a aynen yazın. Cevap büyük olasılıkla birkaç paragraf, artı/eksi listesi ve "3/5 diyebilirim" gibi bir cümle olur. Sorun: Bir Python programı bu metinden puanı güvenle çekemez. Dersin sonunda aynı yorumdan {"duygu": "karışık", "puan": 3, ...} gibi tek bir JSON alacağız.
+      [4] Projeksiyonda ChatGPT, Gemini ya da Claude'a aynen yazın. Cevap büyük olasılıkla birkaç paragraf, artı/eksi listesi ve "3/5 diyebilirim" gibi bir cümle olur. Sorun: Bir Python programı bu metinden puanı güvenle çekemez. Dersin sonunda aynı yorumdan {"duygu": "karışık", "puan": 3, ...} gibi tek bir JSON alacağız. Sohbet uygulaması açılmazsa yedek: hafta-03/demo.ipynb, H3·4 hücresi.
 
   - id: neredeyiz
     tur: video
@@ -258,7 +258,7 @@ slaytlar:
     ornek: "3. turda gönderilen: system + user₁ + assistant₁ + user₂ + assistant₂ + user₃"
     benzetme: "Her sabah hafızası silinen bir asistan: Ona her gün dünkü yazışmaların tamamını yeniden okutursunuz."
     not: |
-      [23] Sohbet uygulamaları bunu sizin yerinize yapar; API'de iş sizde. Sonuç: uzun sohbet her turda daha pahalı ve bağlam penceresi (Hafta 2) dolar. Hafta 6'da geçmişi kırpma ve özetleme.
+      [23] Sohbet uygulamaları bunu sizin yerinize yapar; API'de iş sizde. Sonuç: uzun sohbet her turda daha pahalı ve bağlam penceresi (Hafta 2) dolar. Hafta 6'da geçmişi kırpma ve özetleme. Canlı: hafta-03/demo.ipynb, H3·16–17 bölümü (geçmişsiz soruda model adı bilemez; girdi token'ı büyür).
 
   - id: hafizasiz-tablo
     tur: tablo
@@ -301,7 +301,7 @@ slaytlar:
       - "Sıcaklık ve en fazla token: Hafta 2'deki ayarlar artık kodda."
     kaynak: "OpenRouter, Quickstart (erişim 12.10.2026)"
     not: |
-      [26] Lab'ın ilk hücresi bu. sistem ve kullanici değişkenleri prompts/v1.txt'den ve yorum listesinden gelir. max_tokens cevabı keser; kesilirse finish_reason "length" olur. Lab'da max_tokens 2000: iki model de düşünebilen (reasoning) model ve düşünme token'ları da bu sınıra dahil; düşük tutulsa cevap boş kalabilir.
+      [26] Lab'ın ilk hücresi bu. sistem ve kullanici değişkenleri prompts/v1.txt'den ve yorum listesinden gelir. max_tokens cevabı keser; kesilirse finish_reason "length" olur. Lab'da max_tokens 2000: iki model de düşünebilen (reasoning) model ve düşünme token'ları da bu sınıra dahil; düşük tutulsa cevap boş kalabilir. Canlı: hafta-03/demo.ipynb, H3·18–19 bölümü.
 
   - id: cevap-anatomisi
     tur: kod
@@ -327,7 +327,7 @@ slaytlar:
       - "finish_reason: stop = kendisi bitirdi, length = sınıra takıldı."
       - "usage: girdi ve çıktı token'ı; ücret bunlardan hesaplanır."
     not: |
-      [28] Değerler örnek. content'in hâlâ serbest metin olduğuna dikkat çekin: "Karışık. Puan: 3." Bunu ayıklamak kırılgan; Bölüm 3'ün konusu. usage'ı lab'da her istekte toplayacağız.
+      [28] Değerler örnek. content'in hâlâ serbest metin olduğuna dikkat çekin: "Karışık. Puan: 3." Bunu ayıklamak kırılgan; Bölüm 3'ün konusu. usage'ı lab'da her istekte toplayacağız. Gerçek değerler: hafta-03/demo.ipynb, H3·18–19 bölümünün ikinci hücresi.
 
   - id: atolye
     tur: interaktif
@@ -470,7 +470,7 @@ slaytlar:
     metin: "“JSON ver” demek, JSON almak demek değil."
     alt: "Gelebilecekler: ```json çitleri, başa “Elbette, işte JSON:”, eksik alan, “puan”: “dört”, yarıda kesilmiş nesne."
     not: |
-      [51] 100 yorumda 2–3 bozuk cevap bile programı durdurur. Soru: Bunu istemle mi çözeriz, yoksa API'yle mi? Cevap: ikisi birden, ama garanti API'den gelir.
+      [51] 100 yorumda 2–3 bozuk cevap bile programı durdurur. Soru: Bunu istemle mi çözeriz, yoksa API'yle mi? Cevap: ikisi birden, ama garanti API'den gelir. Canlı: hafta-03/demo.ipynb, H3·33 bölümü (şemasız 3 yorum, ham cevap).
 
   - id: json-modlari
     tur: tablo
@@ -554,7 +554,7 @@ slaytlar:
       - "Pydantic yine de doğrular; uymazsa hata verir, siz sayarsınız."
     kaynak: "OpenRouter, Structured Outputs ve Provider Routing (erişim 12.10.2026)"
     not: |
-      [62] require_parameters olmadan OpenRouter, isteği şemayı yok sayan bir sağlayıcıya da yönlendirebilir; cevap yine serbest metin gelir. Lab'da model_validate_json'ı try/except içinde çağırıp geçersiz cevapları sayacağız.
+      [62] require_parameters olmadan OpenRouter, isteği şemayı yok sayan bir sağlayıcıya da yönlendirebilir; cevap yine serbest metin gelir. Lab'da model_validate_json'ı try/except içinde çağırıp geçersiz cevapları sayacağız. Canlı: hafta-03/demo.ipynb, H3·38 bölümü.
 
   - id: her-model-desteklemez
     tur: liste
@@ -771,10 +771,10 @@ slaytlar:
   - id: colab-ac
     tur: interaktif
     baslik: "Not defterini Colab'da açın"
-    url: "https://colab.research.google.com/github/asimsinan/istem-muhendisligi-dersi/blob/main/hafta-03/lab.ipynb"
-    kisa_url: "github.com/asimsinan/istem-muhendisligi-dersi"
+    url: "https://istem-muhendisligi-dersi.vercel.app/lab/3"
+    kisa_url: "istem-muhendisligi-dersi.vercel.app/lab/3"
     adimlar:
-      - "QR'ı okutun ya da repodaki “Open in Colab” rozetine tıklayın."
+      - "QR'ı okutun ya da linke tıklayın: Colab'da açılır."
       - "Google hesabınızla girin; “Dosya → Drive'a kopya kaydet”."
       - "Hücreleri yukarıdan aşağı sırayla çalıştırın."
     sure: "2 dakika"
@@ -884,7 +884,7 @@ slaytlar:
     metin: "Biçimi şema garanti eder; doğruluğu ölçmek gerekir."
     alt: "Rol ve kısıtlar sistem mesajında, örnekler kalıbı kilitler, strict JSON şeması biçimi garanti eder, Pydantic doğrular. Etiketin doğru olduğunu ise ancak etiketli bir test setiyle bilirsiniz."
     not: |
-      [170] Açılıştaki sohbet cevabını hatırlatın: üç paragraf → tek JSON nesnesi.
+      [170] Açılıştaki sohbet cevabını hatırlatın: üç paragraf → tek JSON nesnesi. Canlı: hafta-03/demo.ipynb, H3·64 hücresi.
 
   - id: ozet
     tur: ozet
