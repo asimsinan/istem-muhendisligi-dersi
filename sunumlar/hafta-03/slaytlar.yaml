@@ -287,7 +287,7 @@ slaytlar:
           api_key=userdata.get("OPENROUTER_API_KEY"))
 
       cevap = client.chat.completions.create(
-          model="google/gemma-4-31b-it:free",
+          model="recursive/flint-v1.0:free",
           messages=[
               {"role": "system", "content": sistem},
               {"role": "user", "content": kullanici}],
@@ -310,7 +310,7 @@ slaytlar:
     kod: |
       {
         "id": "gen-...",
-        "model": "google/gemma-4-31b-it:free",
+        "model": "recursive/flint-v1.0:free",
         "choices": [{
           "message": {
             "role": "assistant",
@@ -566,7 +566,7 @@ slaytlar:
       - "Her durumda Pydantic ile doğrulayın: Doğrulama, son savunma hattıdır."
     kaynak: "OpenRouter, Structured Outputs · Response Healing (erişim 12.10.2026)"
     not: |
-      [64] 24.10.2026 itibarıyla ücretsiz modellerden nvidia/nemotron-3.5-super-vl:free yapılandırılmış çıktıyı destekliyor (eski nemotron-3-super-120b:free'nin tek sağlayıcısı 404 veriyor); google/gemma-4-31b-it:free response_format kabul ediyor ama strict şemayı desteklemiyor. Lab'daki iki model karşılaştırması tam bu fark. Ders haftası yeniden kontrol edin.
+      [64] 24.10.2026 itibarıyla ücretsiz modellerden nvidia/nemotron-3.5-super-vl:free yapılandırılmış çıktıyı destekliyor (eski nemotron-3-super-120b:free'nin tek sağlayıcısı 404 veriyor); recursive/flint-v1.0:free response_format kabul ediyor ama strict şemayı desteklemiyor (google/gemma-4-31b-it:free bu tarihte OpenRouter'ın ücretsiz katmanında sürekli 429 veriyor; kullanılmıyor). Lab'daki iki model karşılaştırması tam bu fark. Ders haftası yeniden kontrol edin.
 
   - id: json-denetci
     tur: interaktif
@@ -609,7 +609,7 @@ slaytlar:
     tur: kavram
     baslik: "OpenRouter nedir?"
     tanim: "Yüzlerce modele tek anahtar ve tek adresle ulaşan bir aracı. OpenAI uyumlu olduğu için yalnızca base_url ve model adı değişir."
-    ornek: "nvidia/nemotron-3.5-super-vl:free · google/gemma-4-31b-it:free · openrouter/free"
+    ornek: "nvidia/nemotron-3.5-super-vl:free · recursive/flint-v1.0:free · openrouter/free"
     benzetme: "Uçak bileti karşılaştırma sitesi: Tek yerden ararsınız, uçuşu farklı havayolları yapar."
     kaynak: "OpenRouter, Quickstart ve Models (erişim 12.10.2026)"
     not: |
@@ -646,7 +646,7 @@ slaytlar:
       cevap = client.chat.completions.create(
           model="nvidia/nemotron-3.5-super-vl:free",
           extra_body={"models": [
-              "google/gemma-4-31b-it:free",
+              "recursive/flint-v1.0:free",
               "openrouter/free"]},
           messages=mesajlar)
 
@@ -830,7 +830,7 @@ slaytlar:
                        "karışık"]
         puan: Literal[1, 2, 3, 4, 5]
     not: |
-      [132] Şemasız modda tipik bozukluklar: ```json çiti, baştaki açıklama cümlesi. Not defterindeki temizle() yardımcı fonksiyonunu kullanmadan sayın; amaç farkı görmek. Şemayla geçersiz sayısı 0 olmalı; değilse require_parameters kapalıdır ya da model desteklemiyor.
+      [132] Şemasız modda tipik bozukluklar: ```json çiti, baştaki açıklama cümlesi. 24.10.2026 gerçek testinde Nemotron şemasız da 8/8 temiz JSON verdi (okunamayan 0); çit daha çok Flint'te çıktı (demo not defteri H3·33: 1/3). Sıfır çıkarsa: “Bu sefer temiz geldi; 100 yorumda bir tane bile bozuk gelse program durur.” Not defterindeki temizle() yardımcı fonksiyonunu kullanmadan sayın; amaç farkı görmek. Şemayla geçersiz sayısı 0 olmalı; değilse require_parameters kapalıdır ya da model desteklemiyor.
 
   - id: gorev-3
     tur: etkinlik
@@ -846,9 +846,9 @@ slaytlar:
       # 1) şema destekli
       MODEL = "nvidia/nemotron-3.5-super-vl:free"
       # 2) strict şema yok
-      MODEL = "google/gemma-4-31b-it:free"
+      MODEL = "recursive/flint-v1.0:free"
     not: |
-      [150] Gemma'da require_parameters açıkken istek reddedilebilir (uygun sağlayıcı yok); kapatınca cevap gelir ama şema garanti değildir. Tam olarak öğretmek istediğimiz fark. 429 alan öğrenci 1 dakika beklesin.
+      [150] Flint'te require_parameters açıkken istek reddedilir (uygun sağlayıcı yok); kapatınca cevap gelir ama şema garanti değildir. Tam olarak öğretmek istediğimiz fark. 429 alan öğrenci 1 dakika beklesin.
 
   - id: teslim
     tur: liste

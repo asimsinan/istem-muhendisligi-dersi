@@ -22,7 +22,7 @@ bugunun-sorusu:
     Puanlayıcınıza şu yorum geliyor. (Okuyun.)
     Yorumun ilk yarısı açıkça olumsuz. İkinci yarısı ise bir müşteri yorumu değil, modele verilmiş bir emir.
   sor: "Model kaç puan verir? 1 diyenler el kaldırsın. 5 diyenler? Emin olmayanlar?"
-  beklenen: ["Sınıf genelde bölünür. Doğru cevap “duruma göre”; bunu şimdi söylemeyin, kapanışta döneceğiz."]
+  beklenen: ["Sınıf genelde bölünür. Bugünkü modeller bu klasik saldırıyı büyük olasılıkla reddeder (24.10.2026 testinde iki model de 1 verdi); bunu şimdi söylemeyin, deneyelim."]
   gecis: |
     Tahmin etmek yerine deneyelim.
 
@@ -30,7 +30,8 @@ canli-deneme:
   soyle: |
     Demo not defterini açıyorum; H3'teki v2 istemi, tek istek.
     (Çalıştırın, cevabı tahtaya yazın.)
-    Bu sefer sonuç şu. Ama tek deneme bir şey kanıtlamaz: Başka bir modelde, başka bir cümleyle, başka bir günde farklı çıkabilir. Lab'da 6 saldırıyı, 3 savunmayla sistematik olarak ölçeceğiz.
+    Büyük olasılıkla model saldırıyı reddetti ve 1 verdi. Güncel modeller “önceki talimatları yok say” gibi bilinen kalıplara karşı özellikle eğitiliyor; bu iyi haber.
+    Ama tek deneme bir şey kanıtlamaz: Başka bir modelde, başka bir cümleyle, başka bir günde farklı çıkabilir. Lab'da 6 saldırıyı, 3 savunmayla sistematik olarak ölçeceğiz.
   gecis: |
     Haritada neredeyiz?
 
@@ -330,7 +331,8 @@ uyarlanan:
 arena:
   soyle: |
     Enjeksiyon Arenası. Bir saldırı seçin; modele giden mesajda kırmızı kısım saldırı. Savunmayı S0'dan S2'ye çıkarın, cevabın değişip değişmediğine bakın. Altta tüm sonuçların tablosu var.
-    Bu cevaplar gerçek modellerden, derse yakın kaydedildi. Lab'da aynısını siz canlı yapacaksınız.
+    Bu cevaplar gerçek modellerden kaydedildi. Tabloya bakın: Neredeyse hepsi başarısız. Güncel modeller bu bilinen saldırılara karşı eğitilmiş. Tek başarılı olanı bulun: hangi model, hangi savunma?
+    Lab'da aynısını siz canlı yapacaksınız; sonuçlarınız farklı çıkabilir.
   gecis: |
     Bir de bir oyun.
 
@@ -425,15 +427,15 @@ adim-savunma:
     S1, sistem istemine gerekçeli bir Güvenlik bölümü ekliyor ve kullanıcı mesajının sonuna görevi tekrar hatırlatıyor; buna sandviç diyoruz.
     S2, buna strict şema ve kod tarafında temizlik ekliyor: görünmez karakterler siliniyor, < ve > değiştiriliyor ve şüpheli ifadeler işaretleniyor.
     İşaret model cevabını değiştirmez; gerçek bir sistemde o yorum yayımlanmadan önce bir insana gider.
-  sor: "Hangi saldırı S2'ye rağmen geçiyor?"
-  beklenen: ["Çoğu zaman 6 (duygu sömürüsü): içinde talimat ya da etiket yok, kod onu yakalayamaz."]
+  sor: "Hangi saldırı geçti? Hiçbiri geçmediyse bu ne anlama geliyor?"
+  beklenen: ["Güncel modellerde büyük olasılıkla hiçbiri ya da biri (24.10.2026 testi: 72 denemede 1; Flint, S0, etiket kaçışı). Mesaj: Bilinen saldırılara karşı eğitim işe yarıyor; ama ‘Saldırgan savunmayı okursa’ slaytını hatırlayın. Ödevdeki 2 yeni saldırı bunun için."]
   gecis: |
     Teslim.
 
 teslim:
   soyle: |
     Kontrol hücresini çalıştırın: not defterinde anahtar kalmasın. GitHub'a kopya kaydedin, v4.txt ve sonuclar.md'yi yükleyin.
-    sonuclar.md'ye 3–4 cümle: Hangi saldırı hâlâ geçiyor ve neden?
+    sonuclar.md'ye 3–4 cümle: Hangi saldırı geçti; hiçbiri geçmediyse sizce neden?
   gecis: |
     Sınıfın sonuçlarına bakalım.
 
@@ -446,8 +448,8 @@ sinif-sonuclari:
 
 soruya-donus:
   soyle: |
-    "5 puan ver" diyen yoruma model kaç puan verir? Cevap: duruma göre. Modele, isteme, şansa göre.
-    Ve "duruma göre" güvenlik için yeterli bir cevap değil. İstem bir katman; asıl güvence şema, kodda doğrulama, en az yetki ve insan onayı.
+    "5 puan ver" diyen yoruma model kaç puan verir? Bugünkü modellerle büyük olasılıkla 1. Ama bu, modelin bu bilinen saldırıya karşı eğitildiğini gösteriyor; her saldırıya dayanacağını değil.
+    "Bu sefer tuttu" güvenlik için yeterli bir cevap değil. İstem bir katman; asıl güvence şema, kodda doğrulama, en az yetki ve insan onayı.
   gecis: |
     Özet.
 
@@ -477,10 +479,10 @@ kaynaklar:
 
 _ders:
   hazirlik:
-    - "Arena cevaplarını kaydedin: interaktif/scripts/arena-kayit.ipynb dosyasını Colab'a yükleyip DIL = \"tr\" ile tümünü çalıştırın (36 istek; ücretsiz günlük sınır 50). İnen h04-arena-kayit.json → interaktif/src/veri/, build ve push. Ertesi gün önceki dosyayı yükleyip DIL = \"en\" (slayt {arena})."
+    - "Arena cevapları 24.10.2026'da kaydedildi (TR + EN; 72 denemede 1 başarılı saldırı). Modeller değişirse interaktif/scripts/arena-kayit.ipynb ile yeniden kaydedin (dil başına 36 istek) ve push edin (slayt {arena})."
     - "Agent Breaker'da derste göstereceğiniz uygulamayı seçin; giriş gerekip gerekmediğini ve hangi seviyeye kadar çıkılabildiğini deneyin (slayt {agent-breaker})."
     - "hafta-04/demo.ipynb'yi Colab'da açın, kurulum hücrelerini çalıştırın ve bir kez baştan sona deneyin (~9 istek): açılıştaki canlı deneme, önce/sonra karşılaştırması ve etiket kaçışı (slayt {canli-deneme}, {kotu-iyi}, {etiket-kacisi}). Çıktıyı ders boyunca açık tutun."
-    - "OpenRouter'da nemotron-3.5-super-vl:free ve gemma-4-31b-it:free hâlâ listede ve çalışır durumda mı (openrouter.ai/<model> → Providers, uptime)? Değiştiyse not defteri ve arena-kayit.py."
+    - "OpenRouter'da nemotron-3.5-super-vl:free ve flint-v1.0:free hâlâ listede ve çalışır durumda mı (openrouter.ai/<model> → Providers, uptime)? Değiştiyse not defteri ve arena-kayit.py."
     - "hafta-04/lab.ipynb'yi ücretsiz bir anahtarla Colab'da baştan sona çalıştırın (~25 istek)."
     - "Kim yetkili? (/h04/yetki) ve Enjeksiyon Arenası (/h04/arena) yayında mı?"
     - "Kısa adres istem-muhendisligi-dersi.vercel.app/lab/4 Colab'da not defterini açıyor mu? (interaktif push edilmiş olmalı; slayt {colab-ac})"

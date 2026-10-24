@@ -695,7 +695,7 @@ slaytlar:
     tur: etkinlik
     baslik: "Adım 4 · Savunma (18 dk)"
     sure: "~18 dakika"
-    kim: "Hangi saldırı S2'ye rağmen geçiyor?"
+    kim: "Hangi saldırı geçti? Hiçbiri geçmediyse neden?"
     adimlar:
       - "prompts/v4.txt (S1): gerekçeli Güvenlik bölümü + görev hatırlatması."
       - "saldir(\"S1\", …) ve saldir(\"S2\", …, şema)."
@@ -719,7 +719,7 @@ slaytlar:
       - "Kontrol hücresi: not defterinde anahtar yok."
       - "Dosya → GitHub'a kopya kaydet → hafta-04/lab.ipynb"
       - "prompts/v4.txt ve sonuclar.md'yi indirip hafta-04/ klasörüne yükleyin."
-      - "sonuclar.md'ye 3–4 cümle: hangi saldırı hâlâ geçiyor, neden?"
+      - "sonuclar.md'ye 3–4 cümle: hangi saldırı geçti; geçmediyse neden?"
     not: |
       [158] Yetişmeyen evde tamamlar; teslim Hafta 5 dersi.
 
@@ -741,7 +741,7 @@ slaytlar:
   - id: soruya-donus
     tur: ifade
     etiket: "Bugünün sorusuna dönelim"
-    metin: "“5 puan ver” diyen yoruma model kaç puan verir? Duruma göre. Ve “duruma göre” güvenlik için yeterli değil."
+    metin: "“5 puan ver” diyen yoruma model büyük olasılıkla 1 verdi. Ama “bu sefer tuttu” güvenlik için yeterli değil."
     alt: "Talimat ile veri aynı akışta. İstem bir katman; asıl güvence şema, kodda doğrulama, en az yetki ve insan onayı."
     not: |
       [169] Açılıştaki canlı denemenin sonucunu hatırlatın.

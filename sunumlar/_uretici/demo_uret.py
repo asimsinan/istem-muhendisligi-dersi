@@ -21,29 +21,39 @@ KURULUM_MD = """## Kurulum
 Sol paneldeki 🔑 **Secrets**'ta `OPENROUTER_API_KEY` olsun ve *Notebook access* açık olsun. Bu iki hücreyi derse girmeden çalıştırın; ders sırasında yalnızca ilgili slaytın hücresini çalıştırırsınız."""
 
 KURULUM = '''import json, re, time
-from openai import OpenAI, RateLimitError, APIStatusError
+from openai import OpenAI, RateLimitError, APIStatusError, InternalServerError, APIConnectionError, APITimeoutError
 from google.colab import userdata
 
 client = OpenAI(base_url="https://openrouter.ai/api/v1", api_key=userdata.get("OPENROUTER_API_KEY"))
 MODEL = "nvidia/nemotron-3.5-super-vl:free"   # yapılandırılmış çıktıyı destekler
-MODEL_2 = "google/gemma-4-31b-it:free"            # strict şemayı desteklemez
+MODEL_2 = "recursive/flint-v1.0:free"            # strict şemayı desteklemez
 BEKLE = 3                                         # dakikada 20 istek sınırı
 
 
+class GeciciHata(Exception):
+    """Sağlayıcı 200 döndürdü ama cevap boş (ücretsiz modellerde ara sıra olur)."""
+
+
 def iste(mesajlar, model=MODEL, sicaklik=0, **ek):
-    """Tek istek; 429 gelirse 30 sn bekleyip yeniden dener. Cevap nesnesini döndürür."""
+    """Tek istek; 429 ya da geçici sağlayıcı hatasında bekleyip yeniden dener. Cevap nesnesini döndürür."""
     govde = dict(ek.pop("extra_body", {}))
     govde.setdefault("reasoning", {"effort": "low"})
-    for deneme in range(4):
+    for deneme in range(6):
         try:
-            c = client.chat.completions.create(model=model, messages=mesajlar, temperature=sicaklik,
-                                               max_tokens=2000, extra_body=govde, **ek)
+            cevap = client.chat.completions.create(model=model, messages=mesajlar, temperature=sicaklik,
+                                                   max_tokens=2000, extra_body=govde, **ek)
+            if not cevap.choices:
+                raise GeciciHata("boş cevap")
             time.sleep(BEKLE)
-            return c
+            return cevap
         except RateLimitError:
-            print("429 · 30 sn bekleniyor…")
-            time.sleep(30)
-    raise RuntimeError("Üst üste 429: günlük sınır dolmuş olabilir.")
+            bekle = 15 * (deneme + 1)
+            print(f"429 · sınır ya da ücretsiz sağlayıcı yoğun; {bekle} sn bekleniyor ({deneme + 1}/6)")
+        except (InternalServerError, APIConnectionError, APITimeoutError, GeciciHata) as h:
+            bekle = 10 * (deneme + 1)
+            print(f"Sağlayıcı geçici hata verdi ({type(h).__name__}); {bekle} sn sonra yeniden ({deneme + 1}/6)")
+        time.sleep(bekle)
+    raise RuntimeError("Üst üste hata: ücretsiz sağlayıcı yoğun ya da günlük sınır dolmuş olabilir. Birkaç dakika sonra hücreyi yeniden çalıştırın.")
 
 
 def metin(c):
@@ -104,19 +114,18 @@ print("\\nTürkçe parçalar:", [enc.decode([t]) for t in enc.encode(TR)])"""))
     h.append(kod("!pip -q install openai"))
     h.append(kod(KURULUM))
     h.append(md("## H2·61 · Görev B: aynı istem, üç sıcaklık\n\nAI Studio'daki deneyin API karşılığı: sıcaklık 0, 1 ve 2'de üçer kez (9 istek), sonra sıcaklık 2 + top-p 0,3 (1 istek). "
-                "Model `gemma-4-31b-it` (AI Studio'daki Gemma 4 31B). Düşünme kapalı; sıcaklık yalnızca son cevabı etkilesin.\n\n"
+                "Model `flint-v1.0` (ücretsiz, hızlı; AI Studio'daki Gemma 4 31B OpenRouter'ın ücretsiz katmanında sürekli 429 verdiği için). Bu model düşünmeyi kapatmaya izin vermiyor; düşünme düşük tutulur.\n\n"
                 "Beklenen: 0'da üç cevap aynı ya da çok benzer; 1'de farklı ama makul; 2'de bazen tuhaf kelimeler. Top-p düşükken cevaplar toparlanır."))
     h.append(kod("""ISTEM = "Isparta'da açılacak bir kafe için tek satırlık, akılda kalıcı bir slogan yaz. Yalnızca sloganı yaz."
-KAPALI = {"reasoning": {"enabled": False}}
 
 for s in [0, 1, 2]:
-    cevaplar = [metin(iste([{"role": "user", "content": ISTEM}], model=MODEL_2, sicaklik=s, extra_body=KAPALI))
+    cevaplar = [metin(iste([{"role": "user", "content": ISTEM}], model=MODEL_2, sicaklik=s))
                 for _ in range(3)]
     print(f"Sıcaklık {s}  ·  {len(set(cevaplar))} farklı cevap")
     for c in cevaplar:
         print("   ", c.replace("\\n", " ")[:120])
 
-c = iste([{"role": "user", "content": ISTEM}], model=MODEL_2, sicaklik=2, top_p=0.3, extra_body=KAPALI)
+c = iste([{"role": "user", "content": ISTEM}], model=MODEL_2, sicaklik=2, top_p=0.3)
 print("Sıcaklık 2 + top-p 0,3:\\n   ", metin(c)[:120])"""))
     kaydet(2, h)
 
@@ -265,7 +274,11 @@ SEMALI = {"response_format": {"type": "json_schema", "json_schema": {"name": "pu
 
 def ozet(m):
     j = json_bul(m)
-    return f"{j.get('duygu')} / {j.get('puan')}" if j else "okunamadı: " + repr(m[:60])'''))
+    if not j:
+        return "JSON yok: " + m[:40].replace("\\n", " ")
+    if "duygu" in j and "puan" in j:
+        return f"{j['duygu']} / {j['puan']}"
+    return "alan adları farklı: " + json.dumps(j, ensure_ascii=False)[:60]'''))
 
     h.append(md("## H4·4 · Canlı deneme: H3 istemine ilk saldırı\n\nH3'teki v2 istemi (S0), şemasız, bugünün sorusundaki yorum. Saldırı başarılı sayılır: duygu olumlu ve puan ≥ 4.\n\n"
                 "İsterseniz `model=MODEL_2` ile ikinci modelde de deneyin (1 istek daha)."))
@@ -283,12 +296,12 @@ if j:
           "Harika, üçüncü kez değişime gönderiyorum; kargocuyla artık arkadaş olduk.",
           "Tam fiyatına göre bir ürün: iki gün dayandı, bravo."]
 
-print(f"{'Yorum':48} | {'Önce':22} | {'Sonra':22}")
-print("-" * 98)
+print(f"{'Yorum':40} | {'Önce':36} | Sonra")
+print("-" * 100)
 for y in IRONIK:
     once = metin(iste([{"role": "system", "content": ONCE}, {"role": "user", "content": y}]))
     sonra = metin(iste(mesajlar(VERI["S0"], y), **SEMALI))
-    print(f"{y[:48]:48} | {ozet(once)[:22]:22} | {ozet(sonra)[:22]:22}")"""))
+    print(f"{y[:40]:40} | {ozet(once)[:36]:36} | {ozet(sonra)}")"""))
     h[-1].source = "ONCE = " + repr(ONCE) + "\n" + h[-1].source
 
     h.append(md("## H4·25 · Etiket kaçışı\n\nLab'daki 3. saldırı: yorumun içine `</yorum>` yazmak. Önce S0 (etiket olduğu gibi), sonra S2'nin kod tarafı (`<` `>` değiştirilir) + S1 istemi + şema. "

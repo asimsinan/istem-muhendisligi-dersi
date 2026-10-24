@@ -93,7 +93,7 @@ ayiricilar:
 tek-metin:
   soyle: |
     Hafta 2'yi hatırlayın: Model yalnızca sıradaki token'ı tahmin eder. O hâlde system, user, assistant ayrı kanallar olamaz.
-    Gerçekten de değiller. İki slayt önce gördüğümüz istem, lab'da kullanacağımız Gemma 4'e tam olarak bu metin olarak gidiyor: Aynı system ve user mesajları, araya özel işaretler konmuş hâlde. Her mesaj “turn” işaretiyle açılıp kapanıyor; assistant'ın buradaki adı “model”.
+    Gerçekten de değiller. İki slayt önce gördüğümüz istem, Google'ın açık modeli Gemma 4'e tam olarak bu metin olarak gidiyor: Aynı system ve user mesajları, araya özel işaretler konmuş hâlde. Her mesaj “turn” işaretiyle açılıp kapanıyor; assistant'ın buradaki adı “model”.
     Metin “model” satırında açık kalıyor ve model buradan devam ediyor. Son iki satır boş bir düşünce bloğu: düşünmenin kapalı olduğunu söylüyor.
     Her model ailesinin kendi şablonu var; API bunu sizin yerinize yapıyor.
   gecis: |
@@ -483,7 +483,7 @@ kaynaklar:
 _ders:
   hazirlik:
     - "Hafta 2 çıkış kartlarını okuyun; en çok işaretlenen şerit adımını belirleyin (slayt {gecen-hafta})."
-    - "OpenRouter ücretsiz model listesini ve yapılandırılmış çıktı desteğini kontrol edin (openrouter.ai/models, “structured outputs” filtresi). nemotron-3.5-super-vl:free ve gemma-4-31b-it:free değiştiyse (24.10.2026: nemotron-3-super:free kapandı, 3.5 Super VL'ye geçildi) slayt {istek-kodu}, {gorev-3}, {yedek-model} ve not defterini güncelleyin."
+    - "OpenRouter ücretsiz model listesini ve yapılandırılmış çıktı desteğini kontrol edin (openrouter.ai/models, “structured outputs” filtresi). nemotron-3.5-super-vl:free ve flint-v1.0:free değiştiyse (24.10.2026: nemotron-3-super:free kapandı, 3.5 Super VL'ye geçildi) slayt {istek-kodu}, {gorev-3}, {yedek-model} ve not defterini güncelleyin."
     - "Limit tablosunu doğrulayın (openrouter.ai/docs/api/reference/limits); değiştiyse slayt {limitler}."
     - "hafta-03/lab.ipynb'yi ücretsiz bir anahtarla Colab'da baştan sona çalıştırın; istek sayısını ölçün. “GitHub'a kopya kaydet” adımını bir kez deneyin."
     - "Canlı deneme için sohbet uygulamasını açık tutun (slayt {canli-deneme})."
