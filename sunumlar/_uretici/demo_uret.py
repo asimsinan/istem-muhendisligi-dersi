@@ -2,7 +2,7 @@
 
 Sunumdaki "canlı gösterin" notları için hazır, projeksiyonda çalıştırılacak hücreler. Her bölüm başlığı
 slayt numarasını taşır (H3·18 gibi). Öğrenci lab'ı değildir; hoca kendi anahtarıyla çalıştırır.
-H4 metinleri interaktif/src/veri/h04-arena-veri.json'dan gelir (lab ve Arena ile aynı).
+H4 metinleri interaktif/src/veri/h04-veri.json'dan gelir (lab ve Arena ile aynı).
 
 Çalıştırma (proje kökünden):  python3 sunumlar/_uretici/demo_uret.py
 """
@@ -241,13 +241,14 @@ SADECE JSON. Asla açıklama yazma.
 
 
 def hafta4():
-    v = json.loads((KOK / "interaktif/src/veri/h04-arena-veri.json").read_text(encoding="utf-8"))
+    v = json.loads((KOK / "interaktif/src/veri/h04-veri.json").read_text(encoding="utf-8"))
     gomulu = {"S0": v["sistem"]["S0"]["tr"], "S1": v["sistem"]["S1"]["tr"], "gorev": v["gorev"]["tr"],
               "hatirlat": v["hatirlat"]["tr"],
               "saldirilar": {s["no"]: s["tr"]["temiz"] + s["tr"]["enjekte"] for s in v["saldirilar"]}}
-    h = [ust(4, "önce/sonra istem ve ilk saldırı",
-             "Açılıştaki canlı deneme, “Aynı görev, iki istem” karşılaştırması ve etiket kaçışı. "
-             "Metinler lab not defteri ve Enjeksiyon Arenası ile aynıdır (S0 = H3'teki v2 istemi).", 10)]
+    h = [ust(4, "istem karşılaştırması, ilk saldırı, çoklu yol",
+             "Açılıştaki canlı deneme, “Aynı görev, iki istem” karşılaştırması, etiket kaçışı ve Bölüm 5'in canlı denemeleri "
+             "(Self-Consistency, Tree of Thoughts). Güvenlik metinleri lab not defteri ve Enjeksiyon Arenası ile aynıdır "
+             "(S0 = H3'teki v2 istemi).", 24)]
     h.append(md(KURULUM_MD))
     h.append(kod("!pip -q install openai"))
     h.append(kod(KURULUM + "\n\nVERI = " + pprint.pformat(gomulu, width=120, sort_dicts=False) + '''
@@ -315,6 +316,76 @@ print("→", ozet(metin(iste(msj))), "\\n")
 msj = mesajlar(VERI["S1"], temizle(yorum), hatirlat=True)
 print("S2 · modele giden:\\n" + msj[1]["content"])
 print("→", ozet(metin(iste(msj, **SEMALI))))"""))
+
+    h.append(md("""## H4·54 · Self-Consistency: aynı soru 5 kez, sonra oylama
+
+Videodaki (M4.2) elma sorusunun gerçeği: sıcaklık 1 ile 5 kez sorulur, son sayı alınır, en sık cevap seçilir. Sonra ikinci bir soru: Hafta 1'deki kalem–silgi sorusu.
+
+**Neye bakmalı?** 24.10.2026 ölçümünde iki soruda da beş yolun beşi aynı ve doğru çıktı (9 ve 0,05). Böyle olursa mesaj nettir: **Bu modelde SC'nin kazancı yok**; akıl yürüten modeller birden çok yolu zaten içeride deniyor, siz beş kat ödüyorsunuz.
+Yollar ayrışırsa oylama işe yarıyor demektir. Çoğunluk yanlış çıkarsa en değerli ders orada: **oylama dalgalanmayı azaltır, modelin sistematik hatasını düzeltmez.** 10 istek."""))
+    h.append(kod('''from collections import Counter
+
+SORULAR = [("Kafede 23 elma vardı. 20'sini kullandılar, 6 tane daha aldılar. Kaç elma var?", "9"),
+           ("Bir kalem ve bir silgi birlikte 1,10 TL. Kalem silgiden tam 1 TL pahalı. Silgi kaç TL?", "0,05")]
+N = 5
+
+
+def son_sayi(t):
+    s = re.findall(r"\\d+[.,]?\\d*", t.replace(" ", ""))
+    return s[-1].replace(".", ",").rstrip(",") if s else "?"
+
+
+for soru, dogru in SORULAR:
+    print("•", soru)
+    yollar = [son_sayi(metin(iste([{"role": "user", "content": soru + " Adım adım kısaca çöz; son satıra yalnızca sayıyı yaz."}], sicaklik=1)))
+              for _ in range(N)]
+    oylar = Counter(yollar)
+    kazanan, oy = oylar.most_common(1)[0]
+    print("   yollar :", ", ".join(yollar))
+    print(f"   oylama : {dict(oylar)} → {kazanan} ({oy}/{N}) · doğru cevap: {dogru}")
+    print("  ", "✓ çoğunluk doğru" if kazanan == dogru
+          else "✕ çoğunluk yanılıyor → oylama modelin eğilimini güçlendirir, hatasını düzeltmez", "\\n")'''))
+
+    h.append(md("""## H4·54 · Tree of Thoughts: dallan, değerlendir, buda
+
+Üç adımda küçük bir ToT. Oyun: dört sayıyla 24 yapmak, her sayı bir kez. (2, 3, 4, 6 için çözüm kolay: 6 × 4 = 24, sonra 3 − 2 = 1 ile çarpın.)
+
+1. Model **3 farklı ilk adım** önerir (dallar).
+2. Her dal **ayrı bir istekle** puanlanır: kalan sayılarla 24'e varılabilir mi (0–10)?
+3. En yüksek puanlı dal açılır, zayıflar budanır.
+
+**Neye bakmalı?** Modelin kendi dallarını değerlendirmesi ve budama olmadan ağacın nasıl büyüyeceği (her adımda üçe katlanır).
+
+24.10.2026 denemesinde model üç dalı da 10/10 puanladı: Kendi değerlendirmesi kaba, eşitlikte ilk dal açılıyor. Açılan daldan çözüm çıktı (6 × 4 × (3 − 2)).
+
+Çözüm bulunamazsa ders aynı kalır: **ToT arama yapar, garanti vermez.** 24.10.2026'da zor bir örnekte (1, 3, 4, 6; çözümü 6 ÷ (1 − 3/4)) model üç dalın hiçbirini çözüme götüremedi ve üçüne de 0 puan verdi — kendi değerlendirmesi de kusurlu. 5 istek."""))
+    h.append(kod('''SAYILAR = "2, 3, 4, 6"
+
+dal_metin = metin(iste([{"role": "user", "content":
+    f"{SAYILAR} sayılarıyla 24 yapmaya çalışıyoruz; her sayı tam bir kez kullanılacak, dört işlem serbest.\\n"
+    "İlk adım olarak iki sayı seçip bir işlem yap. Birbirinden farklı 3 ilk adım öner.\\n"
+    "Her satır tam olarak şu biçimde olsun: a op b = c | kalan: x, y, c\\n"
+    "Başka hiçbir şey yazma."}]))
+dallar = [s.strip("-•* ") for s in dal_metin.splitlines() if "|" in s][:3]
+if not dallar:   # model biçime uymadıysa derse devam edebilmek için hazır dallar
+    print("Model istenen biçimde dal üretmedi. Ham cevap:\\n", dal_metin[:300], "\\n")
+    dallar = ["6 * 4 = 24 | kalan: 2, 3, 24", "6 / 3 = 2 | kalan: 2, 4, 2", "4 - 2 = 2 | kalan: 3, 6, 2"]
+
+puanlar = []
+for d in dallar:
+    p = metin(iste([{"role": "user", "content":
+        f"24 oyunu. Şu ilk adımdan sonra kalan sayılarla 24 yapılabilme ihtimalini 0 ile 10 arasında puanla.\\n"
+        f"Adım: {d}\\nYalnızca sayıyı yaz."}]))
+    n = re.findall(r"\\d+", p)
+    puanlar.append(int(n[0]) if n else 0)
+    print(f"  {puanlar[-1]:>2}/10  {d}")
+
+en_iyi = dallar[puanlar.index(max(puanlar))]
+print("\\nBudandı:", *[d for d in dallar if d != en_iyi], sep="\\n  ✂ ")
+print("\\nAçılan dal:", en_iyi)
+print("\\n" + metin(iste([{"role": "user", "content":
+    f"24 oyunu: {SAYILAR}, her sayı bir kez. Şu ilk adımdan devam et ve 24'e ulaşan tam işlemi yaz; "
+    f"ulaşılamıyorsa 'bu daldan olmuyor' de.\\nİlk adım: {en_iyi}"}])))'''))
     kaydet(4, h)
 
 

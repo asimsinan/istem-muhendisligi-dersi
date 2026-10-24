@@ -362,15 +362,19 @@ Lab Google Colab'da yapılır: [hafta-03/lab.ipynb](hafta-03/lab.ipynb) ([Colab'
 - **Ayırıcılar (ayrıntı):** İç içe XML etiketleri ve öznitelikler (`<belge sira="1" kaynak="…">`), uzun belge başa ve soru sona, önce alıntı sonra cevap. Etiket ilk adımdır ama saldırgan onu taklit edebilir.
 - **Talimat hiyerarşisi:** OpenAI Model Spec'teki yetki sırası (Root > System > Developer > User > Guideline). Araç çıktısı, dosya, web sayfası, alıntı ve asistanın eski cevapları yetkisizdir; içlerindeki talimatlar bilgi olarak okunur. Bu sıra eğitimle öğretilir, garanti değildir.
 - **İstem enjeksiyonu (OWASP LLM01:2026):** Doğrudan ve dolaylı enjeksiyon; neden tam önlenemediği (talimat ile veri aynı token akışında); katmanlı savunma (istem → ayırıcı + uyarı → şema + kodda doğrulama → en az yetki → insan onayı); ölümcül üçlü (özel veri + güvenilmeyen içerik + dışarı iletişim). Ayrıntılı laboratuvar Hafta 12'de.
-- **Kavramsal:** Self-Consistency (çok yol + oylama), Tree of Thoughts (dallan, değerlendir, buda) ve DSPy (istemi örnekler ve bir metrikle otomatik iyileştirmek); uygulamanız beklenmez.
+- **Çoklu yol:** Self-Consistency (çok yol + oylama) ve Tree of Thoughts (dallan, değerlendir, buda) derste canlı denenir. Oylama dalgalanmayı azaltır, modelin sistematik hatasını düzeltmez. **İstemi ölçerek iyileştirmek:** Elle kurcalamak yerine bir başarı ölçütü ve etiketli örneklerle otomatikleştirmek (bugünkü araçlardan biri DSPy).
 
 **Kural:** Saldırıyı yalnızca kendi kurduğunuz sisteme ve bunun için yapılmış oyunlara yaparsınız.
 
-**Zorunlu:** Lab teslimi; S1/S2 istemine karşı 2 yeni saldırı ve tek bir savunma değişikliği (`prompts/v5.txt`); [Lakera Agent Breaker](https://play.lakera.ai/agent-breaker)'da istediğiniz bir uygulamada 75+ puan (ekran görüntüsü ve saldırı türü). Klasik Gandalf kaldırıldı; eski adres Agent Breaker'a yönleniyor.
+**Zorunlu:** Lab teslimi; kendi istem değişikliğinizi yazıp aynı 6 yorumla ölçmek (`prompts/v5.txt`): iddianız doğrulandı mı?; [Lakera Agent Breaker](https://play.lakera.ai/agent-breaker)'da istediğiniz bir uygulamada 75+ puan (ekran görüntüsü ve saldırı türü). Klasik Gandalf kaldırıldı; eski adres Agent Breaker'a yönleniyor.
 
-Lab Google Colab'da yapılır ve Hafta 3'ün devamıdır (aynı anahtar, aynı modeller): [hafta-04/lab.ipynb](hafta-04/lab.ipynb) ([Colab'da aç](https://colab.research.google.com/github/asimsinan/istem-muhendisligi-dersi/blob/main/hafta-04/lab.ipynb)). Önce persona etkisi ölçülür; sonra Hafta 3'teki yorum puanlayıcıya içine talimat gizlenmiş 6 yorum gönderilir ve üç savunma düzeyiyle (S0: Hafta 3 istemi, S1: gerekçeli uyarı + görev hatırlatması, S2: + strict şema ve kodda temizlik) saldırı başarısı ölçülür. Yaklaşık 25 istek; ücretsiz sınırın içinde. `lab.ipynb`, `prompts/v4.txt` ve `sonuclar.md` GitHub reponuzda `hafta-04/` klasörüne konur.
+Lab Google Colab'da yapılır ve Hafta 3'ün devamıdır (aynı anahtar, aynı modeller): [hafta-04/lab.ipynb](hafta-04/lab.ipynb) ([Colab'da aç](https://istem-muhendisligi-dersi.vercel.app/lab/4)).
 
-**Bu haftanın sayfaları:** [Enjeksiyon Arenası](https://istem-muhendisligi-dersi.vercel.app/h04/arena) · [Kim yetkili?](https://istem-muhendisligi-dersi.vercel.app/h04/yetki).
+Lab'ın merkezi **ölçüm**: Dersteki dört iddia (bağırmak, rol + bağlam + örnek, persona, gerekçe ve doğru ayrıntı düzeyi) elle etiketlenmiş 6 yorumla sınanır; doğruluk ve token bedeli yan yana konur. "Fark yok" da geçerli bir sonuçtur. Ardından aynı sisteme bir **güvenlik regresyon testi** uygulanır: içine talimat gizlenmiş 6 yorum, savunmasız istem (S0) ve savunmalı istem (S2: gerekçeli uyarı + sandviç + strict şema + kodda temizlik). Bu listedeki saldırılar bilinen kalıplardır; hiçbirinin geçmemesi beklenen bir sonuçtur ve "sistem güvenli" demek değildir. Son adım kod değil **tasarım**: Puanlayıcı müşteriye otomatik e-posta da gönderseydi ölümcül üçlünün hangi ayağını keserdiniz?
+
+Zorunlu hücreler ~37 istek; isteğe bağlı hücrelerle ~60 (günlük ücretsiz sınır 50). `lab.ipynb`, istem dosyaları ve `sonuclar.md` (tarih ve model adıyla) GitHub reponuzda `hafta-04/` klasörüne konur.
+
+**Bu haftanın sayfası:** [Kim yetkili?](https://istem-muhendisligi-dersi.vercel.app/h04/yetki).
 
 ---
 
