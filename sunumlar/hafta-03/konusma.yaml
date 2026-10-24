@@ -36,7 +36,7 @@ canli-deneme:
 
 neredeyiz:
   soyle: |
-    Hâlâ en içteki katmandayız: İstem. Bu hafta ve gelecek hafta İstem katmanını bitiriyoruz. Bu hafta temel iskelet ve API; gelecek hafta inceltme ve ilk güvenlik uyarısı.
+    Hâlâ en içteki katmandayız: İstem. Bu hafta ve gelecek hafta İstem katmanını bitiriyoruz. Bu hafta temel iskelet ve API; gelecek hafta iyileştirme ve ilk güvenlik uyarısı.
   gecis: |
     Bugünün hedefleri.
 
@@ -483,7 +483,7 @@ kaynaklar:
 _ders:
   hazirlik:
     - "Hafta 2 çıkış kartlarını okuyun; en çok işaretlenen şerit adımını belirleyin (slayt {gecen-hafta})."
-    - "OpenRouter ücretsiz model listesini ve yapılandırılmış çıktı desteğini kontrol edin (openrouter.ai/models, “structured outputs” filtresi). nemotron-3-super:free ve gemma-4-31b-it:free değiştiyse slayt {istek-kodu}, {gorev-3}, {yedek-model} ve not defterini güncelleyin."
+    - "OpenRouter ücretsiz model listesini ve yapılandırılmış çıktı desteğini kontrol edin (openrouter.ai/models, “structured outputs” filtresi). nemotron-3.5-super-vl:free ve gemma-4-31b-it:free değiştiyse (24.10.2026: nemotron-3-super:free kapandı, 3.5 Super VL'ye geçildi) slayt {istek-kodu}, {gorev-3}, {yedek-model} ve not defterini güncelleyin."
     - "Limit tablosunu doğrulayın (openrouter.ai/docs/api/reference/limits); değiştiyse slayt {limitler}."
     - "hafta-03/lab.ipynb'yi ücretsiz bir anahtarla Colab'da baştan sona çalıştırın; istek sayısını ölçün. “GitHub'a kopya kaydet” adımını bir kez deneyin."
     - "Canlı deneme için sohbet uygulamasını açık tutun (slayt {canli-deneme})."

@@ -25,7 +25,7 @@ from openai import OpenAI, RateLimitError, APIStatusError
 from google.colab import userdata
 
 client = OpenAI(base_url="https://openrouter.ai/api/v1", api_key=userdata.get("OPENROUTER_API_KEY"))
-MODEL = "nvidia/nemotron-3-super-120b-a12b:free"   # yapılandırılmış çıktıyı destekler
+MODEL = "nvidia/nemotron-3.5-super-vl:free"   # yapılandırılmış çıktıyı destekler
 MODEL_2 = "google/gemma-4-31b-it:free"            # strict şemayı desteklemez
 BEKLE = 3                                         # dakikada 20 istek sınırı
 

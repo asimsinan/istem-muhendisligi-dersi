@@ -480,7 +480,7 @@ _ders:
     - "Arena cevaplarını kaydedin: interaktif/scripts/arena-kayit.ipynb dosyasını Colab'a yükleyip DIL = \"tr\" ile tümünü çalıştırın (36 istek; ücretsiz günlük sınır 50). İnen h04-arena-kayit.json → interaktif/src/veri/, build ve push. Ertesi gün önceki dosyayı yükleyip DIL = \"en\" (slayt {arena})."
     - "Agent Breaker'da derste göstereceğiniz uygulamayı seçin; giriş gerekip gerekmediğini ve hangi seviyeye kadar çıkılabildiğini deneyin (slayt {agent-breaker})."
     - "hafta-04/demo.ipynb'yi Colab'da açın, kurulum hücrelerini çalıştırın ve bir kez baştan sona deneyin (~9 istek): açılıştaki canlı deneme, önce/sonra karşılaştırması ve etiket kaçışı (slayt {canli-deneme}, {kotu-iyi}, {etiket-kacisi}). Çıktıyı ders boyunca açık tutun."
-    - "OpenRouter'da nemotron-3-super:free ve gemma-4-31b-it:free hâlâ listede mi? Değiştiyse not defteri ve arena-kayit.py."
+    - "OpenRouter'da nemotron-3.5-super-vl:free ve gemma-4-31b-it:free hâlâ listede ve çalışır durumda mı (openrouter.ai/<model> → Providers, uptime)? Değiştiyse not defteri ve arena-kayit.py."
     - "hafta-04/lab.ipynb'yi ücretsiz bir anahtarla Colab'da baştan sona çalıştırın (~25 istek)."
     - "Kim yetkili? (/h04/yetki) ve Enjeksiyon Arenası (/h04/arena) yayında mı?"
     - "Kısa adres istem-muhendisligi-dersi.vercel.app/lab/4 Colab'da not defterini açıyor mu? (interaktif push edilmiş olmalı; slayt {colab-ac})"

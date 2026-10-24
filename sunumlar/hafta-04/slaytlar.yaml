@@ -21,7 +21,7 @@ slaytlar:
     bolum: Açılış
     ust: "Hafta 4"
     baslik: "Daha iyi istemler ve ilk güvenlik uyarısı"
-    alt: "İstemi inceltmek ve ona saldırmak"
+    alt: "İstemi iyileştirmek ve ona saldırmak"
     yazar: "Asım Sinan Yüksel · Bahar 2027"
     not: |
       [0] Bilgisayarlar açık olsun; lab yine Colab'da ve H3'teki anahtar kullanılacak.
@@ -56,7 +56,7 @@ slaytlar:
     baslik: "Neredeyiz?"
     dosya: ../../animasyonlar/render/h01-m1.3k-dort-katman-kisa.mp4
     kapak: ../../animasyonlar/render/h01-m1.3k-dort-katman-kisa-kapak.png
-    ipucu: "İstem katmanının son haftası: istemi inceltiyor ve ilk kez güvenliğine bakıyoruz."
+    ipucu: "İstem katmanının son haftası: istemi iyileştiriyor ve ilk kez güvenliğine bakıyoruz."
     not: |
       [5] Kısa geçin. Güvenlik Hafta 12'de ayrıntılı; bugün ilk uyarı.
 
@@ -78,7 +78,7 @@ slaytlar:
     basliklar: ["Bölüm", "Süre", "Ne yapacağız?"]
     genislikler: [3.8, 1.4, 6.9]
     satirlar:
-      - ["1 · İstemi inceltmek", "25 dk", "Açık yazmak, gerekçe, ayrıntı düzeyi, persona"]
+      - ["1 · İstemi iyileştirmek", "25 dk", "Açık yazmak, gerekçe, ayrıntı düzeyi, persona"]
       - ["2 · Ayırıcılar", "15 dk", "İç içe etiketler, uzun belge, etiket kaçışı"]
       - ["3 · Talimat hiyerarşisi", "15 dk", "Kim kimden üstün? Kim yetkili?"]
       - ["4 · İstem enjeksiyonu", "20 dk", "Doğrudan, dolaylı, katmanlı savunma, Arena"]
@@ -92,9 +92,9 @@ slaytlar:
 
   - id: bolum-1
     tur: bolum
-    bolum: "1 · İstemi inceltmek"
+    bolum: "1 · İstemi iyileştirmek"
     no: "Bölüm 1"
-    baslik: "İstemi inceltmek"
+    baslik: "İstemi iyileştirmek"
     alt: "H3'teki altı parçalı iskeletin üstüne"
 
   - id: meslektas-testi
@@ -184,7 +184,7 @@ slaytlar:
 
   - id: atolye-tekrar
     tur: interaktif
-    baslik: "Dene: İstemi inceltin"
+    baslik: "Dene: İstemi iyileştirin"
     url: "https://istem-muhendisligi-dersi.vercel.app/h03/atolye"
     kisa_url: "istem-muhendisligi-dersi.vercel.app/h03/atolye"
     adimlar:

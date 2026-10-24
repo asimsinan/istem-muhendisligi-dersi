@@ -57,7 +57,7 @@ slaytlar:
     kapak: ../../animasyonlar/render/h01-m1.3k-dort-katman-kisa-kapak.png
     ipucu: "Hâlâ İstem katmanındayız; bu hafta istemi koddan gönderiyor ve cevabı biçime sokuyoruz."
     not: |
-      [5] Kısa geçin. İstem katmanının son iki haftası: H3 temel iskelet ve API, H4 inceltme ve ilk güvenlik uyarısı.
+      [5] Kısa geçin. İstem katmanının son iki haftası: H3 temel iskelet ve API, H4 iyileştirme ve ilk güvenlik uyarısı.
 
   - id: hedefler
     tur: liste
@@ -566,7 +566,7 @@ slaytlar:
       - "Her durumda Pydantic ile doğrulayın: Doğrulama, son savunma hattıdır."
     kaynak: "OpenRouter, Structured Outputs · Response Healing (erişim 12.10.2026)"
     not: |
-      [64] 12.10.2026 itibarıyla ücretsiz modellerden nvidia/nemotron-3-super-120b-a12b:free yapılandırılmış çıktıyı destekliyor; google/gemma-4-31b-it:free response_format kabul ediyor ama strict şemayı desteklemiyor. Lab'daki iki model karşılaştırması tam bu fark. Ders haftası yeniden kontrol edin.
+      [64] 24.10.2026 itibarıyla ücretsiz modellerden nvidia/nemotron-3.5-super-vl:free yapılandırılmış çıktıyı destekliyor (eski nemotron-3-super-120b:free'nin tek sağlayıcısı 404 veriyor); google/gemma-4-31b-it:free response_format kabul ediyor ama strict şemayı desteklemiyor. Lab'daki iki model karşılaştırması tam bu fark. Ders haftası yeniden kontrol edin.
 
   - id: json-denetci
     tur: interaktif
@@ -609,7 +609,7 @@ slaytlar:
     tur: kavram
     baslik: "OpenRouter nedir?"
     tanim: "Yüzlerce modele tek anahtar ve tek adresle ulaşan bir aracı. OpenAI uyumlu olduğu için yalnızca base_url ve model adı değişir."
-    ornek: "nvidia/nemotron-3-super-120b-a12b:free · google/gemma-4-31b-it:free · openrouter/free"
+    ornek: "nvidia/nemotron-3.5-super-vl:free · google/gemma-4-31b-it:free · openrouter/free"
     benzetme: "Uçak bileti karşılaştırma sitesi: Tek yerden ararsınız, uçuşu farklı havayolları yapar."
     kaynak: "OpenRouter, Quickstart ve Models (erişim 12.10.2026)"
     not: |
@@ -644,7 +644,7 @@ slaytlar:
     dil: "python"
     kod: |
       cevap = client.chat.completions.create(
-          model="nvidia/nemotron-3-super-120b-a12b:free",
+          model="nvidia/nemotron-3.5-super-vl:free",
           extra_body={"models": [
               "google/gemma-4-31b-it:free",
               "openrouter/free"]},
@@ -844,7 +844,7 @@ slaytlar:
     istem_not: "Modeller (derse yakın yeniden doğrulanır)"
     istem: |
       # 1) şema destekli
-      MODEL = "nvidia/nemotron-3-super-120b-a12b:free"
+      MODEL = "nvidia/nemotron-3.5-super-vl:free"
       # 2) strict şema yok
       MODEL = "google/gemma-4-31b-it:free"
     not: |
